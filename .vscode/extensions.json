@@ -1,0 +1,8 @@
+{
+    "recommendations": [
+        "esbenp.prettier-vscode",
+        "dart-code.flutter",
+        "alexisvt.flutter-snippets",
+        "eamodio.gitlens"
+    ]
+}
