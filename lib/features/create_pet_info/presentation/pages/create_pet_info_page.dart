@@ -12,15 +12,18 @@ class CreatePetInfoPage extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16.0),
-            child: const Text(
-              'Create Pet',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 25,
-                fontWeight: FontWeight.bold,
-                fontFamily: 'Inter',
+          toolbarHeight: 80, // Adjust this value to increase the height
+          title: const Center(
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 16.0),
+              child: Text(
+                'Create Pet',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Inter',
+                ),
               ),
             ),
           ),
@@ -69,7 +72,7 @@ class CreatePetInfoPage extends StatelessWidget {
               }
 
               return Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(80),
                 child: SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
