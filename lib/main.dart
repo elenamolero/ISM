@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:petuco/presentation/pages/create_pet_info_page.dart';
+import 'package:petuco/presentation/pages/update_pet_info_page.dart';
 import 'package:flutter/services.dart';
 
 void main() {
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'petUco',
       debugShowCheckedModeBanner: false,
-      builder: (context, child) => CreatePetInfoPage(),
+      //  builder: (context, child) => CreatePetInfoPage(),
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
             seedColor: const Color.fromARGB(255, 183, 58, 58)),
@@ -68,6 +69,17 @@ class HomePage extends StatelessWidget {
                   );
                 },
                 child: const Text('Go to Create Pet Info'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => UpdatePetInfoPage(),
+                    ),
+                  );
+                },
+                child: const Text('Go to Update Pet Info'),
               ),
             ],
           ),

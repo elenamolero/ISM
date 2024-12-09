@@ -1,13 +1,13 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../domain/entity/pet.entity.dart';
-import '../../../domain/usecases/save_pet_info.dart';
+import '../../../domain/usecases/update_pet_info.dart';
 
 //Events
 abstract class UpdatePetInfoEvent {}
 
-class SavePetEvent extends UpdatePetInfoEvent {
+class UpdatePetEvent extends UpdatePetInfoEvent {
   final Pet pet;
-  SavePetEvent(this.pet);
+  UpdatePetEvent(this.pet);
 }
 
 //States
@@ -26,13 +26,13 @@ class UpdatePetError extends UpdatePetInfoState {
 
 // BLoC
 class UpdatePetInfoBloc extends Bloc<UpdatePetInfoEvent, UpdatePetInfoState> {
-  final SavePetInfo savePetInfo;
+  final UpdatePetInfo updatePetInfo;
 
-  UpdatePetInfoBloc(this.savePetInfo) : super(UpdatePetInitial()) {
-    on<SavePetEvent>((event, emit) async {
+  UpdatePetInfoBloc(this.updatePetInfo) : super(UpdatePetInitial()) {
+    on<UpdatePetEvent>((event, emit) async {
       emit(UpdatePetLoading());
       try {
-        await savePetInfo(event.pet);
+        await updatePetInfo(event.pet);
         emit(UpdatePetSuccess());
       } catch (e) {
         emit(UpdatePetError("Failed to update pet info") as UpdatePetInfoState);
