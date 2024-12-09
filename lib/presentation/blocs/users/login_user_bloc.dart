@@ -50,8 +50,8 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     on<LoginUserEvent>((event, emit) async {
       emit(UserLoading());
       try {
-        await loginUser(event.email, event.password);
-        emit(UserLoginSuccess());
+        final user = await loginUser(event.email, event.password);
+        emit(UserLoginSuccess(user));
       } catch (e) {
         emit(UserError("Failed to log in: ${e.toString()}"));
       }

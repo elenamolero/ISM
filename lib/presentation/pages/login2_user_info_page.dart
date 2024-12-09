@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'dart:ui';
 
 import '../../domain/usecases/login_user.dart';
-import '../blocs/users/login_user_bloc.dart ';
-import '../../domain/entity/pet.entity.dart';
+import '../blocs/users/login_user_bloc.dart';
+import 'dart:ui';
 
 class Login2UserPage extends StatefulWidget {
   const Login2UserPage({super.key});
@@ -45,23 +44,23 @@ class _Login2UserPageState extends State<Login2UserPage> {
           // Main Content
           Scaffold(
             backgroundColor: Colors.transparent, // Transparent background
-            body: BlocListener<CreatePetInfoBloc, CreatePetInfoState>(
+            body: BlocListener<UserBloc, UserState>(
               listener: (context, state) {
-                if (state is CreatePetSuccess) {
+                if (state is UserLoginSuccess) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
                       content: Text('Pet info saved successfully!'),
                     ),
                   );
-                } else if (state is CreatePetError) {
+                } else if (state is UserError) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text(state.message)),
                   );
                 }
               },
-              child: BlocBuilder<CreatePetInfoBloc, CreatePetInfoState>(
+              child: BlocBuilder<UserBloc, UserState>(
                 builder: (context, state) {
-                  if (state is CreatePetLoading) {
+                  if (state is UserLoading) {
                     return const Center(child: CircularProgressIndicator());
                   }
                   return Center(
@@ -132,18 +131,13 @@ class _Login2UserPageState extends State<Login2UserPage> {
                                     width: screenWidth * 0.6,
                                     child: ElevatedButton(
                                       onPressed: () {
-                                        context.read<CreatePetInfoBloc>().add(
-                                              SavePetEvent(
-                                                Pet(
-                                                  name: 'Drako',
-                                                  ownerID: 1,
-                                                  age: 2,
-                                                  type: 'Dog',
-                                                  breed: 'Husky',
-                                                ),
+                                        context.read<UserBloc>().add(
+                                              LoginUserEvent(
+                                                'arvipe@hotmail.com',
+                                                '1234',
                                               ),
                                             );
-                                      },
+                                      }, // I dont understand this logic
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: const Color.fromRGBO(
                                             97, 187, 255, 1),
