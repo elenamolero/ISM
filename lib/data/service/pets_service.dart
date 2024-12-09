@@ -13,7 +13,7 @@ class PetsService {
       return response.map<Pet>((pet) {
           return Pet(
             name: pet['name'],
-            ownerID: pet['ownerID'],
+            ownerEmail: pet['ownerEmail'],
             age: pet['age'],
             type: pet['type'],
             breed: pet['breed'],

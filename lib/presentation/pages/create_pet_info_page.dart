@@ -261,7 +261,7 @@ class CreatePetInfoPage extends StatelessWidget {
                                                     .add(
                                                       SavePetEvent(Pet(
                                                         name: 'Drako',
-                                                        ownerID: 1,
+                                                        ownerEmail: 'arvipe@hotmail.com',
                                                         age: 2,
                                                         type: 'Dog',
                                                         breed: 'Husky',
