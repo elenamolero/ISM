@@ -24,7 +24,11 @@ class PetError extends PetState {
 // Eventos
 abstract class PetEvent {}
 
-class FetchPets extends PetEvent {}
+class FetchPets extends PetEvent {
+  final String ownerEmail;
+
+  FetchPets({required this.ownerEmail});
+}
 
 // BLoC
 class PetBloc extends Bloc<PetEvent, PetState> {
@@ -37,7 +41,7 @@ class PetBloc extends Bloc<PetEvent, PetState> {
   Future<void> _fetchPets(FetchPets event, Emitter<PetState> emit) async {
     emit(PetLoading());
     try {
-      final pets = await getPetsUseCase.getPets();
+      final pets = await getPetsUseCase.getPets(event.ownerEmail);
       emit(PetLoaded(pets: pets));
     } catch (error) {
       emit(PetError("Failed to load pets: ${error.toString()}"));

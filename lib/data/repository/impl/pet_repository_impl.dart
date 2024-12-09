@@ -20,7 +20,7 @@ class PetRepositoryImpl implements PetsRepositoryInterface {
   }
 
   @override
-  Future<List<Pet>> getPets() {
-    return petsService.fetchPetsData();
+  Future<List<Pet>> getPets(String ownerEmail) {
+    return petsService.fetchPetsData(ownerEmail);
   }
 }

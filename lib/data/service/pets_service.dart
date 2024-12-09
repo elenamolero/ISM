@@ -4,9 +4,9 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 class PetsService {
 
-  Future<List<Pet>> fetchPetsData() async {
+  Future<List<Pet>> fetchPetsData(String ownerEmail) async {
   try {
-    final response = await Supabase.instance.client.from('Pet').select();
+    final response = await Supabase.instance.client.from('Pet').select('*').eq('ownerEmail', ownerEmail);
     debugPrint('Response from Supabase: $response'); // Muestra la respuesta completa
     // Verifica si la respuesta tiene datos y luego mapea
     if (response != null && response.isNotEmpty) {

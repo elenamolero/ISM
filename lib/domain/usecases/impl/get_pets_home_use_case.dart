@@ -6,7 +6,7 @@ class GetPetsHomeUseCase implements GetPetsHomeUseCaseInterface {
   PetRepositoryImpl petsRepository;
   GetPetsHomeUseCase({required this.petsRepository});
   @override
-Future<List<Pet>> getPets() {
-    return petsRepository.getPets();
+Future<List<Pet>> getPets(String ownerEmail) {
+    return petsRepository.getPets(ownerEmail);
   }
 }
