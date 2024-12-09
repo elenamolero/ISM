@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:petuco/presentation/pages/create_pet_info_page.dart';
 import 'package:petuco/presentation/pages/update_pet_info_page.dart';
 import 'package:flutter/services.dart';
+import 'package:petuco/presentation/pages/login_page.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,12 +21,11 @@ class MyApp extends StatelessWidget {
       title: 'petUco',
       debugShowCheckedModeBanner: false,
       //  builder: (context, child) => CreatePetInfoPage(),
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-            seedColor: const Color.fromARGB(255, 183, 58, 58)),
+       theme: ThemeData(
+        scaffoldBackgroundColor: Colors.blue, // Fondo común
         useMaterial3: true,
       ),
-      home: const HomePage(),
+      home: const LoginPage(), 
     );
   }
 }
@@ -64,7 +64,7 @@ class HomePage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => CreatePetInfoPage(),
+                      builder: (context) => const CreatePetInfoPage(),
                     ),
                   );
                 },
@@ -75,11 +75,22 @@ class HomePage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => UpdatePetInfoPage(),
+                      builder: (context) => const UpdatePetInfoPage(),
                     ),
                   );
                 },
                 child: const Text('Go to Update Pet Info'),
+              ),
+               ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const LoginPage(),
+                    ),
+                  );
+                },
+                child: const Text('Go to login'),
               ),
             ],
           ),
