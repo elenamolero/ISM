@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:petuco/features/create_pet_info/presentation/pages/create_pet_info_page.dart';
+import 'package:petuco/presentation/pages/create_pet_info_page.dart';
 import 'package:flutter/services.dart';
 
 void main() {

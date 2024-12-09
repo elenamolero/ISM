@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../domain/usecases/save_pet_info.dart';
-import '../bloc/create_pet_info_bloc.dart';
-import '../../domain/entities/pet.dart';
+import '../../../domain/usecases/save_pet_info.dart';
+import '../blocs/pets/create_pet_info_bloc.dart';
+import '../../domain/entity/pet.entity.dart';
 import 'dart:ui';
 
 class CreatePetInfoPage extends StatelessWidget {
+  const CreatePetInfoPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -85,12 +87,12 @@ class CreatePetInfoPage extends StatelessWidget {
                                               color: Colors.grey[400],
                                               fontWeight: FontWeight.bold,
                                             ),
-                                            labelStyle: TextStyle(
+                                            labelStyle: const TextStyle(
                                               fontSize: 18,
                                               color: Colors.white,
                                               fontWeight: FontWeight.bold,
                                             ),
-                                            suffixIcon: Icon(
+                                            suffixIcon: const Icon(
                                               Icons.cruelty_free_outlined,
                                               color: Colors.grey,
                                             ),
@@ -102,7 +104,7 @@ class CreatePetInfoPage extends StatelessWidget {
                                             fillColor: Colors.white,
                                           ),
                                         ),
-                                        SizedBox(height: 8),
+                                        const SizedBox(height: 8),
 
                                         const Text(
                                           'Owner',
@@ -121,12 +123,12 @@ class CreatePetInfoPage extends StatelessWidget {
                                               color: Colors.grey[400],
                                               fontWeight: FontWeight.bold,
                                             ),
-                                            labelStyle: TextStyle(
+                                            labelStyle: const TextStyle(
                                               fontSize: 18,
                                               color: Colors.black,
                                               fontWeight: FontWeight.bold,
                                             ),
-                                            suffixIcon: Icon(
+                                            suffixIcon: const Icon(
                                               Icons.person_outlined,
                                               color: Colors.grey,
                                             ),
@@ -138,7 +140,7 @@ class CreatePetInfoPage extends StatelessWidget {
                                             fillColor: Colors.white,
                                           ),
                                         ),
-                                        SizedBox(height: 8),
+                                        const SizedBox(height: 8),
 
                                         const Text(
                                           'Age',
@@ -157,12 +159,12 @@ class CreatePetInfoPage extends StatelessWidget {
                                               color: Colors.grey[400],
                                               fontWeight: FontWeight.bold,
                                             ),
-                                            labelStyle: TextStyle(
+                                            labelStyle: const TextStyle(
                                               fontSize: 18,
                                               color: Colors.black,
                                               fontWeight: FontWeight.bold,
                                             ),
-                                            suffixIcon: Icon(
+                                            suffixIcon: const Icon(
                                               Icons.calendar_today,
                                               color: Colors.grey,
                                             ),
@@ -174,7 +176,7 @@ class CreatePetInfoPage extends StatelessWidget {
                                             fillColor: Colors.white,
                                           ),
                                         ),
-                                        SizedBox(height: 8),
+                                        const SizedBox(height: 8),
 
                                         const Text(
                                           'Type',
@@ -193,12 +195,12 @@ class CreatePetInfoPage extends StatelessWidget {
                                               color: Colors.grey[400],
                                               fontWeight: FontWeight.bold,
                                             ),
-                                            labelStyle: TextStyle(
+                                            labelStyle: const TextStyle(
                                               fontSize: 18,
                                               color: Colors.black,
                                               fontWeight: FontWeight.bold,
                                             ),
-                                            suffixIcon: Icon(
+                                            suffixIcon: const Icon(
                                               Icons.pets,
                                               color: Colors.grey,
                                             ),
@@ -210,7 +212,7 @@ class CreatePetInfoPage extends StatelessWidget {
                                             fillColor: Colors.white,
                                           ),
                                         ),
-                                        SizedBox(height: 8),
+                                        const SizedBox(height: 8),
 
                                         const Text(
                                           'Breed',
@@ -246,7 +248,7 @@ class CreatePetInfoPage extends StatelessWidget {
                                             fillColor: Colors.white,
                                           ),
                                         ),
-                                        SizedBox(height: 8),
+                                        const SizedBox(height: 8),
                                         // Save Changes Button
                                         Center(
                                           child: SizedBox(

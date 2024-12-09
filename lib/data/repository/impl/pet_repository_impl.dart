@@ -1,4 +1,4 @@
-import '../../domain/entities/pet.dart';
+import '../../../domain/entity/pet.entity.dart';
 
 abstract class PetRespository {
   Future<void> savePetInfo(Pet pet);

@@ -1,4 +1,4 @@
-import '../entities/pet.dart';
+import '../entity/pet.entity.dart';
 
 class SavePetInfo {
   Future<void> call(Pet pet) async {
