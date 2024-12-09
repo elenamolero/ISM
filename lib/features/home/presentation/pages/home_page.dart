@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:petuco/features/home/presentation/bloc/get_pets_home.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class HomeUserPage extends StatefulWidget {
   const HomeUserPage({Key? key}) : super(key: key);
@@ -10,50 +9,42 @@ class HomeUserPage extends StatefulWidget {
 }
 
 class _HomeUserPageState extends State<HomeUserPage> {
-  /*DESCOMENTAR CUANDO SE TENGA LA CONEXION A LA BD
-  Future<Map<List<String>, dynamic>?> fetchPetsData() async {
-  return await Supabase.instance.client
-      .from('Pet')
-      .select('name')
-      .execute();
-  }
-
-  Map<List<String>, dynamic>? data;
-
-   @override
-  void initState() {
-    super.initState();
-  }
-
-  void loadUserData() async {
-      data = await fetchPetsData();
-      setState(() {});
-    }
-*/
-//CAMBIAR CUANDO SE TENGA LA CONEXION A LA BD
   Future<List<String>> fetchPetsData() async {
-    // Simula una llamada a la base de datos
-    await Future.delayed(const Duration(seconds: 2));
-    return ['Pet 1', 'Pet 2', 'Pet 3']; // Reemplaza con tu lógica de obtención de datos
+  try {
+    final response = await Supabase.instance.client.from('Pet').select('name');
+    debugPrint('Response from Supabase: $response'); // Muestra la respuesta completa
+    
+    // Verifica si la respuesta tiene datos y luego mapea
+    if (response != null && response.isNotEmpty) {
+      return response.map<String>((pet) => pet['name'] as String).toList();
+    } else {
+      debugPrint('No pets found in response');
+      return [];
+    }
+  } catch (error) {
+    debugPrint('Error fetching pets: $error');  // Muestra el error
+    return [];
   }
-//////////////////////////////////////////////7
+}
+
+
   @override
   Widget build(BuildContext context) {
+    debugPrint('Building HomeUserPage');  // Verifica si la página se está construyendo correctamente.
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        toolbarHeight: 80, // Adjust this value to increase the height
-        title: const Center(
-          child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 16.0),
-            child: Text(
-              'Home',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 25,
-                fontWeight: FontWeight.bold,
-                fontFamily: 'Inter',
-              ),
+        toolbarHeight: 80,
+        title: const Padding(
+          padding: EdgeInsets.symmetric(vertical: 16.0),
+          child: Text(
+            'Home',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 25,
+              fontWeight: FontWeight.bold,
+              fontFamily: 'Inter',
             ),
           ),
         ),
@@ -81,8 +72,8 @@ class _HomeUserPageState extends State<HomeUserPage> {
             bottom: Radius.circular(20),
           ),
           side: BorderSide(
-            color: Colors.white, // Set the border color to white
-            width: 2.0, // Set the border width
+            color: Colors.white,
+            width: 2.0,
           ),
         ),
         elevation: 0,
@@ -102,137 +93,126 @@ class _HomeUserPageState extends State<HomeUserPage> {
           ),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(80),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const SizedBox(height: 100), // Push inputs down
-                Container(
-                  child: const Column(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const SizedBox(height: 40),
+              const Text(
+                'Welcome Elena,', // Cambiar por el nombre del usuario
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 30.0,
+                ),
+              ),
+              const SizedBox(height: 10),
+              const Text(
+                'Which pet do you want to manage today?',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Color.fromARGB(158, 255, 255, 255),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20.0,
+                ),
+              ),
+              const SizedBox(height: 20),
+              GestureDetector(
+                onTap: () {
+                  // Acción para agregar nueva mascota
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    color: const Color.fromARGB(91, 255, 255, 255),
+                  ),
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        'Welcome Elena,', //CAMBIAR POR EL NOMBRE DEL USUARIO
-                        textAlign: TextAlign.center, // Centra el texto
-                        style: TextStyle(
-                          color: Color.fromARGB(255, 255, 255, 255), // Color del texto
-                          fontWeight: FontWeight.bold,
-                          fontSize: 30.0, // Ajusta el tamaño del texto según sea necesario
-                        ),
+                    children: const [
+                      Icon(
+                        Icons.add,
+                        color: Color.fromARGB(255, 43, 101, 131),
+                        size: 50.0,
                       ),
-                      SizedBox(height: 10), // Espacio entre los textos
                       Text(
-                        'which pet do you want to manage today?',
-                        textAlign: TextAlign.center, // Centra el texto
+                        'New Pet',
                         style: TextStyle(
-                          color: Color.fromARGB(158, 255, 255, 255), // Color del texto
+                          color: Color.fromARGB(255, 43, 101, 131),
+                          fontSize: 20.0,
                           fontWeight: FontWeight.bold,
-                          fontSize: 20.0, // Ajusta el tamaño del texto según sea necesario
                         ),
                       ),
                     ],
                   ),
                 ),
-                const SizedBox(height: 20),
-
-                // new pet button
-                Row(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          color: const Color.fromARGB(91, 255, 255, 255),
-                        ),
-                        child: const Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(
-                              Icons.add,
-                              color: Color.fromARGB(255, 43, 101, 131),
-                              size: 50.0, // Ajusta el tamaño según sea necesario
-                            ),
-                            Text(
-                              'New pet',
-                              textAlign: TextAlign.center, // Centra el texto
-                              style: TextStyle(
-                                color: Color.fromARGB(255, 43, 101, 131), // Color del texto
-                                fontSize: 20.0, // Ajusta el tamaño del texto según sea necesario
-                                fontWeight: FontWeight.bold, // Pone el texto en negrita
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20), 
-
-                FutureBuilder<List<String>>(
+              ),
+              const SizedBox(height: 20),
+              Expanded(
+                child: FutureBuilder<List<String>>(
                   future: fetchPetsData(),
                   builder: (context, snapshot) {
+                    debugPrint('Snapshot state: ${snapshot.connectionState}'); // Imprimir estado de la conexión
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Center(child: CircularProgressIndicator());
                     } else if (snapshot.hasError) {
-                      return const Center(child: Text('Error loading data'));
+                      return const Center(
+                        child: Text(
+                          'Error loading pets.',
+                          style: TextStyle(color: Colors.red),
+                        ),
+                      );
                     } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                      return const Center(child: Text('No pets found'));
+                      debugPrint('No pets found or empty data');  // Imprimir cuando no haya datos
+                      return const Center(
+                        child: Text(
+                          'No pets found.',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      );
                     }
 
-                    final data = snapshot.data!;
+                    final pets = snapshot.data!;
+                    debugPrint('Fetched pets: $pets');  // Imprimir los pets obtenidos
 
                     return ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: data.length,
+                      itemCount: pets.length,
                       itemBuilder: (context, index) {
-                        return Column(
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
-                                color: const Color.fromARGB(91, 255, 255, 255),
+                        return Container(
+                          margin: const EdgeInsets.symmetric(vertical: 8.0),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            color: const Color.fromARGB(91, 255, 255, 255),
+                          ),
+                          padding: const EdgeInsets.all(16.0),
+                          child: Row(
+                            children: [
+                              const Icon(
+                                Icons.pets,
+                                color: Color.fromARGB(255, 43, 101, 131),
+                                size: 50.0,
                               ),
-                              padding: const EdgeInsets.all(16.0), // Padding dentro del contenedor
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  const Icon(
-                                    Icons.pets,
+                              const SizedBox(width: 10),
+                              Expanded(
+                                child: Text(
+                                  '- Name: ${pets[index]}',
+                                  style: const TextStyle(
                                     color: Color.fromARGB(255, 43, 101, 131),
-                                    size: 50.0, 
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.bold,
                                   ),
-                                  const SizedBox(width: 10), // Espacio entre el icono y el texto
-                                  Expanded(
-                                    child: Text(
-                                      '- Name: ${data[index]}',
-                                      textAlign: TextAlign.center, // Centra el texto
-                                      style: const TextStyle(
-                                        color: Color.fromARGB(255, 43, 101, 131), // Color del texto
-                                        fontSize: 20.0, 
-                                        fontWeight: FontWeight.bold, 
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                                ),
                               ),
-                            ),
-                            const SizedBox(height: 20), 
-                          ],
+                            ],
+                          ),
                         );
                       },
                     );
                   },
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
