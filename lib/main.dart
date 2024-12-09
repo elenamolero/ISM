@@ -21,12 +21,11 @@ class MyApp extends StatelessWidget {
       title: 'petUco',
       debugShowCheckedModeBanner: false,
       //  builder: (context, child) => CreatePetInfoPage(),
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-            seedColor: const Color.fromARGB(255, 183, 58, 58)),
+       theme: ThemeData(
+        scaffoldBackgroundColor: Colors.blue, // Fondo común
         useMaterial3: true,
       ),
-      home: const HomePage(),
+      home: const LoginPage(), 
     );
   }
 }
