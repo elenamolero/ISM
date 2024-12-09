@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 import 'package:flutter/services.dart';
 
 import 'presentation/pages/Login_page.dart';
+=======
+import 'package:petuco/presentation/pages/create_pet_info_page.dart';
+import 'package:petuco/presentation/pages/update_pet_info_page.dart';
+import 'package:flutter/services.dart';
+>>>>>>> e37e17926d7768ea2cc9d8e988306a25caa08f43
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,12 +25,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'petUco',
       debugShowCheckedModeBanner: false,
+      //  builder: (context, child) => CreatePetInfoPage(),
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
             seedColor: const Color.fromARGB(255, 183, 58, 58)),
         useMaterial3: true,
       ),
-      home: const HomePage(), // Página inicial será HomePage.
+      home: const HomePage(),
     );
   }
 }
@@ -63,11 +70,33 @@ class HomePage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const LoginPage(), // Navega al LoginPage.
+                      builder: (context) => const CreatePetInfoPage(),
                     ),
                   );
                 },
-                child: const Text('Ir al Login'),
+                child: const Text('Go to Create Pet Info'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const UpdatePetInfoPage(),
+                    ),
+                  );
+                },
+                child: const Text('Go to Update Pet Info'),
+              ),
+               ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const LoginPage(),
+                    ),
+                  );
+                },
+                child: const Text('Go to Update Pet Info'),
               ),
             ],
           ),
