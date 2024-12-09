@@ -3,6 +3,7 @@ import 'package:petuco/presentation/pages/create_pet_info_page.dart';
 import 'package:petuco/presentation/pages/login2_user_info_page.dart';
 import 'package:petuco/presentation/pages/update_pet_info_page.dart';
 import 'package:flutter/services.dart';
+import 'package:petuco/presentation/pages/login_page.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -76,7 +77,7 @@ class HomePage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => CreatePetInfoPage(),
+                      builder: (context) => const CreatePetInfoPage(),
                     ),
                   );
                 },
@@ -87,7 +88,7 @@ class HomePage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => UpdatePetInfoPage(),
+                      builder: (context) => const UpdatePetInfoPage(),
                     ),
                   );
                 },
