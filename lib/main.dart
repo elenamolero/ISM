@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
-import 'package:flutter/services.dart';
-
-import 'presentation/pages/Login_page.dart';
-=======
 import 'package:petuco/presentation/pages/create_pet_info_page.dart';
 import 'package:petuco/presentation/pages/update_pet_info_page.dart';
 import 'package:flutter/services.dart';
->>>>>>> e37e17926d7768ea2cc9d8e988306a25caa08f43
+import 'package:petuco/presentation/pages/login_page.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -96,7 +91,7 @@ class HomePage extends StatelessWidget {
                     ),
                   );
                 },
-                child: const Text('Go to Update Pet Info'),
+                child: const Text('Go to login'),
               ),
             ],
           ),
