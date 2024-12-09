@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:petuco/features/home/domain/usecases/get_pets_home_use_case_interface.dart';
-import '../../domain/entities/pet.dart';
+import 'package:petuco/domain/entity/pet.entity.dart';
+import 'package:petuco/domain/usecases/get_pets_home_use_case.dart';
+
 // Estados
 abstract class PetState {}
 class PetInitial extends PetState {}
@@ -20,7 +21,7 @@ class FetchPets extends PetEvent {}
 
 // BLoC
 class PetBloc extends Bloc<PetEvent, PetState> {
-  GetPetsUseCaseInterface getPetsUseCase;
+  GetPetsHomeUseCase getPetsUseCase;
 
   PetBloc({required this.getPetsUseCase}) : super(PetInitial()){
     on<FetchPets>((event, emit) async {

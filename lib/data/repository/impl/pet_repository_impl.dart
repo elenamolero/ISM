@@ -15,4 +15,13 @@ class PetRepositoryImpl implements PetRespository {
     //All related with the logic when updating data(API, database, etc...)
     print('Pet updated in repository: ${pet.name}');
   }
+
+  Future<List<Pet>> getPets() {
+    // TODO: implement getPets
+    throw UnimplementedError();
+    /*await Supabase.instance.client
+      .from('Pet')
+      .select('name')
+      .execute();*/
+  }
 }
