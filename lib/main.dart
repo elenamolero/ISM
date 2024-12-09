@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:petuco/presentation/pages/create_pet_info_page.dart';
+import 'package:petuco/presentation/pages/login2_user_info_page.dart';
 import 'package:petuco/presentation/pages/update_pet_info_page.dart';
 import 'package:flutter/services.dart';
 
@@ -59,6 +60,17 @@ class HomePage extends StatelessWidget {
                 style: TextStyle(fontSize: 54),
               ),
               const SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Login2UserPage(),
+                    ),
+                  );
+                },
+                child: const Text('Login2 User Info'),
+              ),
               ElevatedButton(
                 onPressed: () {
                   Navigator.push(
