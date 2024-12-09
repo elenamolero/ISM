@@ -1,10 +1,13 @@
+import 'package:petuco/data/repository/pets_repository_interface.dart';
+import 'package:petuco/data/service/pets_service.dart';
+
 import '../../../domain/entity/pet.entity.dart';
 
-abstract class PetRespository {
-  Future<void> savePetInfo(Pet pet);
-}
 
-class PetRepositoryImpl implements PetRespository {
+
+class PetRepositoryImpl implements PetsRepositoryInterface {
+  PetsService petsService = PetsService();
+  PetRepositoryImpl({required this.petsService});
   @override
   Future<void> savePetInfo(Pet pet) async {
     //All related with the logic when saving data(API, database, etc...)
@@ -16,12 +19,8 @@ class PetRepositoryImpl implements PetRespository {
     print('Pet updated in repository: ${pet.name}');
   }
 
+  @override
   Future<List<Pet>> getPets() {
-    // TODO: implement getPets
-    throw UnimplementedError();
-    /*await Supabase.instance.client
-      .from('Pet')
-      .select('name')
-      .execute();*/
+    return petsService.fetchPetsData();
   }
 }

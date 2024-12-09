@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:petuco/di/dependency_injection.dart';
 import 'package:petuco/presentation/pages/home_page.dart';
 import 'package:petuco/presentation/pages/create_pet_info_page.dart';
 import 'package:petuco/presentation/pages/update_pet_info_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:injector/injector.dart';
 
 Future<void> main() async {
+  initInjection();
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
   await Supabase.initialize(

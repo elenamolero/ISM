@@ -39,6 +39,7 @@ dependencies:
   flutter_bloc: ^8.1.6
   flutter_svg: ^2.0.16
   flutter_launcher_icons: ^0.14.1
+  injector: ^4.0.0
 
 
 
