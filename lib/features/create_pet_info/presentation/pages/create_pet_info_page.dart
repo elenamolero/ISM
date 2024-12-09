@@ -102,7 +102,7 @@ class CreatePetInfoPage extends StatelessWidget {
                                             fillColor: Colors.white,
                                           ),
                                         ),
-                                        SizedBox(height: 16),
+                                        SizedBox(height: 8),
 
                                         const Text(
                                           'Owner',
@@ -138,7 +138,7 @@ class CreatePetInfoPage extends StatelessWidget {
                                             fillColor: Colors.white,
                                           ),
                                         ),
-                                        SizedBox(height: 16),
+                                        SizedBox(height: 8),
 
                                         const Text(
                                           'Age',
@@ -174,7 +174,7 @@ class CreatePetInfoPage extends StatelessWidget {
                                             fillColor: Colors.white,
                                           ),
                                         ),
-                                        SizedBox(height: 16),
+                                        SizedBox(height: 8),
 
                                         const Text(
                                           'Type',
@@ -210,7 +210,7 @@ class CreatePetInfoPage extends StatelessWidget {
                                             fillColor: Colors.white,
                                           ),
                                         ),
-                                        SizedBox(height: 16),
+                                        SizedBox(height: 8),
 
                                         const Text(
                                           'Breed',
@@ -246,7 +246,7 @@ class CreatePetInfoPage extends StatelessWidget {
                                             fillColor: Colors.white,
                                           ),
                                         ),
-                                        SizedBox(height: 16),
+                                        SizedBox(height: 8),
                                         // Save Changes Button
                                         Center(
                                           child: SizedBox(
@@ -313,10 +313,6 @@ class CreatePetInfoPage extends StatelessWidget {
             left: 0,
             right: 0,
             child: ClipRRect(
-              borderRadius: const BorderRadius.only(
-                bottomLeft: Radius.circular(50.0),
-                bottomRight: Radius.circular(50.0),
-              ),
               child: AppBar(
                 centerTitle: true,
                 toolbarHeight: 80,
