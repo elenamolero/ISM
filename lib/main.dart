@@ -1,28 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:petuco/features/home/presentation/pages/home_page.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:petuco/presentation/pages/create_pet_info_page.dart';
+import 'package:petuco/presentation/pages/update_pet_info_page.dart';
+import 'package:flutter/services.dart';
 
-Future<void> main() async {
+void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  await dotenv.load(fileName: ".env");
-  await Supabase.initialize(
-    url: dotenv.env['SUPABASE_URL']!,
-    anonKey: dotenv.env['SUPABASE_ANON_KEY']!,
-  );
-  runApp(const MyApp());
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((_) {
+    runApp(const MyApp());
+  });
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'petUco',
       debugShowCheckedModeBanner: false,
-      builder: (context, child) => HomeUserPage(),
+      //  builder: (context, child) => CreatePetInfoPage(),
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
             seedColor: const Color.fromARGB(255, 183, 58, 58)),
@@ -67,11 +64,22 @@ class HomePage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => HomeUserPage(),
+                      builder: (context) => CreatePetInfoPage(),
                     ),
                   );
                 },
-                child: const Text('Go home'),
+                child: const Text('Go to Create Pet Info'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => UpdatePetInfoPage(),
+                    ),
+                  );
+                },
+                child: const Text('Go to Update Pet Info'),
               ),
             ],
           ),
@@ -80,5 +88,3 @@ class HomePage extends StatelessWidget {
     );
   }
 }
-
-
