@@ -6,6 +6,8 @@ import 'package:petuco/presentation/pages/users/edit_user_info_page.dart';
 import 'package:petuco/presentation/pages/create_pet_info_page.dart';
 import 'package:petuco/presentation/pages/update_pet_info_page.dart';
 import 'package:flutter/services.dart';
+import 'package:petuco/presentation/pages/login_page.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
@@ -28,12 +30,11 @@ class MyApp extends StatelessWidget {
       title: 'petUco',
       debugShowCheckedModeBanner: false,
       //  builder: (context, child) => CreatePetInfoPage(),
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-            seedColor: const Color.fromARGB(255, 183, 58, 58)),
+       theme: ThemeData(
+        scaffoldBackgroundColor: Colors.blue, // Fondo común
         useMaterial3: true,
       ),
-      home: const HomePage(),
+      home: const LoginPage(), 
     );
   }
 }
@@ -72,7 +73,7 @@ class HomePage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => CreatePetInfoPage(),
+                      builder: (context) => const CreatePetInfoPage(),
                     ),
                   );
                 },
@@ -83,7 +84,7 @@ class HomePage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => UpdatePetInfoPage(),
+                      builder: (context) => const UpdatePetInfoPage(),
                     ),
                   );
                 },
@@ -95,6 +96,17 @@ class HomePage extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) => EditUserInfoPage(),
+                    ),
+                  );
+                },
+                child: const Text('Go to Profile'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => LoginPage(),
                     ),
                   );
                 },
