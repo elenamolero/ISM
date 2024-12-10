@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.blue, // Fondo común
         useMaterial3: true,
       ),
-      home: const LoginPage(), 
+      home: const HomePage(), 
     );
   }
 }
@@ -110,7 +110,7 @@ class HomePage extends StatelessWidget {
                     ),
                   );
                 },
-                child: const Text('Go to Profile'),
+                child: const Text('Go to Login page'),
               ),
             ],
           ),
