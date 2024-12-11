@@ -5,6 +5,7 @@ import 'package:petuco/domain/usecases/impl/get_user_info_use_case.dart';
 import 'package:petuco/domain/usecases/impl/save_user_info_use_case.dart';
 import 'package:petuco/presentation/blocs/users/get_user_info_bloc.dart';
 import 'package:petuco/presentation/blocs/users/save_user_info_bloc.dart';
+import 'package:petuco/presentation/pages/background_page.dart';
 import '../../../domain/entities/user.dart' as user;
 
 class EditUserInfoPage extends StatefulWidget {
@@ -55,24 +56,11 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
           create: (_) => SaveUserInfoBloc(saveUserInfoUseCase: appInjector.get<SaveUserInfoUseCase>()),
         ),
       ],
-      child: Stack(
+      child: Scaffold(
+        body:Stack(
         children: [
-        Scaffold(
-        body: Container(
-              constraints: const BoxConstraints.expand(),
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Color(0xFF1292F2),
-                    Color(0xFF5AB8FF),
-                    Color(0xFF69CECE),
-                  ],
-                  stops: [0.1, 0.551, 1.0],
-                ),
-              ),
-        child: BlocListener<SaveUserInfoBloc, SaveUserInfoState>(
+          const BackGround(title: 'Edit User Info'),
+         BlocListener<SaveUserInfoBloc, SaveUserInfoState>(
           listener: (context, state) {
             if (state is SaveUserSuccess) {
               ScaffoldMessenger.of(context).showSnackBar(
@@ -361,61 +349,12 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
             },
           ),
         ),
-      ),
-      ),
-      Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            child: ClipRRect(
-              child: AppBar(
-                centerTitle: true,
-                toolbarHeight: 80,
-                title: const Center(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 16.0),
-                    child: Text(
-                      'Edit Profile',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'Inter',
-                      ),
-                    ),
-                  ),
-                ),
-                backgroundColor: Colors.blue,
-                leading: IconButton(
-                  icon: const Icon(Icons.arrow_back),
-                  color: Colors.white,
-                  onPressed: () => Navigator.of(context).pop(),
-                ),
-                actions: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 16.0),
-                    child: GestureDetector(
-                      onTap: () {},
-                      child: Image.asset(
-                        'assets/images/logo.png',
-                        height: 70,
-                        width: 70,
-                      ),
-                    ),
-                  ),
-                ],
-                shape: const Border(
-                  bottom: BorderSide(
-                    color: Colors.white, // Adjust the color as needed
-                    width: 2.0, // Adjust the width as needed
-                  ),
-                ),
-                elevation: 0, // No shadow
-              ),
-            ),
-          ),
         ],
+      ),
       ),
     );
   }
 }
+
+
+
