@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:petuco/presentation/pages/create_pet_info_page.dart';
+import 'package:petuco/presentation/pages/register_user_page.dart';
 import 'package:petuco/presentation/pages/update_pet_info_page.dart';
 import 'package:flutter/services.dart';
 
@@ -64,7 +65,7 @@ class HomePage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => CreatePetInfoPage(),
+                      builder: (context) => const CreatePetInfoPage(),
                     ),
                   );
                 },
@@ -75,7 +76,18 @@ class HomePage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => UpdatePetInfoPage(),
+                      builder: (context) => const UpdatePetInfoPage(),
+                    ),
+                  );
+                },
+                child: const Text('Go to Update Pet Info'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const RegisterUserPage(),
                     ),
                   );
                 },
