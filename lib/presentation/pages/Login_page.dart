@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'login_user_page.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -69,6 +70,10 @@ class LoginPage extends StatelessWidget {
                     child: ElevatedButton(
                       onPressed: () {
                         // Acción del botón Login
+                         Navigator.push(
+                          context,
+                          MaterialPageRoute(builder:  (context) => const LoginUserPage(),),
+                        );
                       },
                       style: ElevatedButton.styleFrom(
                         minimumSize: Size(screenWidth * 0.8, 50),
