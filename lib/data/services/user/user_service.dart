@@ -21,7 +21,7 @@ class UserService {
   Future<void> saveUserInfo(user.User user) async {
     await Supabase.instance.client.from('User')
     .update({ 'name': user.name, 'email': user.email, 'address': user.address, 'phoneNumber': user.phoneNumber, 'password': user.password}) 
-    .eq('name', 'Arturo')
+    .eq('email', user.email)
     .select();
   }
 }
