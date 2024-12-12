@@ -27,11 +27,11 @@ class LoginPage extends StatelessWidget {
           children: [
             Positioned(
               top: screenHeight * 0.05,
-              left: (screenWidth - screenWidth * 1.08) / 2,
+              left: (screenWidth - screenWidth * 0.8) / 2, // Ajusta la posición horizontal según el nuevo ancho
               child: Image.asset(
                 'assets/images/whiteLogo.png',
-                width: screenWidth * 1.04,
-                height: screenHeight * 0.55,
+                width: screenWidth * 0.8, // Ajusta el ancho de la imagen
+                height: screenHeight * 0.4, // Ajusta la altura de la imagen
                 fit: BoxFit.contain,
               ),
             ),
