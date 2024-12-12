@@ -4,7 +4,6 @@ import 'package:petuco/di/dependency_injection.dart';
 import 'package:petuco/presentation/pages/users/register_user_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:petuco/presentation/pages/users/edit_user_info_page.dart';
-import 'package:petuco/presentation/pages/create_pet_info_page.dart';
 import 'package:petuco/presentation/pages/update_pet_info_page.dart';
 import 'package:flutter/services.dart';
 import 'package:petuco/presentation/pages/login_page.dart';
@@ -36,7 +35,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.blue, // Fondo común
         useMaterial3: true,
       ),
-      home: const HomePage(),
+      home: const LoginPage(),
     );
   }
 }
@@ -75,7 +74,7 @@ class HomePage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const CreatePetInfoPage(),
+                      builder: (context) => const LoginPage(),
                     ),
                   );
                 },
