@@ -95,7 +95,7 @@ class HomePage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => EditUserInfoPage(),
+                      builder: (context) => const EditUserInfoPage(),
                     ),
                   );
                 },
@@ -106,7 +106,7 @@ class HomePage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => LoginPage(),
+                      builder: (context) => const LoginPage(),
                     ),
                   );
                 },
