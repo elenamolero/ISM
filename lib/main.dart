@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:petuco/di/dependency_injection.dart';
+import 'package:petuco/presentation/pages/pet_medical_historial_page.dart';
 import 'package:petuco/presentation/pages/users/register_user_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:petuco/presentation/pages/users/edit_user_info_page.dart';
@@ -123,6 +124,17 @@ class HomePage extends StatelessWidget {
                   );
                 },
                 child: const Text('Go to Login page'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const PetMedicalHistorialPage(),
+                    ),
+                  );
+                },
+                child: const Text('Go to Medical Historial Pet'),
               ),
             ],
           ),

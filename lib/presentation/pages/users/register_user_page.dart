@@ -35,7 +35,7 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
             Column(
               children: [
                 Container(
-                  padding: const EdgeInsets.only(top: 70)
+                  padding: const EdgeInsets.only(top: 120)
                 ),
                 Expanded(
                   child: SingleChildScrollView(
