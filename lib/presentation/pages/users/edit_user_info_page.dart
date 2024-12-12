@@ -309,7 +309,7 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
                               address: addressController.text,
                               phoneNumber: int.tryParse(phoneNumberController.text) ?? 0,
                               password: passwordController.text,
-                              role: 'user', // Actualiza según sea necesario
+                              role: 'user',
                             );
                             context.read<SaveUserInfoBloc>().add(
                                   SaveUserEvent(updatedUser),
