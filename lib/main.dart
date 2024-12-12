@@ -16,12 +16,13 @@ Future<void> main() async {
     url: dotenv.env['SUPABASE_URL']!,
     anonKey: dotenv.env['SUPABASE_ANON_KEY']!,
   );
-SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
     initInjection();
     runApp(const MyApp());
   });
 }
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -31,11 +32,11 @@ class MyApp extends StatelessWidget {
       title: 'petUco',
       debugShowCheckedModeBanner: false,
       //  builder: (context, child) => CreatePetInfoPage(),
-       theme: ThemeData(
+      theme: ThemeData(
         scaffoldBackgroundColor: Colors.blue, // Fondo común
         useMaterial3: true,
       ),
-      home: const HomePage(), 
+      home: const HomePage(),
     );
   }
 }
@@ -96,23 +97,21 @@ class HomePage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const RegisterUserPage(),
-                    ),
-                  );
-                },
-                child: const Text('Go to Register'),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
                       builder: (context) => const EditUserInfoPage(),
                     ),
                   );
                 },
                 child: const Text('Go to Profile'),
               ),
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const RegisterUserPage()),
+                    );
+                  },
+                  child: Text("Go to register page")),
               ElevatedButton(
                 onPressed: () {
                   Navigator.push(
