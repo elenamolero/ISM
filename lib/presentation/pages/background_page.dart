@@ -43,8 +43,8 @@ class BackGround extends StatelessWidget {
                       onTap: () {},
                       child: Image.asset(
                         'assets/images/logo.png',
-                        height: 70,
-                        width: 70,
+                        height: 40,
+                        width: 40,
                       ),
                     ),
                   ),
