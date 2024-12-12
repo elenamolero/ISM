@@ -104,14 +104,15 @@ class HomePage extends StatelessWidget {
                 child: const Text('Go to Profile'),
               ),
               ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const RegisterUserPage()),
-                    );
-                  },
-                  child: Text("Go to register page")),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const RegisterUserPage()),
+                  );
+                },
+                child: const Text("Go to register page")
+              ),
               ElevatedButton(
                 onPressed: () {
                   Navigator.push(
