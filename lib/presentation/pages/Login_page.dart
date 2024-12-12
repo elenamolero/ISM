@@ -29,7 +29,7 @@ class LoginPage extends StatelessWidget {
               top: screenHeight * 0.05,
               left: (screenWidth - screenWidth * 1.08) / 2,
               child: Image.asset(
-                'assets/images/logo.png',
+                'assets/images/whiteLogo.png',
                 width: screenWidth * 1.04,
                 height: screenHeight * 0.55,
                 fit: BoxFit.contain,
