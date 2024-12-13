@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:petuco/di/dependency_injection.dart';
 import 'package:petuco/presentation/pages/edit_profile_vet.dart';
+import 'package:petuco/presentation/pages/pet_info_page.dart';
+import 'package:petuco/presentation/pages/pet_medical_historial_page.dart';
+import 'package:petuco/presentation/pages/users/register_user_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:petuco/presentation/pages/users/edit_user_info_page.dart';
-import 'package:petuco/presentation/pages/create_pet_info_page.dart';
 import 'package:petuco/presentation/pages/update_pet_info_page.dart';
 import 'package:flutter/services.dart';
 import 'package:petuco/presentation/pages/login_page.dart';
@@ -16,12 +18,13 @@ Future<void> main() async {
     url: dotenv.env['SUPABASE_URL']!,
     anonKey: dotenv.env['SUPABASE_ANON_KEY']!,
   );
-SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
     initInjection();
     runApp(const MyApp());
   });
 }
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -31,11 +34,11 @@ class MyApp extends StatelessWidget {
       title: 'petUco',
       debugShowCheckedModeBanner: false,
       //  builder: (context, child) => CreatePetInfoPage(),
-       theme: ThemeData(
+      theme: ThemeData(
         scaffoldBackgroundColor: Colors.blue, // Fondo común
         useMaterial3: true,
       ),
-      home: const HomePage(), 
+      home: const LoginPage(),
     );
   }
 }
@@ -74,7 +77,7 @@ class HomePage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const CreatePetInfoPage(),
+                      builder: (context) => const LoginPage(),
                     ),
                   );
                 },
@@ -107,6 +110,16 @@ class HomePage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
+                      builder: (context) => const RegisterUserPage()),
+                  );
+                },
+                child: const Text("Go to register page")
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
                       builder: (context) => const LoginPage(),
                     ),
                   );
@@ -123,6 +136,22 @@ class HomePage extends StatelessWidget {
                   );
                 },
                 child: const Text('Go to Edit Vet Info page'),
+                      builder: (context) => const PetMedicalHistorialPage(),
+                    ),
+                  );
+                },
+                child: const Text('Go to Medical Historial Pet'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const PetInfoPage(),
+                    ),
+                  );
+                },
+                child: const Text('Go to Pet Info page'),
               ),
             ],
           ),

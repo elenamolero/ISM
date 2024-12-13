@@ -10,7 +10,7 @@ class SaveUserInfoUseCase extends SaveUserInfoUseCaseInterface {
   
   @override
   Future<void> saveUserInfo(User user) async {
-   await userRepository.saveUserInfo(user);
+    await userRepository.saveUserInfo(user);
   }
   
 }

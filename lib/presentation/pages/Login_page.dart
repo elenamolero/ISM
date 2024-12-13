@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:petuco/presentation/pages/users/register_user_page.dart';
 import 'login_user_page.dart';
 
 class LoginPage extends StatelessWidget {
@@ -28,11 +29,11 @@ class LoginPage extends StatelessWidget {
           children: [
             Positioned(
               top: screenHeight * 0.05,
-              left: (screenWidth - screenWidth * 1.08) / 2,
+              left: (screenWidth - screenWidth * 0.8) / 2,
               child: Image.asset(
-                'assets/images/logo.png',
-                width: screenWidth * 1.04,
-                height: screenHeight * 0.55,
+                'assets/images/whiteLogo.png',
+                width: screenWidth * 0.8, 
+                height: screenHeight * 0.4,
                 fit: BoxFit.contain,
               ),
             ),
@@ -100,6 +101,10 @@ class LoginPage extends StatelessWidget {
                     child: ElevatedButton(
                       onPressed: () {
                         // Acción del botón Register
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder:  (context) => const RegisterUserPage()),
+                        );
                       },
                       style: ElevatedButton.styleFrom(
                         minimumSize: Size(screenWidth * 0.8, 50),
