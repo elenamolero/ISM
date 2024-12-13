@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:petuco/di/dependency_injection.dart';
+import 'package:petuco/presentation/pages/edit_profile_vet.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:petuco/presentation/pages/users/edit_user_info_page.dart';
 import 'package:petuco/presentation/pages/create_pet_info_page.dart';
@@ -111,6 +112,17 @@ class HomePage extends StatelessWidget {
                   );
                 },
                 child: const Text('Go to Login page'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const EditVetInfoPage(),
+                    ),
+                  );
+                },
+                child: const Text('Go to Edit Vet Info page'),
               ),
             ],
           ),
