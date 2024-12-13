@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:petuco/di/dependency_injection.dart';
+import 'package:petuco/presentation/pages/edit_profile_vet.dart';
 import 'package:petuco/presentation/pages/pet_info_page.dart';
 import 'package:petuco/presentation/pages/pet_medical_historial_page.dart';
 import 'package:petuco/presentation/pages/users/register_user_page.dart';
@@ -130,6 +131,11 @@ class HomePage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
+                      builder: (context) => const EditVetInfoPage(),
+                    ),
+                  );
+                },
+                child: const Text('Go to Edit Vet Info page'),
                       builder: (context) => const PetMedicalHistorialPage(),
                     ),
                   );
