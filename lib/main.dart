@@ -136,6 +136,12 @@ class HomePage extends StatelessWidget {
                   );
                 },
                 child: const Text('Go to Edit Vet Info page'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
                       builder: (context) => const PetMedicalHistorialPage(),
                     ),
                   );
