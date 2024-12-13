@@ -17,6 +17,7 @@ class PetsService {
             age: pet['age'],
             type: pet['type'],
             breed: pet['breed'],
+            imageUrl: pet['photo'],
           );
         }).toList();
     } else {

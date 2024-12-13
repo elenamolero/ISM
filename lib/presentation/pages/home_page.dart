@@ -19,10 +19,7 @@ class HomeUserPage extends StatelessWidget {
       child: Scaffold(
         body: Stack(
           children: [
-            // Background
             const BackGround(title: 'Home'),
-
-            // Main content
             Positioned(
               top: screenHeight * 0.14,
               left: screenWidth * 0.1,
@@ -32,7 +29,33 @@ class HomeUserPage extends StatelessWidget {
                   if (state is PetLoading) {
                     return const Center(child: CircularProgressIndicator());
                   } else if (state is PetLoaded) {
-                    return _buildPetList(state.pets);
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const SizedBox(height: 40),
+                        const Text(
+                          'Welcome Elena,', // Cambiar por el nombre del usuario
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 30.0,
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        const Text(
+                          'Which pet do you want to manage today?',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Color.fromARGB(158, 255, 255, 255),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20.0,
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        _buildPetList(state.pets),
+                      ],
+                    );
                   } else if (state is PetError) {
                     return Center(
                       child: Text(
@@ -63,42 +86,92 @@ class HomeUserPage extends StatelessWidget {
       itemCount: pets.length + 1, // Incrementa el itemCount para incluir el botón
       itemBuilder: (context, index) {
         if (index == 0) {
-          // Botón "New pet"
           return Card(
             margin: const EdgeInsets.symmetric(vertical: 8.0),
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-            child: ListTile(
-              leading: const Icon(Icons.add, color: Colors.blue, size: 40),
-              title: const Text(
-                'New pet',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                color: Colors.white.withOpacity(0.53),
               ),
-              onTap: () {
-                // Manejo de tap en el botón "New pet"
-              },
+              padding: const EdgeInsets.all(16.0),
+              child: const Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.add,
+                    color: Color(0xFF4B8DAF),
+                    size: 50.0,
+                  ),
+                  Text(
+                    'New Pet',
+                    style: TextStyle(
+                      color: Color(0xFF4B8DAF),
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
             ),
           );
         } else {
-          final pet = pets[index - 1]; // Ajusta el índice para las mascotas
+          final pet = pets[index - 1];
           return Card(
             margin: const EdgeInsets.symmetric(vertical: 8.0),
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-            child: ListTile(
-              leading: const Icon(Icons.pets, color: Colors.blue, size: 40),
-              title: Text(
-                pet.name,
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                color: Colors.white.withOpacity(0.53),
               ),
-              subtitle: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Name: ${pet.name}'),
-                  Text('Owner: ${pet.ownerEmail}'),
-                ],
+              padding: const EdgeInsets.all(16.0),
+              child: ListTile(
+                leading: Builder(
+                  builder: (context) {
+                    if (pet.imageUrl != null) {
+                      debugPrint('Image URL: ${pet.imageUrl}');
+                      return Image.network(
+                        pet.imageUrl!,
+                        width: 50,
+                        height: 50,
+                        fit: BoxFit.cover,
+                      );
+                    } else {
+                      debugPrint('No Image URL available');
+                      return const Icon(Icons.pets, color: Color(0xFF065591), size: 40);
+                    }
+                  },
+                ),
+                title: Text(
+                  pet.name,
+                  style: const TextStyle(
+                    color: Color(0xFF065591),
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                subtitle: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Name: ${pet.name}',
+                      style: const TextStyle(
+                        color: Color(0xFF065591),
+                      ),
+                    ),
+                    Text(
+                      'Owner: ${pet.ownerEmail}',
+                      style: const TextStyle(
+                        color: Color(0xFF065591),
+                      ),
+                    ),
+                  ],
+                ),
+                onTap: () {
+                  // Manejo de tap en la tarjeta
+                },
               ),
-              onTap: () {
-                // Manejo de tap en la tarjeta
-              },
             ),
           );
         }
