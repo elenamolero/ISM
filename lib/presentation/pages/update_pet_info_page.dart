@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:petuco/presentation/pages/background_page.dart';
 import '../../../domain/usecases/update_pet_info.dart';
 import '../blocs/pets/update_pet_info_bloc.dart';
 import '../../domain/entity/pet.entity.dart';
@@ -12,24 +13,12 @@ class UpdatePetInfoPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => UpdatePetInfoBloc(UpdatePetInfo()),
-      child: Stack(
-        children: [
-          Scaffold(
-            body: Container(
-              constraints: const BoxConstraints.expand(),
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Color(0xFF1292F2),
-                    Color(0xFF5AB8FF),
-                    Color(0xFF69CECE),
-                  ],
-                  stops: [0.1, 0.551, 1.0],
-                ),
-              ),
-              child: BlocListener<UpdatePetInfoBloc, UpdatePetInfoState>(
+      child: Scaffold(
+        body: Stack(
+          children: [
+              const BackGround(title: 'Update Pet Info'),
+             
+           BlocListener<UpdatePetInfoBloc, UpdatePetInfoState>(
                 listener: (context, state) {
                   if (state is UpdatePetSuccess) {
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -308,68 +297,9 @@ class UpdatePetInfoPage extends StatelessWidget {
                   },
                 ),
               ),
+            ],
             ),
           ),
-          Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            child: ClipRRect(
-              child: AppBar(
-                centerTitle: true,
-                toolbarHeight: 80,
-                title: const Center(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 16.0),
-                    child: Text(
-                      'Update Pet',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'Inter',
-                      ),
-                    ),
-                  ),
-                ),
-                backgroundColor: Colors.blue,
-                leading: IconButton(
-                  icon: const Icon(Icons.arrow_back),
-                  color: Colors.white,
-                  onPressed: () => Navigator.of(context).pop(),
-                ),
-                actions: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 16.0),
-                    child: GestureDetector(
-                      onTap: () {},
-                      child: Image.asset(
-                        'assets/images/logo.png',
-                        height: 70,
-                        width: 70,
-                      ),
-                    ),
-                  ),
-                ],
-                shape: const Border(
-                  bottom: BorderSide(
-                    color: Colors.white, // Adjust the color as needed
-                    width: 2.0, // Adjust the width as needed
-                  ),
-                ),
-                elevation: 0, // No shadow
-              ),
-            ),
-          ),
-          Positioned(
-            bottom: 0,
-            child: Image.asset(
-              'assets/images/footer.png',
-              width: MediaQuery.of(context).size.width,
-            ),
-          ),
-        ],
-      ),
     );
   }
 }
