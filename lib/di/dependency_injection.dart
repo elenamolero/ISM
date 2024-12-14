@@ -1,6 +1,7 @@
 import 'package:injector/injector.dart';
 import 'package:petuco/data/repository/impl/pet_repository_impl.dart';
 import 'package:petuco/data/repository/pets_repository_interface.dart';
+import 'package:petuco/data/services/model/pet_response.dart';
 import 'package:petuco/data/services/pet/pets_service.dart';
 import 'package:petuco/domain/usecases/impl/get_pets_home_use_case.dart';
 import 'package:injector/injector.dart';

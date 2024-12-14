@@ -1,32 +1,29 @@
-import 'package:flutter/material.dart';
-import 'package:petuco/domain/entity/pet.entity.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+class PetResponse {
+  final String name;
+  final String ownerEmail;
+  final int age;
+  final String type;
+  final String breed;
+  final String? imageUrl;
 
-class PetsService {
+  PetResponse({
+    required this.name,
+    required this.ownerEmail,
+    required this.age,
+    required this.type,
+    required this.breed,
+    this.imageUrl,
+  });
 
-  Future<List<Pet>> fetchPetsData(String ownerEmail) async {
-  try {
-    final response = await Supabase.instance.client.from('Pet').select('*').eq('ownerEmail', ownerEmail);
-    debugPrint('Response from Supabase: $response'); // Muestra la respuesta completa
-    // Verifica si la respuesta tiene datos y luego mapea
-    if (response != null && response.isNotEmpty) {
-      return response.map<Pet>((pet) {
-          return Pet(
-            name: pet['name'],
-            ownerEmail: pet['ownerEmail'],
-            age: pet['age'],
-            type: pet['type'],
-            breed: pet['breed'],
-            imageUrl: pet['photo'],
-          );
-        }).toList();
-    } else {
-      debugPrint('No pets found in response');
-      return [];
-    }
-  } catch (error) {
-    debugPrint('Error fetching pets: $error');  // Muestra el error
-    return [];
+  // Convert a map to a PetResponse instance
+  static PetResponse toDomain(Map<String, dynamic> map) {
+    return PetResponse(
+      name: map['name'] ?? '',
+      ownerEmail: map['ownerEmail'] ?? '',
+      age: map['age'] ?? 0,
+      type: map['type'] ?? '',
+      breed: map['breed'] ?? '',
+      imageUrl: map['photo'],
+    );
   }
-}
 }
