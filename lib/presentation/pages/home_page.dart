@@ -84,7 +84,7 @@ class _HomeUserPageState extends State<HomeUserPage> {
                                 ),
                               ),
                               const SizedBox(height: 20),
-                              _buildPetList(petState.pets, screenWidth),
+                              _buildPetList(petState.pets, screenWidth, userName),
                             ],
                           ),
                         );
@@ -120,7 +120,7 @@ class _HomeUserPageState extends State<HomeUserPage> {
     );
   }
 
-  Widget _buildPetList(List<Pet> pets, double screenWidth) {
+  Widget _buildPetList(List<Pet> pets, double screenWidth, String userName) {
     return Column(
       children: List.generate(pets.length + 1, (index) {
         bool isSelected = _selectedIndex == index;
@@ -183,7 +183,7 @@ class _HomeUserPageState extends State<HomeUserPage> {
                       : [],
                 ),
                 padding: const EdgeInsets.all(16.0),
-                child: _buildPetContainer(pet, screenWidth),
+                child: _buildPetContainer(pet, screenWidth, userName),
               ),
             ),
           );
@@ -192,99 +192,97 @@ class _HomeUserPageState extends State<HomeUserPage> {
     );
   }
 
-Widget _buildNewPetContainer(double screenWidth) {
-  return ListTile(
-    title: Row(
-      children: [
-        Container(
-          width: screenWidth * 0.2,
-          height: screenWidth * 0.2,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(15),
-          ),
-          child: const Center(
-            child: Icon(
-              Icons.add,
-              color: Color(0xFF4B8DAF),
-              size: 50.0,
-            ),
-          ),
-        ),
-        const SizedBox(width: 10),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'New Pet',
-                style: TextStyle(
-                  color: const Color(0xFF4B8DAF),
-                  fontSize: screenWidth * 0.04,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    ),
-  );
-}
-
-Widget _buildPetContainer(Pet pet, double screenWidth) {
-  return ListTile(
-    title: Row(
-      children: [
-        if (pet.imageUrl != null)
+  Widget _buildNewPetContainer(double screenWidth) {
+    return ListTile(
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.center, 
+        children: [
           Container(
             width: screenWidth * 0.2,
             height: screenWidth * 0.2,
             decoration: BoxDecoration(
-              border: Border.all(color: Colors.white, width: 2),
               borderRadius: BorderRadius.circular(15),
             ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(15),
-              child: Image.network(
-                pet.imageUrl!,
-                fit: BoxFit.cover,
-              ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center, 
+              crossAxisAlignment: CrossAxisAlignment.center, 
+              children: [
+                const Icon(
+                  Icons.add,
+                  color: Color(0xFF4B8DAF),
+                  size: 50.0,
+                ),
+                const SizedBox(height: 2), 
+                Text(
+                  'New Pet',
+                  style: TextStyle(
+                    color: const Color(0xFF4B8DAF),
+                    fontSize: screenWidth * 0.04,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
             ),
-          )
-        else
-          const Icon(Icons.pets, color: Color(0xFF065591), size: 40),
-        const SizedBox(width: 10),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                pet.name,
-                style: TextStyle(
-                  color: const Color(0xFF065591),
-                  fontSize: screenWidth * 0.04,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              Text(
-                'Age: ${pet.age}',
-                style: TextStyle(
-                  color: const Color(0xFF065591),
-                  fontSize: screenWidth * 0.035,
-                ),
-              ),
-              Text(
-                'Owner: ${pet.ownerEmail}',
-                style: TextStyle(
-                  color: const Color(0xFF065591),
-                  fontSize: screenWidth * 0.035,
-                ),
-              ),
-            ],
           ),
-        ),
-      ],
-    ),
-  );
-}
+        ],
+      ),
+    );
+  }
+
+  Widget _buildPetContainer(Pet pet, double screenWidth, String userName) {
+    return ListTile(
+      title: Row(
+        children: [
+          if (pet.imageUrl != null)
+            Container(
+              width: screenWidth * 0.2,
+              height: screenWidth * 0.2,
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.white, width: 2),
+                borderRadius: BorderRadius.circular(15),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(15),
+                child: Image.network(
+                  pet.imageUrl!,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            )
+          else
+            const Icon(Icons.pets, color: Color(0xFF065591), size: 40),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  pet.name,
+                  style: TextStyle(
+                    color: const Color(0xFF065591),
+                    fontSize: screenWidth * 0.04,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  'Age: ${pet.age}',
+                  style: TextStyle(
+                    color: const Color(0xFF065591),
+                    fontSize: screenWidth * 0.035,
+                  ),
+                ),
+                Text(
+                  'Owner: $userName',
+                  style: TextStyle(
+                    color: const Color(0xFF065591),
+                    fontSize: screenWidth * 0.035,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
