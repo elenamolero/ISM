@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:petuco/data/repository/pets_repository_interface.dart';
-import 'package:petuco/data/service/pets_service.dart';
+import 'package:petuco/data/services/pet/pets_service.dart';
 
 import '../../../domain/entity/pet.entity.dart';
 

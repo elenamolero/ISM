@@ -3,19 +3,39 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:petuco/di/dependency_injection.dart';
 import 'package:petuco/domain/entity/pet.entity.dart';
 import 'package:petuco/domain/usecases/impl/get_pets_home_use_case.dart';
+import 'package:petuco/domain/usecases/impl/get_user_info_use_case.dart';
 import 'package:petuco/presentation/blocs/pets/get_pets_home.dart';
+import 'package:petuco/presentation/blocs/users/get_user_info_bloc.dart';
 import 'package:petuco/presentation/pages/background_page.dart';
 
-class HomeUserPage extends StatelessWidget {
+class HomeUserPage extends StatefulWidget {
   const HomeUserPage({Key? key}) : super(key: key);
+
+  @override
+  State<HomeUserPage> createState() => _HomeUserPageState();
+}
+
+class _HomeUserPageState extends State<HomeUserPage> {
+  int? _selectedIndex;
 
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
 
-    return BlocProvider(
-      create: (context) => PetBloc(getPetsUseCase: appInjector.get<GetPetsHomeUseCase>())..add(FetchPets(ownerEmail: 'ele@gmail.com')),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => PetBloc(
+            getPetsUseCase: appInjector.get<GetPetsHomeUseCase>(),
+          )..add(FetchPets(ownerEmail: 'ele@gmail.com')),
+        ),
+        BlocProvider(
+          create: (context) => GetUserInfoBloc(
+            getUserInfoUseCase: appInjector.get<GetUserInfoUseCase>(),
+          )..add(GetUserEvent('ele@gmail.com')),
+        ),
+      ],
       child: Scaffold(
         body: Stack(
           children: [
@@ -24,51 +44,72 @@ class HomeUserPage extends StatelessWidget {
               top: screenHeight * 0.14,
               left: screenWidth * 0.1,
               right: screenWidth * 0.1,
-              child: BlocBuilder<PetBloc, PetState>(
-                builder: (context, state) {
-                  if (state is PetLoading) {
-                    return const Center(child: CircularProgressIndicator());
-                  } else if (state is PetLoaded) {
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const SizedBox(height: 40),
-                        const Text(
-                          'Welcome Elena,', // Cambiar por el nombre del usuario
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 30.0,
+              bottom: 0,
+              child: BlocBuilder<GetUserInfoBloc, GetUserInfoState>(
+                builder: (context, userState) {
+                  return BlocBuilder<PetBloc, PetState>(
+                    builder: (context, petState) {
+                      if (petState is PetLoading || userState is GetUserLoading) {
+                        return const Center(child: CircularProgressIndicator());
+                      } else if (petState is PetLoaded && userState is GetUserSuccess) {
+                        final userName = userState.userInfo.name;
+                        return SingleChildScrollView(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              const SizedBox(height: 40),
+                              FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: Text(
+                                  'Welcome $userName,',
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 30.0,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+                              const FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: Text(
+                                  'Which pet do you want to manage today?',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Color.fromARGB(158, 255, 255, 255),
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20.0,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 20),
+                              _buildPetList(petState.pets, screenWidth),
+                            ],
                           ),
-                        ),
-                        const SizedBox(height: 10),
-                        const Text(
-                          'Which pet do you want to manage today?',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Color.fromARGB(158, 255, 255, 255),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20.0,
+                        );
+                      } else if (petState is PetError) {
+                        return Center(
+                          child: Text(
+                            petState.message,
+                            style: const TextStyle(color: Colors.red, fontSize: 16),
                           ),
+                        );
+                      } else if (userState is GetUserError) {
+                        return Center(
+                          child: Text(
+                            userState.message,
+                            style: const TextStyle(color: Colors.red, fontSize: 16),
+                          ),
+                        );
+                      }
+                      return const Center(
+                        child: Text(
+                          'Welcome! Fetching your pets...',
+                          style: TextStyle(color: Colors.white, fontSize: 18),
                         ),
-                        const SizedBox(height: 20),
-                        _buildPetList(state.pets),
-                      ],
-                    );
-                  } else if (state is PetError) {
-                    return Center(
-                      child: Text(
-                        state.message,
-                        style: const TextStyle(color: Colors.red, fontSize: 16),
-                      ),
-                    );
-                  }
-                  return const Center(
-                    child: Text(
-                      'Welcome! Fetching your pets...',
-                      style: TextStyle(color: Colors.white, fontSize: 18),
-                    ),
+                      );
+                    },
                   );
                 },
               ),
@@ -79,103 +120,171 @@ class HomeUserPage extends StatelessWidget {
     );
   }
 
-  Widget _buildPetList(List<Pet> pets) {
-    return ListView.builder(
-      shrinkWrap: true,
-      padding: const EdgeInsets.all(16.0),
-      itemCount: pets.length + 1, // Incrementa el itemCount para incluir el botón
-      itemBuilder: (context, index) {
+  Widget _buildPetList(List<Pet> pets, double screenWidth) {
+    return Column(
+      children: List.generate(pets.length + 1, (index) {
+        bool isSelected = _selectedIndex == index;
+        double scale = isSelected ? 0.9 : 1.0;
+
         if (index == 0) {
-          return Card(
-            margin: const EdgeInsets.symmetric(vertical: 8.0),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                color: Colors.white.withOpacity(0.53),
-              ),
-              padding: const EdgeInsets.all(16.0),
-              child: const Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.add,
-                    color: Color(0xFF4B8DAF),
-                    size: 50.0,
-                  ),
-                  Text(
-                    'New Pet',
-                    style: TextStyle(
-                      color: Color(0xFF4B8DAF),
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
+          return GestureDetector(
+            onTap: () {
+              setState(() {
+                _selectedIndex = index;
+              });
+            },
+            child: AnimatedScale(
+              duration: const Duration(milliseconds: 200),
+              scale: scale,
+              child: Container(
+                margin: const EdgeInsets.symmetric(vertical: 8.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  color: Colors.white.withOpacity(0.53),
+                  boxShadow: isSelected
+                      ? [
+                          const BoxShadow(
+                            color: Colors.black26,
+                            blurRadius: 10,
+                            spreadRadius: 1,
+                          ),
+                        ]
+                      : [],
+                ),
+                padding: const EdgeInsets.all(16.0),
+                child: _buildNewPetContainer(screenWidth),
               ),
             ),
           );
         } else {
           final pet = pets[index - 1];
-          return Card(
-            margin: const EdgeInsets.symmetric(vertical: 8.0),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                color: Colors.white.withOpacity(0.53),
-              ),
-              padding: const EdgeInsets.all(16.0),
-              child: ListTile(
-                leading: Builder(
-                  builder: (context) {
-                    if (pet.imageUrl != null) {
-                      debugPrint('Image URL: ${pet.imageUrl}');
-                      return Image.network(
-                        pet.imageUrl!,
-                        width: 50,
-                        height: 50,
-                        fit: BoxFit.cover,
-                      );
-                    } else {
-                      debugPrint('No Image URL available');
-                      return const Icon(Icons.pets, color: Color(0xFF065591), size: 40);
-                    }
-                  },
+          return GestureDetector(
+            onTap: () {
+              setState(() {
+                _selectedIndex = index;
+              });
+            },
+            child: AnimatedScale(
+              duration: const Duration(milliseconds: 200),
+              scale: scale,
+              child: Container(
+                margin: const EdgeInsets.symmetric(vertical: 8.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  color: Colors.white.withOpacity(0.53),
+                  boxShadow: isSelected
+                      ? [
+                          const BoxShadow(
+                            color: Colors.black26,
+                            blurRadius: 10,
+                            spreadRadius: 1,
+                          ),
+                        ]
+                      : [],
                 ),
-                title: Text(
-                  pet.name,
-                  style: const TextStyle(
-                    color: Color(0xFF065591),
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Name: ${pet.name}',
-                      style: const TextStyle(
-                        color: Color(0xFF065591),
-                      ),
-                    ),
-                    Text(
-                      'Owner: ${pet.ownerEmail}',
-                      style: const TextStyle(
-                        color: Color(0xFF065591),
-                      ),
-                    ),
-                  ],
-                ),
-                onTap: () {
-                  // Manejo de tap en la tarjeta
-                },
+                padding: const EdgeInsets.all(16.0),
+                child: _buildPetContainer(pet, screenWidth),
               ),
             ),
           );
         }
-      },
+      }),
     );
   }
+
+Widget _buildNewPetContainer(double screenWidth) {
+  return ListTile(
+    title: Row(
+      children: [
+        Container(
+          width: screenWidth * 0.2,
+          height: screenWidth * 0.2,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          child: const Center(
+            child: Icon(
+              Icons.add,
+              color: Color(0xFF4B8DAF),
+              size: 50.0,
+            ),
+          ),
+        ),
+        const SizedBox(width: 10),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'New Pet',
+                style: TextStyle(
+                  color: const Color(0xFF4B8DAF),
+                  fontSize: screenWidth * 0.04,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+Widget _buildPetContainer(Pet pet, double screenWidth) {
+  return ListTile(
+    title: Row(
+      children: [
+        if (pet.imageUrl != null)
+          Container(
+            width: screenWidth * 0.2,
+            height: screenWidth * 0.2,
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.white, width: 2),
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(15),
+              child: Image.network(
+                pet.imageUrl!,
+                fit: BoxFit.cover,
+              ),
+            ),
+          )
+        else
+          const Icon(Icons.pets, color: Color(0xFF065591), size: 40),
+        const SizedBox(width: 10),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                pet.name,
+                style: TextStyle(
+                  color: const Color(0xFF065591),
+                  fontSize: screenWidth * 0.04,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                'Age: ${pet.age}',
+                style: TextStyle(
+                  color: const Color(0xFF065591),
+                  fontSize: screenWidth * 0.035,
+                ),
+              ),
+              Text(
+                'Owner: ${pet.ownerEmail}',
+                style: TextStyle(
+                  color: const Color(0xFF065591),
+                  fontSize: screenWidth * 0.035,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    ),
+  );
+}
 }
