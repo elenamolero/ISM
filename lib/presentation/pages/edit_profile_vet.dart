@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:petuco/presentation/pages/background_page.dart';
+import 'package:petuco/presentation/widgets/background_widget.dart';
 
 class EditVetInfoPage extends StatefulWidget {
   const EditVetInfoPage({super.key});

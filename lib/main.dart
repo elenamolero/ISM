@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:petuco/presentation/pages/create_health_view.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:petuco/di/dependency_injection.dart';
 import 'package:petuco/presentation/pages/create_pet_info_page.dart';
@@ -34,12 +35,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'petUco',
       debugShowCheckedModeBanner: false,
-      //  builder: (context, child) => CreatePetInfoPage(),
-      theme: ThemeData(
+       theme: ThemeData(
         scaffoldBackgroundColor: Colors.blue, // Fondo común
         useMaterial3: true,
       ),
-      home: const LoginPage(),
+      home: const CreateHealthView(),
     );
   }
 }
@@ -139,7 +139,18 @@ class HomePage extends StatelessWidget {
                 child: const Text('Go to Login page'),
               ),
               ElevatedButton(
-                onPressed: () {
+                 onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const CreateHealthView(),
+                    ),
+                  );
+                },
+                  child: const Text('Go to Create Health View'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
