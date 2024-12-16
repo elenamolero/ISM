@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.blue, // Fondo común
         useMaterial3: true,
       ),
-      home: const LoginPage(),
+      home: const CreateHealthView(),
     );
   }
 }

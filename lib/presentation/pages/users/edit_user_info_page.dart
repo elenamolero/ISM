@@ -5,7 +5,7 @@ import 'package:petuco/domain/usecases/impl/get_user_info_use_case.dart';
 import 'package:petuco/domain/usecases/impl/save_user_info_use_case.dart';
 import 'package:petuco/presentation/blocs/users/get_user_info_bloc.dart';
 import 'package:petuco/presentation/blocs/users/save_user_info_bloc.dart';
-import 'package:petuco/presentation/pages/background_page.dart';
+import 'package:petuco/presentation/widgets/background_widget.dart';
 import '../../../domain/entities/user.dart' as user;
 
 class EditUserInfoPage extends StatefulWidget {

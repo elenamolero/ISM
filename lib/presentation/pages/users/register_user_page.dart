@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:petuco/di/dependency_injection.dart';
 import 'package:petuco/domain/usecases/impl/save_user_info_use_case.dart';
 import 'package:petuco/presentation/blocs/users/save_user_info_bloc.dart';
-import 'package:petuco/presentation/pages/background_page.dart';
+import 'package:petuco/presentation/widgets/background_widget.dart';
 
 final outlineInputBorder = OutlineInputBorder(
   borderRadius: BorderRadius.circular(15.0),

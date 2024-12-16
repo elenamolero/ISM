@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:petuco/presentation/pages/background_page.dart';
+import 'package:petuco/presentation/widgets/background_widget.dart';
 
 const String _petname = "Fentanyl Jr.";
 

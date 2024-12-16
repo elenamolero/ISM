@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:petuco/presentation/pages/background_page.dart';
+import 'package:petuco/presentation/widgets/background_widget.dart';
 import '../../../domain/usecases/save_pet_info.dart';
 import '../blocs/pets/create_pet_info_bloc.dart';
 import '../../domain/entity/pet.entity.dart';

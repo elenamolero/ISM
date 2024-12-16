@@ -4,7 +4,7 @@ import 'package:petuco/main.dart';
 import '../../../domain/usecases/login_user.dart';
 import '../../../presentation/blocs/users/login_user_bloc.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:petuco/presentation/pages/background_page.dart';
+import 'package:petuco/presentation/widgets/background_widget.dart';
 import 'dart:ui';
 
 class LoginUserPage extends StatefulWidget {

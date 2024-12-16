@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:petuco/presentation/pages/background_page.dart';
+import 'package:petuco/presentation/widgets/background_widget.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'dart:ui';
 import 'package:petuco/presentation/pages/update_pet_info_page.dart';
