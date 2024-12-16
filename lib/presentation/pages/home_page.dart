@@ -192,27 +192,28 @@ class _HomeUserPageState extends State<HomeUserPage> {
     );
   }
 
-  Widget _buildNewPetContainer(double screenWidth) {
-    return ListTile(
-      title: Row(
-        mainAxisAlignment: MainAxisAlignment.center, 
-        children: [
-          Container(
-            width: screenWidth * 0.2,
-            height: screenWidth * 0.2,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-            ),
+Widget _buildNewPetContainer(double screenWidth) {
+  return ListTile(
+    title: Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          width: screenWidth * 0.2,
+          height: screenWidth * 0.2,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          child: FittedBox( 
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center, 
-              crossAxisAlignment: CrossAxisAlignment.center, 
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const Icon(
                   Icons.add,
                   color: Color(0xFF4B8DAF),
                   size: 50.0,
                 ),
-                const SizedBox(height: 2), 
+                const SizedBox(height: 2),
                 Text(
                   'New Pet',
                   style: TextStyle(
@@ -224,10 +225,12 @@ class _HomeUserPageState extends State<HomeUserPage> {
               ],
             ),
           ),
-        ],
-      ),
-    );
-  }
+        ),
+      ],
+    ),
+  );
+}
+
 
   Widget _buildPetContainer(Pet pet, double screenWidth, String userName) {
     return ListTile(
