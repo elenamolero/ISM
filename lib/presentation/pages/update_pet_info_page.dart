@@ -250,7 +250,7 @@ class UpdatePetInfoPage extends StatelessWidget {
                                                     .add(
                                                       UpdatePetEvent(Pet(
                                                         name: 'Drako',
-                                                        ownerID: 1,
+                                                        ownerEmail: 'arvipe@hotmail.com',
                                                         age: 2,
                                                         type: 'Dog',
                                                         breed: 'Husky',
