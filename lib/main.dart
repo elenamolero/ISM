@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:petuco/di/dependency_injection.dart';
+import 'package:petuco/presentation/pages/create_pet_info_page.dart';
 import 'package:petuco/presentation/pages/edit_profile_vet.dart';
 import 'package:petuco/presentation/pages/home_page.dart';
 import 'package:petuco/presentation/pages/pet_info_page.dart';
@@ -11,7 +12,6 @@ import 'package:petuco/presentation/pages/users/edit_user_info_page.dart';
 import 'package:petuco/presentation/pages/update_pet_info_page.dart';
 import 'package:flutter/services.dart';
 import 'package:petuco/presentation/pages/login_page.dart';
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
@@ -78,7 +78,7 @@ class HomePage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const LoginPage(),
+                      builder: (context) => const CreatePetInfoPage(),
                     ),
                   );
                 },
