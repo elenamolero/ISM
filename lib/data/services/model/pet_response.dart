@@ -24,4 +24,28 @@ class PetsService {
       return [];
     }
   }
+
+  Future<PetResponse?> fetchPetDataById(int petId) async {
+    try {
+      // Realizar la consulta a la base de datos para obtener un único registro
+      final response = await Supabase.instance.client
+          .from('Pet')
+          .select()
+          .eq('id', petId)
+          .single(); // single() asegura que solo esperamos un único registro
+
+      debugPrint('Response from Supabase: $response'); 
+
+      if (response != null) {
+        // Convertir la respuesta al dominio PetResponse
+        return PetResponse.toDomain(response);
+      } else {
+        debugPrint('No pet found in response');
+        return null;
+      }
+    } catch (error) {
+      debugPrint('Error fetching pet: $error'); 
+      return null;
+    }
+  }
 }

@@ -6,6 +6,7 @@ import 'package:petuco/data/services/model/health_test_response.dart';
 import 'package:petuco/data/services/model/pet_response.dart';
 import 'package:petuco/data/services/pet/pets_service.dart';
 import 'package:petuco/domain/usecases/impl/get_health_tests_use_case.dart';
+import 'package:petuco/domain/usecases/impl/get_pet_info_use_case.dart';
 import 'package:petuco/domain/usecases/impl/get_pets_home_use_case.dart';
 import 'package:injector/injector.dart';
 import 'package:petuco/data/repository/impl/user_repository.dart';
@@ -27,6 +28,11 @@ void initInjection() {
   // Use case injection
   appInjector.registerSingleton<GetPetsHomeUseCase>(() => GetPetsHomeUseCase(
         petsRepository: appInjector.get<PetRepositoryImpl>(),
+              ));
+
+  // Use case injection
+  appInjector.registerSingleton<GetPetInfoUseCase>(() => GetPetInfoUseCase(
+        petRepository: appInjector.get<PetRepositoryImpl>(),
               ));
 
 
