@@ -10,7 +10,9 @@ import 'package:petuco/domain/usecases/impl/get_pet_info_use_case.dart';
 import 'package:petuco/presentation/blocs/pets/get_pet_info_bloc.dart';
 
 class PetInfoPage extends StatefulWidget {
-  const PetInfoPage({Key? key}) : super(key: key);
+  final int petId;
+
+  const PetInfoPage({Key? key, required this.petId}) : super(key: key);
 
   @override
   State<PetInfoPage> createState() => _PetInfoPageState();
@@ -27,7 +29,7 @@ class _PetInfoPageState extends State<PetInfoPage> {
         BlocProvider(
           create: (context) => PetBloc(
             getPetUseCase: appInjector.get<GetPetInfoUseCase>(),
-          )..add(FetchPet(petId: 2)),
+          )..add(FetchPet(petId: widget.petId)),
         ),
       ],
       child: Scaffold(
@@ -38,7 +40,7 @@ class _PetInfoPageState extends State<PetInfoPage> {
 
             // Header Text
             Positioned(
-              top: screenHeight * 0.15,
+              top: screenHeight * 0.13,
               left: screenWidth * 0.1,
               right: screenWidth * 0.1,
               child: BlocBuilder<PetBloc, PetState>(
@@ -52,7 +54,7 @@ class _PetInfoPageState extends State<PetInfoPage> {
                     child: AutoSizeText(
                       titleText,
                       style: const TextStyle(
-                        fontSize: 22,
+                        fontSize: 20,
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                         fontFamily: String.fromEnvironment('InriaSans'),
@@ -99,22 +101,27 @@ class _PetInfoPageState extends State<PetInfoPage> {
                                   children: [
                                     Text(
                                       'Name: ${pet.name}',
-                                      style: const TextStyle(fontSize: 16),
+                                      style: const TextStyle(fontSize: 14),
                                     ),
                                     const SizedBox(height: 10),
                                     Text(
                                       'Age: ${pet.age}',
-                                      style: const TextStyle(fontSize: 16),
+                                      style: const TextStyle(fontSize: 14),
                                     ),
                                     const SizedBox(height: 10),
                                     Text(
                                       'Type: ${pet.type}',
-                                      style: const TextStyle(fontSize: 16),
+                                      style: const TextStyle(fontSize: 14),
                                     ),
                                     const SizedBox(height: 10),
                                     Text(
                                       'Breed: ${pet.breed}',
-                                      style: const TextStyle(fontSize: 16),
+                                      style: const TextStyle(fontSize: 14),
+                                    ),
+                                    const SizedBox(height: 10),
+                                    Text(
+                                      'Owner email: ${pet.ownerEmail}',
+                                      style: const TextStyle(fontSize: 14),
                                     ),
                                   ],
                                 ),

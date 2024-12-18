@@ -249,6 +249,7 @@ class CreatePetInfoPage extends StatelessWidget {
                                                   .read<CreatePetInfoBloc>()
                                                   .add(
                                                     SavePetEvent(Pet(
+                                                      id: 0,
                                                       name: 'Drako',
                                                       ownerEmail: 'arvipe@hotmail.com',
                                                       age: 2,

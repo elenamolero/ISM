@@ -1,4 +1,5 @@
 class PetResponse {
+  final int id;
   final String name;
   final String ownerEmail;
   final int age;
@@ -7,6 +8,7 @@ class PetResponse {
   final String? imageUrl;
 
   PetResponse({
+    required this.id,
     required this.name,
     required this.ownerEmail,
     required this.age,
@@ -18,6 +20,7 @@ class PetResponse {
   // Convert a map to a PetResponse instance
   static PetResponse toDomain(Map<String, dynamic> map) {
     return PetResponse(
+      id: map['id'] ?? '',
       name: map['name'] ?? '',
       ownerEmail: map['ownerEmail'] ?? '',
       age: map['age'] ?? 0,
