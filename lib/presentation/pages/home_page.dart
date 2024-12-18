@@ -6,6 +6,7 @@ import 'package:petuco/domain/usecases/impl/get_pets_home_use_case.dart';
 import 'package:petuco/domain/usecases/impl/get_user_info_use_case.dart';
 import 'package:petuco/presentation/blocs/pets/get_pets_home.dart';
 import 'package:petuco/presentation/blocs/users/get_user_info_bloc.dart';
+import 'package:petuco/presentation/pages/pet_info_page.dart';
 import 'package:petuco/presentation/widgets/background_widget.dart';
 
 class HomeUserPage extends StatefulWidget {
@@ -286,6 +287,14 @@ Widget _buildNewPetContainer(double screenWidth) {
           ),
         ],
       ),
+      onTap: () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => PetInfoPage(petId: pet.id),
+        ),
+      );
+    },
     );
   }
 }

@@ -32,6 +32,7 @@ class PetRepositoryImpl implements PetsRepositoryInterface {
     // Convert the list of PetResponse to Pet domain entities
     List<Pet> pets = petResponses.map((petResponse) {
       return Pet(
+        id: petResponse.id,
         name: petResponse.name,
         ownerEmail: petResponse.ownerEmail,
         age: petResponse.age,
@@ -63,6 +64,7 @@ class PetRepositoryImpl implements PetsRepositoryInterface {
 
       // Convertir el PetResponse al dominio Pet
       final pet = Pet(
+        id: petResponse.id,
         name: petResponse.name,
         ownerEmail: petResponse.ownerEmail,
         age: petResponse.age,

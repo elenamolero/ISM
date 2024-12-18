@@ -1,5 +1,6 @@
 //This is the class Pet and all his attributes
 class Pet {
+  final int id;
   final String name;
   final String ownerEmail;
   final int age;
@@ -9,7 +10,8 @@ class Pet {
 
 //All required fields from class Pet
   Pet(
-      {required this.name,
+      {required this.id,
+      required this.name,
       required this.ownerEmail,
       required this.age,
       required this.type,

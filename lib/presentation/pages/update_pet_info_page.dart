@@ -249,6 +249,7 @@ class UpdatePetInfoPage extends StatelessWidget {
                                                     .read<UpdatePetInfoBloc>()
                                                     .add(
                                                       UpdatePetEvent(Pet(
+                                                        id: 0,
                                                         name: 'Drako',
                                                         ownerEmail: 'arvipe@hotmail.com',
                                                         age: 2,
