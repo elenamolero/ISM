@@ -146,11 +146,20 @@ class _PetInfoPageState extends State<PetInfoPage> {
                                   width: 200,
                                   child: ElevatedButton(
                                     onPressed: () {
+                                      final pet = petState.pet;
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) =>
-                                              const UpdatePetInfoPage(),
+                                              UpdatePetInfoPage(
+                                                id: pet.id,
+                                                name: pet.name,
+                                                age: pet.age,
+                                                type: pet.type,
+                                                breed: pet.breed,
+                                                ownerEmail: pet.ownerEmail,
+                                                imageUrl: pet.imageUrl,
+                                              ),
                                         ),
                                       );
                                     },
