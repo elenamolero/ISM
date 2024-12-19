@@ -100,17 +100,6 @@ class HomePage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const UpdatePetInfoPage(),
-                    ),
-                  );
-                },
-                child: const Text('Go to Update Pet Info'),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
                       builder: (context) => const EditUserInfoPage(),
                     ),
                   );
