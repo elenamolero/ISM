@@ -6,6 +6,7 @@ import 'package:petuco/domain/usecases/impl/get_pets_home_use_case.dart';
 import 'package:petuco/domain/usecases/impl/get_user_info_use_case.dart';
 import 'package:petuco/presentation/blocs/pets/get_pets_home.dart';
 import 'package:petuco/presentation/blocs/users/get_user_info_bloc.dart';
+import 'package:petuco/presentation/pages/create_pet_info_page.dart';
 import 'package:petuco/presentation/pages/pet_info_page.dart';
 import 'package:petuco/presentation/widgets/background_widget.dart';
 
@@ -50,9 +51,11 @@ class _HomeUserPageState extends State<HomeUserPage> {
                 builder: (context, userState) {
                   return BlocBuilder<PetBloc, PetState>(
                     builder: (context, petState) {
-                      if (petState is PetLoading || userState is GetUserLoading) {
+                      if (petState is PetLoading ||
+                          userState is GetUserLoading) {
                         return const Center(child: CircularProgressIndicator());
-                      } else if (petState is PetLoaded && userState is GetUserSuccess) {
+                      } else if (petState is PetLoaded &&
+                          userState is GetUserSuccess) {
                         final userName = userState.userInfo.name;
                         return SingleChildScrollView(
                           child: Column(
@@ -85,7 +88,8 @@ class _HomeUserPageState extends State<HomeUserPage> {
                                 ),
                               ),
                               const SizedBox(height: 20),
-                              _buildPetList(petState.pets, screenWidth, userName),
+                              _buildPetList(
+                                  petState.pets, screenWidth, userName),
                             ],
                           ),
                         );
@@ -93,14 +97,16 @@ class _HomeUserPageState extends State<HomeUserPage> {
                         return Center(
                           child: Text(
                             petState.message,
-                            style: const TextStyle(color: Colors.red, fontSize: 16),
+                            style: const TextStyle(
+                                color: Colors.red, fontSize: 16),
                           ),
                         );
                       } else if (userState is GetUserError) {
                         return Center(
                           child: Text(
                             userState.message,
-                            style: const TextStyle(color: Colors.red, fontSize: 16),
+                            style: const TextStyle(
+                                color: Colors.red, fontSize: 16),
                           ),
                         );
                       }
@@ -193,51 +199,58 @@ class _HomeUserPageState extends State<HomeUserPage> {
     );
   }
 
-Widget _buildNewPetContainer(double screenWidth) {
-  return ListTile(
-    title: Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Container(
-          width: screenWidth * 0.2,
-          height: screenWidth * 0.2,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(15),
-          ),
-          child: FittedBox( 
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const Icon(
-                  Icons.add,
-                  color: Color(0xFF4B8DAF),
-                  size: 50.0,
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  'New Pet',
-                  style: TextStyle(
-                    color: const Color(0xFF4B8DAF),
-                    fontSize: screenWidth * 0.04,
-                    fontWeight: FontWeight.bold,
+  Widget _buildNewPetContainer(double screenWidth) {
+    return ListTile(
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            width: screenWidth * 0.2,
+            height: screenWidth * 0.2,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: FittedBox(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Icon(
+                    Icons.add,
+                    color: Color(0xFF4B8DAF),
+                    size: 50.0,
                   ),
-                ),
-              ],
+                  const SizedBox(height: 2),
+                  Text(
+                    'New Pet',
+                    style: TextStyle(
+                      color: const Color(0xFF4B8DAF),
+                      fontSize: screenWidth * 0.04,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
-      ],
-    ),
-  );
-}
-
+        ],
+      ),
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const CreatePetInfoPage(),
+          ),
+        );
+      },
+    );
+  }
 
   Widget _buildPetContainer(Pet pet, double screenWidth, String userName) {
     return ListTile(
       title: Row(
         children: [
-          if (pet.imageUrl != null)
+          if (pet.photo != null)
             Container(
               width: screenWidth * 0.2,
               height: screenWidth * 0.2,
@@ -248,7 +261,7 @@ Widget _buildNewPetContainer(double screenWidth) {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(15),
                 child: Image.network(
-                  pet.imageUrl!,
+                  pet.photo!,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -288,13 +301,13 @@ Widget _buildNewPetContainer(double screenWidth) {
         ],
       ),
       onTap: () {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => PetInfoPage(petId: pet.id),
-        ),
-      );
-    },
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => PetInfoPage(petId: pet.id),
+          ),
+        );
+      },
     );
   }
 }

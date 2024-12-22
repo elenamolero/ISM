@@ -11,11 +11,12 @@ class GetPetInfoUseCase implements GetPetInfoUseCaseInterface {
   @override
   Future<Pet> getPetById(int petId) async {
     debugPrint('Fetching pet in use case for id: $petId');
-    
+
     final pet = await petRepository.getPetById(petId);
     debugPrint('Fetched pet:');
-    
-    debugPrint('Pet: ${pet.name}, ${pet.ownerEmail}, ${pet.age}, ${pet.type}, ${pet.breed}, ${pet.imageUrl}');
+
+    debugPrint(
+        'Pet: ${pet.name}, ${pet.ownerEmail}, ${pet.age}, ${pet.type}, ${pet.breed}, ${pet.photo}');
     return pet;
   }
 }

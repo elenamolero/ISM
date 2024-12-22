@@ -17,8 +17,7 @@ class UserResponse {
     required this.role,
   });
 
-
-static UserResponse toDomain(Map<String, dynamic>? map) {
+  static UserResponse toDomain(Map<String, dynamic>? map) {
     return UserResponse(
       id: map?['id'] ?? 0,
       name: map?['name'] ?? '',

@@ -1,3 +1,5 @@
+import 'package:supabase_flutter/supabase_flutter.dart';
+
 class PetResponse {
   final int id;
   final String name;
@@ -5,7 +7,7 @@ class PetResponse {
   final int age;
   final String type;
   final String breed;
-  final String? imageUrl;
+  final String? photo;
 
   PetResponse({
     required this.id,
@@ -14,8 +16,14 @@ class PetResponse {
     required this.age,
     required this.type,
     required this.breed,
-    this.imageUrl,
+    this.photo,
   });
+
+  Future<void> savePetData(PetResponse pet) async {
+    await Supabase.instance.client
+        .from('Pet') // Fixed table name to match fetchPetsData
+        .insert(pet); // Insert the PetResponse objects directly
+  }
 
   // Convert a map to a PetResponse instance
   static PetResponse toDomain(Map<String, dynamic> map) {
@@ -26,7 +34,20 @@ class PetResponse {
       age: map['age'] ?? 0,
       type: map['type'] ?? '',
       breed: map['breed'] ?? '',
-      imageUrl: map['photo'],
+      photo: map['photo'],
     );
+  }
+
+  // Convert PetResponse instance to a Map for insertion into Supabase
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'name': name,
+      'ownerEmail': ownerEmail,
+      'age': age,
+      'type': type,
+      'breed': breed,
+      'photo': photo,
+    };
   }
 }

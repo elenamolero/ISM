@@ -1,9 +1,16 @@
 import '../entity/pet.entity.dart';
+import '../../data/repository/pets_repository_interface.dart';
 
 class SavePetInfo {
+  final PetsRepositoryInterface repository;
+
+  SavePetInfo(this.repository);
+
   Future<void> call(Pet pet) async {
-    //All business rules has to be here (validations, rules...)
-    print(
-        'Pet info saved correctly: ${pet.name}, ${pet.ownerEmail}, ${pet.age}, ${pet.type}, ${pet.breed}');
+    // Add any business logic or validation here
+    if (pet.age < 0) {
+      throw Exception('Pet age cannot be negative');
+    }
+    await repository.savePetInfo(pet);
   }
 }

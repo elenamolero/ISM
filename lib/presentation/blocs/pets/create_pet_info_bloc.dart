@@ -2,7 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../domain/entity/pet.entity.dart';
 import '../../../domain/usecases/save_pet_info.dart';
 
-//Events
+// Events
 abstract class CreatePetInfoEvent {}
 
 class SavePetEvent extends CreatePetInfoEvent {
@@ -10,7 +10,7 @@ class SavePetEvent extends CreatePetInfoEvent {
   SavePetEvent(this.pet);
 }
 
-//States
+// States
 abstract class CreatePetInfoState {}
 
 class CreatePetInitial extends CreatePetInfoState {}
@@ -35,7 +35,7 @@ class CreatePetInfoBloc extends Bloc<CreatePetInfoEvent, CreatePetInfoState> {
         await savePetInfo(event.pet);
         emit(CreatePetSuccess());
       } catch (e) {
-        emit(CreatePetError("Failed to save pet info") as CreatePetInfoState);
+        emit(CreatePetError(e.toString()));
       }
     });
   }

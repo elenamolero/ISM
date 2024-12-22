@@ -13,7 +13,7 @@ class UpdatePetInfoPage extends StatelessWidget {
   final String type;
   final String breed;
   final String ownerEmail;
-  final String? imageUrl;
+  final String? photo;
 
   UpdatePetInfoPage({
     Key? key,
@@ -23,7 +23,7 @@ class UpdatePetInfoPage extends StatelessWidget {
     required this.type,
     required this.breed,
     required this.ownerEmail,
-    this.imageUrl,
+    this.photo,
   }) : super(key: key);
 
   // Controllers for the input fields
@@ -88,38 +88,61 @@ class UpdatePetInfoPage extends StatelessWidget {
                                 child: Padding(
                                   padding: const EdgeInsets.all(50.0),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       // Pet Name Input
-                                      const Text('Name', style: TextStyle(fontSize: 18, color: Colors.white)),
+                                      const Text('Name',
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              color: Colors.white)),
                                       TextField(
                                         controller: _nameController,
-                                        decoration: _inputDecoration('Enter pet name', Icons.pets),
+                                        decoration: _inputDecoration(
+                                            'Enter pet name', Icons.pets),
                                       ),
                                       const SizedBox(height: 8),
-                                      const Text('Owner', style: TextStyle(fontSize: 18, color: Colors.white)),
+                                      const Text('Owner',
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              color: Colors.white)),
                                       TextField(
                                         controller: _ownerEmailController,
-                                        decoration: _inputDecoration('Enter owner email', Icons.email),
+                                        decoration: _inputDecoration(
+                                            'Enter owner email', Icons.email),
                                       ),
                                       const SizedBox(height: 8),
-                                      const Text('Age', style: TextStyle(fontSize: 18, color: Colors.white)),
+                                      const Text('Age',
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              color: Colors.white)),
                                       TextField(
                                         controller: _ageController,
                                         keyboardType: TextInputType.number,
-                                        decoration: _inputDecoration('Enter pet age', Icons.calendar_today),
+                                        decoration: _inputDecoration(
+                                            'Enter pet age',
+                                            Icons.calendar_today),
                                       ),
                                       const SizedBox(height: 8),
-                                      const Text('Type', style: TextStyle(fontSize: 18, color: Colors.white)),
+                                      const Text('Type',
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              color: Colors.white)),
                                       TextField(
                                         controller: _typeController,
-                                        decoration: _inputDecoration('Enter pet type', Icons.pets),
+                                        decoration: _inputDecoration(
+                                            'Enter pet type', Icons.pets),
                                       ),
                                       const SizedBox(height: 8),
-                                      const Text('Breed', style: TextStyle(fontSize: 18, color: Colors.white)),
+                                      const Text('Breed',
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              color: Colors.white)),
                                       TextField(
                                         controller: _breedController,
-                                        decoration: _inputDecoration('Enter pet breed', Icons.star_border_outlined),
+                                        decoration: _inputDecoration(
+                                            'Enter pet breed',
+                                            Icons.star_border_outlined),
                                       ),
                                       const SizedBox(height: 8),
                                       // Save Changes Button
@@ -129,34 +152,52 @@ class UpdatePetInfoPage extends StatelessWidget {
                                           child: ElevatedButton(
                                             onPressed: () {
                                               // Collect updated data and send to the BLoC
-                                              context.read<UpdatePetInfoBloc>().add(
+                                              context
+                                                  .read<UpdatePetInfoBloc>()
+                                                  .add(
                                                     UpdatePetEvent(
                                                       Pet(
                                                         id: id,
-                                                        name: _nameController.text,
-                                                        ownerEmail: _ownerEmailController.text,
-                                                        age: int.tryParse(_ageController.text) ?? 0,
-                                                        type: _typeController.text,
-                                                        breed: _breedController.text,
-                                                        imageUrl: imageUrl,
+                                                        name: _nameController
+                                                            .text,
+                                                        ownerEmail:
+                                                            _ownerEmailController
+                                                                .text,
+                                                        age: int.tryParse(
+                                                                _ageController
+                                                                    .text) ??
+                                                            0,
+                                                        type: _typeController
+                                                            .text,
+                                                        breed: _breedController
+                                                            .text,
+                                                        photo: photo,
                                                       ),
                                                     ),
                                                   );
                                             },
                                             style: ElevatedButton.styleFrom(
-                                              backgroundColor: const Color.fromRGBO(97, 187, 255, 1),
+                                              backgroundColor:
+                                                  const Color.fromRGBO(
+                                                      97, 187, 255, 1),
                                               shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.circular(50),
+                                                borderRadius:
+                                                    BorderRadius.circular(50),
                                                 side: const BorderSide(
                                                   color: Colors.white,
                                                   width: 2.0,
                                                 ),
                                               ),
-                                              padding: const EdgeInsets.symmetric(vertical: 16),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 16),
                                             ),
                                             child: const Text(
                                               'Save Changes',
-                                              style: TextStyle(fontSize: 18, color: Colors.white, height: 2),
+                                              style: TextStyle(
+                                                  fontSize: 18,
+                                                  color: Colors.white,
+                                                  height: 2),
                                             ),
                                           ),
                                         ),
@@ -184,7 +225,8 @@ class UpdatePetInfoPage extends StatelessWidget {
   InputDecoration _inputDecoration(String hintText, IconData icon) {
     return InputDecoration(
       hintText: hintText,
-      hintStyle: TextStyle(fontSize: 18, color: Colors.grey[400], fontWeight: FontWeight.bold),
+      hintStyle: TextStyle(
+          fontSize: 18, color: Colors.grey[400], fontWeight: FontWeight.bold),
       border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
       filled: true,
       fillColor: Colors.white,

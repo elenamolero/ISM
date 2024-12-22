@@ -12,8 +12,16 @@ class PetRepositoryImpl implements PetsRepositoryInterface {
 
   @override
   Future<void> savePetInfo(Pet pet) async {
-    // Logic for saving pet information (API, database, etc.)
-    print('Pet saved in repository: ${pet.name}');
+    final petResponse = PetResponse(
+      id: pet.id,
+      name: pet.name,
+      ownerEmail: pet.ownerEmail,
+      age: pet.age,
+      type: pet.type,
+      breed: pet.breed,
+      photo: pet.photo,
+    );
+    await petsService.savePetData(petResponse);
   }
 
   Future<void> updatePetInfo(Pet pet) async {
@@ -24,11 +32,11 @@ class PetRepositoryImpl implements PetsRepositoryInterface {
   @override
   Future<List<Pet>> getPets(String ownerEmail) async {
     debugPrint('Fetching pets in repository for owner: $ownerEmail');
-    
+
     // Fetch the pet data from the service
     final petResponses = await petsService.fetchPetsData(ownerEmail);
     debugPrint('Fetched pets:');
-    
+
     // Convert the list of PetResponse to Pet domain entities
     List<Pet> pets = petResponses.map((petResponse) {
       return Pet(
@@ -38,23 +46,23 @@ class PetRepositoryImpl implements PetsRepositoryInterface {
         age: petResponse.age,
         type: petResponse.type,
         breed: petResponse.breed,
-        imageUrl: petResponse.imageUrl,
+        photo: petResponse.photo,
       );
     }).toList();
-    
+
     // Debug print the converted pets list
     for (var pet in pets) {
-      debugPrint('Pet: ${pet.name}, ${pet.ownerEmail}, ${pet.age}, ${pet.type}, ${pet.breed}, ${pet.imageUrl}');
+      debugPrint(
+          'Pet: ${pet.name}, ${pet.ownerEmail}, ${pet.age}, ${pet.type}, ${pet.breed}, ${pet.photo}');
     }
-    
+
     return pets;
   }
-
 
   @override
   Future<Pet> getPetById(int petId) async {
     debugPrint('Fetching pet in repository for id: $petId');
-    
+
     // Fetch the pet data from the service
     final petResponse = await petsService.fetchPetDataById(petId);
 
@@ -70,15 +78,14 @@ class PetRepositoryImpl implements PetsRepositoryInterface {
         age: petResponse.age,
         type: petResponse.type,
         breed: petResponse.breed,
-        imageUrl: petResponse.imageUrl,
+        photo: petResponse.photo,
       );
 
-      debugPrint('Pet: ${pet.name}, ${pet.ownerEmail}, ${pet.age}, ${pet.type}, ${pet.breed}, ${pet.imageUrl}');
+      debugPrint(
+          'Pet: ${pet.name}, ${pet.ownerEmail}, ${pet.age}, ${pet.type}, ${pet.breed}, ${pet.photo}');
       return pet;
     } else {
       throw Exception('Pet not found for id $petId');
     }
   }
-
 }
-

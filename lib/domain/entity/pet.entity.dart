@@ -6,7 +6,7 @@ class Pet {
   final int age;
   final String type;
   final String breed;
-  final String? imageUrl;
+  final String? photo;
 
 //All required fields from class Pet
   Pet(
@@ -16,5 +16,5 @@ class Pet {
       required this.age,
       required this.type,
       required this.breed,
-       this.imageUrl});
+      this.photo});
 }

@@ -128,9 +128,9 @@ class _PetInfoPageState extends State<PetInfoPage> {
                                 const SizedBox(height: 20),
                                 // Image (centered)
                                 Center(
-                                  child: pet.imageUrl != null
+                                  child: pet.photo != null
                                       ? Image.network(
-                                          pet.imageUrl!,
+                                          pet.photo!,
                                           height: 100,
                                           fit: BoxFit.cover,
                                         )
@@ -152,20 +152,20 @@ class _PetInfoPageState extends State<PetInfoPage> {
                                         MaterialPageRoute(
                                           builder: (context) =>
                                               UpdatePetInfoPage(
-                                                id: pet.id,
-                                                name: pet.name,
-                                                age: pet.age,
-                                                type: pet.type,
-                                                breed: pet.breed,
-                                                ownerEmail: pet.ownerEmail,
-                                                imageUrl: pet.imageUrl,
-                                              ),
+                                            id: pet.id,
+                                            name: pet.name,
+                                            age: pet.age,
+                                            type: pet.type,
+                                            breed: pet.breed,
+                                            ownerEmail: pet.ownerEmail,
+                                            photo: pet.photo,
+                                          ),
                                         ),
                                       );
                                     },
                                     style: ElevatedButton.styleFrom(
-                                      backgroundColor: const Color.fromRGBO(
-                                          97, 187, 255, 1),
+                                      backgroundColor:
+                                          const Color.fromRGBO(97, 187, 255, 1),
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(50),
                                         side: const BorderSide(
@@ -229,14 +229,12 @@ class _PetInfoPageState extends State<PetInfoPage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) =>
-                              const PetMedicalHistorialPage(),
+                          builder: (context) => const PetMedicalHistorialPage(),
                         ),
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor:
-                          const Color.fromARGB(166, 23, 219, 99),
+                      backgroundColor: const Color.fromARGB(166, 23, 219, 99),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(50),
                         side: const BorderSide(
