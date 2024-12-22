@@ -27,6 +27,14 @@ class PetResponse {
         .insert(pet); // Insert the PetResponse objects directly
   }
 
+  Future<void> updatePetData(PetResponse pet) async {
+    await Supabase.instance.client
+        .from('Pet')
+        .update(pet.toMap())
+        .eq('id', pet.id)
+        .select();
+  }
+
   // Convert a map to a PetResponse instance
   static PetResponse toDomain(Map<String, dynamic> map) {
     return PetResponse(

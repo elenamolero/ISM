@@ -54,6 +54,14 @@ class PetsService {
     }
   }
 
+  Future<void> updatePetData(PetResponse pet) async {
+    await Supabase.instance.client
+        .from('Pet')
+        .update(pet.toMap())
+        .eq('id', pet.id)
+        .select();
+  }
+
   Future<PetResponse?> fetchPetDataById(int petId) async {
     try {
       // Realizar la consulta a la base de datos para obtener un único registro

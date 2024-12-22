@@ -36,9 +36,30 @@ class PetRepositoryImpl implements PetsRepositoryInterface {
     }
   }
 
-  Future<void> updatePetInfo(Pet pet) async {
-    // Logic for updating pet information (API, database, etc.)
-    print('Pet updated in repository: ${pet.name}');
+  @override
+  Future<void> updatePetInfo(Pet pet, File? imageFile) async {
+    try {
+      String? imageUrl = pet.photo;
+      if (imageFile != null) {
+        imageUrl = await petsService.uploadImage(imageFile);
+      }
+
+      final petResponse = PetResponse(
+        id: pet.id,
+        name: pet.name,
+        ownerEmail: pet.ownerEmail,
+        age: pet.age,
+        type: pet.type,
+        breed: pet.breed,
+        photo: imageUrl,
+      );
+
+      print('Updating pet data: ${petResponse.toMap()}');
+      await petsService.updatePetData(petResponse);
+    } catch (e) {
+      print('Error in repository while updating pet info: $e');
+      throw Exception('Failed to update pet info: $e');
+    }
   }
 
   @override

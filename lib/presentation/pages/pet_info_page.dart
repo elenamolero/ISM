@@ -153,14 +153,7 @@ class _PetInfoPageState extends State<PetInfoPage> {
                                         MaterialPageRoute(
                                           builder: (context) =>
                                               UpdatePetInfoPage(
-                                            id: pet.id,
-                                            name: pet.name,
-                                            age: pet.age,
-                                            type: pet.type,
-                                            breed: pet.breed,
-                                            ownerEmail: pet.ownerEmail,
-                                            photo: pet.photo,
-                                          ),
+                                                  petId: widget.petId),
                                         ),
                                       );
                                     },
