@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:petuco/di/dependency_injection.dart';
 import 'package:petuco/main.dart';
-import '../../../domain/usecases/login_user.dart';
+import '../../domain/usecases/login_user_use_case_interface.dart';
 import '../../../presentation/blocs/users/login_user_bloc.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:petuco/presentation/widgets/background_widget.dart';
@@ -23,7 +24,7 @@ class LoginUserPageState extends State<LoginUserPage> {
     double screenWidth = MediaQuery.of(context).size.width;
 
     return BlocProvider(
-      create: (_) => LoginUserBloc(LoginUser()),
+      create: (context) => LoginUserBloc(loginUserUseCase: appInjector.get<LoginUserUseCaseInterface>()),
       child: Scaffold(
         body: Stack(
           children: [
