@@ -6,6 +6,7 @@ import 'package:petuco/di/dependency_injection.dart';
 import 'package:petuco/domain/entities/healthTest.dart';
 import 'package:petuco/domain/usecases/impl/get_health_tests_use_case.dart';
 import 'package:petuco/presentation/blocs/healthTests/get_health_tests_bloc.dart';
+import 'package:petuco/presentation/widgets/footer_widget.dart';
 
 const String _petname = "Fentanyl Jr.";
 
@@ -66,6 +67,7 @@ class _PetMedicalHistorialPageState extends State<PetMedicalHistorialPage> {
                             children: [
                               const SizedBox(height: 40),
                               _buildHealthTestsList(healthTestState.healthTests, screenWidth),
+                              
                             ],
                           ),
                         );
@@ -84,11 +86,20 @@ class _PetMedicalHistorialPageState extends State<PetMedicalHistorialPage> {
                     },
                   ),
                 ),
+                 const Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: FooterWidget(),
+            ),
               ],
+              
             ),
           ],
         ),
+        
       ),
+      
     );
   }
 

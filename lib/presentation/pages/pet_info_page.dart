@@ -8,6 +8,7 @@ import 'package:petuco/di/dependency_injection.dart';
 import 'package:petuco/presentation/pages/update_pet_info_page.dart';
 import 'package:petuco/domain/usecases/impl/get_pet_info_use_case.dart';
 import 'package:petuco/presentation/blocs/pets/get_pet_info_bloc.dart';
+import 'package:petuco/presentation/widgets/footer_widget.dart';
 
 class PetInfoPage extends StatefulWidget {
   final int petId;
@@ -218,7 +219,7 @@ class _PetInfoPageState extends State<PetInfoPage> {
 
             // History Button
             Positioned(
-              bottom: 80,
+              bottom: 100,
               left: screenWidth * 0.1,
               right: screenWidth * 0.1,
               child: Center(
@@ -257,38 +258,11 @@ class _PetInfoPageState extends State<PetInfoPage> {
               ),
             ),
 
-            // Footer Line
-            Positioned(
-              bottom: 40,
+            const Positioned(
+              bottom: 0,
               left: 0,
               right: 0,
-              child: Container(
-                height: 2,
-                color: Colors.white,
-              ),
-            ),
-
-            // Person Icon
-            Positioned(
-              bottom: 10,
-              left: 0,
-              right: 0,
-              child: Container(
-                width: 60,
-                height: 60,
-                decoration: BoxDecoration(
-                  color: const Color(0xFF69CECE),
-                  shape: BoxShape.circle,
-                  border: Border.all(color: Colors.white, width: 3),
-                ),
-                child: const Center(
-                  child: Icon(
-                    Icons.person,
-                    color: Colors.white,
-                    size: 30,
-                  ),
-                ),
-              ),
+              child: FooterWidget(),
             ),
           ],
         ),
