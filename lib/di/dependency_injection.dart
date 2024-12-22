@@ -12,6 +12,7 @@ import 'package:injector/injector.dart';
 import 'package:petuco/data/repository/impl/user_repository.dart';
 import 'package:petuco/data/services/user/user_service.dart';
 import 'package:petuco/domain/usecases/impl/get_user_info_use_case.dart';
+import 'package:petuco/domain/usecases/impl/login_user_use_case.dart';
 import 'package:petuco/domain/usecases/impl/save_user_info_use_case.dart';
 
 final appInjector = Injector.appInstance;
@@ -49,6 +50,9 @@ void initInjection() {
         healthTestsRepository: appInjector.get<HealthTestRepositoryImpl>(),
               ));
 
+  appInjector.registerSingleton<LoginUserUseCase>(() => LoginUserUseCase(
+        userRepository: appInjector.get<UserRepository>(),
+      ));
 
   // Data sources injection
   appInjector.registerSingleton<UserService>(() => UserService());
