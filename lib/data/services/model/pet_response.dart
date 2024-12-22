@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:petuco/data/services/pet/pets_service.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:path/path.dart' as path;
 
 class PetsService {
   Future<List<PetResponse>> fetchPetsData(String ownerEmail) async {
@@ -25,13 +28,27 @@ class PetsService {
     }
   }
 
+  Future<String> uploadImage(File photo) async {
+    final fileName =
+        '${DateTime.now().toIso8601String()}_${path.basename(photo.path)}';
+    await Supabase.instance.client.storage
+        .from('petUCOFotos')
+        .upload(fileName, photo);
+
+    final photoUrl = Supabase.instance.client.storage
+        .from('petUCOFotos')
+        .getPublicUrl(fileName);
+
+    return photoUrl;
+  }
+
   Future<void> savePetData(PetResponse pet) async {
     try {
       // Convert the PetResponse object to a Map before inserting
-      final response = await Supabase.instance.client
+      await Supabase.instance.client
           .from('Pet')
           .insert(pet.toMap()); // Call toMap() to serialize the object
-      debugPrint('Save response from Supabase: $response');
+      debugPrint('Save response from Supabase');
     } catch (error) {
       debugPrint('Error saving pet data: $error');
     }
