@@ -11,6 +11,7 @@ import 'package:petuco/presentation/pages/pet_info_page.dart';
 import 'package:petuco/presentation/widgets/background_widget.dart';
 
 class HomeUserPage extends StatefulWidget {
+  static const String route = '/home';
   const HomeUserPage({Key? key}) : super(key: key);
 
   @override

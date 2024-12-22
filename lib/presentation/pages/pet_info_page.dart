@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:petuco/presentation/pages/pet_medical_historial_page.dart';
 import 'package:petuco/presentation/widgets/background_widget.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -10,6 +11,7 @@ import 'package:petuco/domain/usecases/impl/get_pet_info_use_case.dart';
 import 'package:petuco/presentation/blocs/pets/get_pet_info_bloc.dart';
 
 class PetInfoPage extends StatefulWidget {
+  static const String route = 'pet';
   final int petId;
 
   const PetInfoPage({Key? key, required this.petId}) : super(key: key);
@@ -225,14 +227,17 @@ class _PetInfoPageState extends State<PetInfoPage> {
                 child: SizedBox(
                   width: 200,
                   child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const PetMedicalHistorialPage(),
-                        ),
-                      );
-                    },
+                     onPressed: () {
+                       Navigator.push(
+                          context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                PetMedicalHistorialPage(
+                                  petId: widget.petId,
+                                ),
+                            ),
+                        );
+                      },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color.fromARGB(166, 23, 219, 99),
                       shape: RoundedRectangleBorder(

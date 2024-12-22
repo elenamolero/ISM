@@ -10,7 +10,13 @@ import 'package:petuco/presentation/blocs/healthTests/get_health_tests_bloc.dart
 const String _petname = "Fentanyl Jr.";
 
 class PetMedicalHistorialPage extends StatefulWidget {
-  const PetMedicalHistorialPage({Key? key}) : super(key: key);
+ 
+  static const String route = 'petHistory';
+ 
+  final int petId;
+
+  const PetMedicalHistorialPage({Key? key, required this.petId}) : super(key: key);
+
 
   @override
   State<PetMedicalHistorialPage> createState() => _PetMedicalHistorialPageState();
@@ -27,7 +33,7 @@ class _PetMedicalHistorialPageState extends State<PetMedicalHistorialPage> {
     return BlocProvider(
       create: (context) => HealthTestBloc(
         getHealthTestsUseCase: appInjector.get<GetHealthTestsUseCase>(),
-      )..add(FetchHealthTests(petId: 3)),
+      )..add(FetchHealthTests(petId: widget.petId)),
       child: Scaffold(
         body: Stack(
           children: [
