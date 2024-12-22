@@ -25,6 +25,10 @@ class UserService {
     .select();
   }
 
+  Future<void> registerUserInfo(user.User user) async {
+    await Supabase.instance.client.from('User').insert({ 'name': user.name, 'email': user.email, 'address': user.address, 'phoneNumber': user.phoneNumber, 'password': user.password, 'role': user.role, 'company': user.company, 'cif': user.cif});
+  }
+
   Future<bool> loginUser(user.User user) async {
     final response = await Supabase.instance.client
         .from('User') 
@@ -37,4 +41,6 @@ class UserService {
     }
     return true;
   }
+
+  
 }

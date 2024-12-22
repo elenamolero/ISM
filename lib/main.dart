@@ -160,6 +160,17 @@ class HomePage extends StatelessWidget {
                 },
                 child: const Text('Go to Medical Historial Pet'),
               ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const EditUserInfoPage(),
+                    ),
+                  );
+                },
+                child: const Text('Go to Edit User Info'),
+              ),
             ],
           ),
         ),

@@ -35,8 +35,21 @@ class UserRepository implements UserRepositoryInterface {
   @override
   Future<void> saveUserInfo(user.User user) async {
     await userService.saveUserInfo(user);
-    print('User saved in repository: ${user.name}, ${user.email}, ${user.address}, ${user.phoneNumber}, ${user.password}, ${user.role}');
+    print('User saved in repository: ${user.name}, ${user.email}, ${user.address}, ${user.phoneNumber}, ${user.password}, ${user.role}, ${user.company}, ${user.cif}');
   }
+
+@override
+Future<void> registerUserInfo(user.User user) async {
+  try {
+    print('UserRepository: Starting registration for user: ${user.name}, ${user.email}, ${user.address}, ${user.phoneNumber}, ${user.password}, ${user.role}, ${user.company}, ${user.cif}');
+    await userService.registerUserInfo(user);
+    print('UserRepository: Registration successful for user: ${user.name}');
+    print('User saved in repository: ${user.name}, ${user.email}, ${user.address}, ${user.phoneNumber}, ${user.password}, ${user.role}, ${user.company}, ${user.cif}');
+  } catch (e) {
+    print('UserRepository: Registration failed for user: ${user.name}, Error: $e');
+    rethrow; // Re-throw the exception after logging it
+  }
+}
   
   @override
   Future<bool> loginUser(user.User user) {
