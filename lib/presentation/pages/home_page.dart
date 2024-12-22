@@ -9,9 +9,10 @@ import 'package:petuco/presentation/blocs/users/get_user_info_bloc.dart';
 import 'package:petuco/presentation/pages/create_pet_info_page.dart';
 import 'package:petuco/presentation/pages/pet_info_page.dart';
 import 'package:petuco/presentation/widgets/background_widget.dart';
+import 'package:petuco/presentation/widgets/footer_widget.dart';
 
 class HomeUserPage extends StatefulWidget {
-  const HomeUserPage({Key? key}) : super(key: key);
+  const HomeUserPage({super.key});
 
   @override
   State<HomeUserPage> createState() => _HomeUserPageState();
@@ -46,7 +47,7 @@ class _HomeUserPageState extends State<HomeUserPage> {
               top: screenHeight * 0.14,
               left: screenWidth * 0.1,
               right: screenWidth * 0.1,
-              bottom: 0,
+              bottom: screenHeight * 0.1,
               child: BlocBuilder<GetUserInfoBloc, GetUserInfoState>(
                 builder: (context, userState) {
                   return BlocBuilder<PetBloc, PetState>(
@@ -90,6 +91,7 @@ class _HomeUserPageState extends State<HomeUserPage> {
                               const SizedBox(height: 20),
                               _buildPetList(
                                   petState.pets, screenWidth, userName),
+                              const SizedBox(height: 40), // Espacio adicional
                             ],
                           ),
                         );
@@ -120,6 +122,12 @@ class _HomeUserPageState extends State<HomeUserPage> {
                   );
                 },
               ),
+            ),
+            const Positioned(
+              bottom: -2,
+              left: 0,
+              right: 0,
+              child: FooterWidget(),
             ),
           ],
         ),

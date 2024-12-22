@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:petuco/data/repository/impl/pet_repository_impl.dart';
 import 'package:petuco/data/services/model/pet_response.dart';
 import 'package:petuco/presentation/widgets/background_widget.dart';
+import 'package:petuco/presentation/widgets/footer_widget.dart';
 import '../../../domain/usecases/save_pet_info.dart';
 import '../blocs/pets/create_pet_info_bloc.dart';
 import '../../domain/entity/pet.entity.dart';
@@ -213,12 +214,16 @@ class _CreatePetInfoPageState extends State<CreatePetInfoPage> {
                                           ),
                                         ),
                                       ),
+                                      
                                     ],
                                   ),
                                 ),
                               ),
                             ),
                           ),
+                          const SizedBox(height: 60), // Espacio adicional
+
+                          
                         ],
                       ),
                     ),
@@ -226,9 +231,18 @@ class _CreatePetInfoPageState extends State<CreatePetInfoPage> {
                 );
               },
             ),
+            const Positioned(
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        child: FooterWidget(),
+                      ),
           ],
+          
         ),
+        
       ),
+      
     );
   }
 
