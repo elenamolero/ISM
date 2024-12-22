@@ -24,4 +24,17 @@ class UserService {
     .eq('email', user.email)
     .select();
   }
+
+  Future<bool> loginUser(user.User user) async {
+    final response = await Supabase.instance.client
+        .from('User') 
+        .select('email, password')
+        .eq('email', user.email)
+        .eq('password', user.password)
+        .maybeSingle();
+    if (response == null) {
+      return false; 
+    }
+    return true;
+  }
 }

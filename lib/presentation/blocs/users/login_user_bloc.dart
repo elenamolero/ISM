@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../domain/usecases/login_user.dart';
+import '../../../domain/usecases/login_user_use_case_interface.dart';
 import '../../../domain/entities/user.dart';
 
 abstract class LoginUserEvent {}
@@ -23,11 +23,11 @@ class LoginUserError extends LoginUserState {
 }
 
 class LoginUserBloc extends Bloc<LoginUserEvent, LoginUserState> {
-  final LoginUser loginUserUseCase;
+  LoginUserUseCaseInterface loginUserUseCase;
   String email = '';
   String password = '';
 
-  LoginUserBloc(this.loginUserUseCase) : super(LoginUserInitial()) {
+  LoginUserBloc({required this.loginUserUseCase}) : super(LoginUserInitial()) {
     on<UpdateEmailEvent>((event, emit) {
       email = event.email;
     });
