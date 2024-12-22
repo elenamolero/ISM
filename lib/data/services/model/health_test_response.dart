@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:petuco/data/services/healthTest/health_test_service.dart';
 import 'package:petuco/data/services/pet/pets_service.dart';
-import 'package:petuco/domain/entity/pet.entity.dart';
+import 'package:petuco/domain/entities/pet.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:petuco/data/services/model/pet_response.dart'; 
 

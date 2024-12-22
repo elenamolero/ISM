@@ -1,4 +1,4 @@
-import '../entity/pet.entity.dart';
+import '../entities/pet.dart';
 import '../../data/repository/pets_repository_interface.dart';
 
 class SavePetInfo {

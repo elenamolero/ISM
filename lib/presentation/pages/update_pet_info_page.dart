@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:petuco/presentation/widgets/background_widget.dart';
 import '../../../domain/usecases/update_pet_info.dart';
 import '../blocs/pets/update_pet_info_bloc.dart';
-import '../../domain/entity/pet.entity.dart';
+import '../../domain/entities/pet.dart';
 import 'dart:ui';
 
 class UpdatePetInfoPage extends StatelessWidget {

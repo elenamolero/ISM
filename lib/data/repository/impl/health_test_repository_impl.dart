@@ -6,7 +6,7 @@ import 'package:petuco/data/services/model/pet_response.dart';
 import 'package:petuco/data/services/pet/pets_service.dart';
 import 'package:petuco/domain/entities/healthTest.dart';
 
-import '../../../domain/entity/pet.entity.dart';
+import '../../../domain/entities/pet.dart';
 
 class HealthTestRepositoryImpl implements HealthTestRepositoryInterface {
   final HealthTestsService healthTestsService;

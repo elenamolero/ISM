@@ -1,4 +1,4 @@
-import '../entity/pet.entity.dart';
+import '../entities/pet.dart';
 
 class UpdatePetInfo {
   Future<void> call(Pet pet) async {

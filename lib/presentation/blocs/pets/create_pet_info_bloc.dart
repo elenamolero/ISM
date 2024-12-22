@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../domain/entity/pet.entity.dart';
+import '../../../domain/entities/pet.dart';
 import '../../../domain/usecases/save_pet_info.dart';
 
 // Events

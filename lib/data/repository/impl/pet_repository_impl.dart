@@ -3,7 +3,7 @@ import 'package:petuco/data/repository/pets_repository_interface.dart';
 import 'package:petuco/data/services/model/pet_response.dart';
 import 'package:petuco/data/services/pet/pets_service.dart';
 
-import '../../../domain/entity/pet.entity.dart';
+import '../../../domain/entities/pet.dart';
 
 class PetRepositoryImpl implements PetsRepositoryInterface {
   final PetsService petsService;
