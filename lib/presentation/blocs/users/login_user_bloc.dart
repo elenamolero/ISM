@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../domain/usecases/login_user_use_case_interface.dart';
+import 'package:petuco/domain/usecases/impl/login_user_use_case.dart';
 import '../../../domain/entities/user.dart';
 
 abstract class LoginUserEvent {}
@@ -23,7 +23,7 @@ class LoginUserError extends LoginUserState {
 }
 
 class LoginUserBloc extends Bloc<LoginUserEvent, LoginUserState> {
-  LoginUserUseCaseInterface loginUserUseCase;
+  LoginUserUseCase loginUserUseCase;
   String email = '';
   String password = '';
 
@@ -45,12 +45,8 @@ class LoginUserBloc extends Bloc<LoginUserEvent, LoginUserState> {
           password: password,
           role: '',
         );
-        final success = await loginUserUseCase.call(user);
-        if (success) {
-          emit(LoginUserSuccess());
-        } else {
-          emit(LoginUserError('Incorrect user or password.'));
-        }
+        await loginUserUseCase.call(user);
+        emit(LoginUserSuccess());
       } catch (e) {
         emit(LoginUserError('An error occurred during login.'));
       }

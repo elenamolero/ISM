@@ -35,7 +35,7 @@ class GetUserInfoBloc extends Bloc<GetUserEvent, GetUserInfoState> {
     on<GetUserEvent>((event, emit) async {
       emit(GetUserLoading());
       try {
-          Future<User> user = getUserInfoUseCase.getUserInfo(event.email);
+        Future<User> user = getUserInfoUseCase.getUserInfo(event.email);
         emit(GetUserSuccess(await user));
       } catch (e) {
         emit(GetUserError("Failed to get user info") as GetUserInfoState);

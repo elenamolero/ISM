@@ -52,7 +52,7 @@ Future<void> registerUserInfo(user.User user) async {
 }
   
   @override
-  Future<bool> loginUser(user.User user) {
-    return userService.loginUser(user);
+  Future<void> loginUser(user.User loginUser) async{
+    await userService.loginUser(loginUser);
   }
 }

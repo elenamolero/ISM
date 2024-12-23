@@ -9,8 +9,8 @@ class LoginUserUseCase implements LoginUserUseCaseInterface {
   LoginUserUseCase({required this.userRepository});
   
   @override
-  Future<bool> call(user.User user) async {
-    return await userRepository.loginUser(user);
+  Future<void> call(user.User user) async {
+    await userRepository.loginUser(user);
   }
 
 }
