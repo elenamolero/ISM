@@ -37,4 +37,8 @@ class UserRepository implements UserRepositoryInterface {
     await userService.saveUserInfo(user);
     print('User saved in repository: ${user.name}, ${user.email}, ${user.address}, ${user.phoneNumber}, ${user.password}, ${user.role}');
   }
+  
+  @override
+  Future<void> loginUser(user.User loginUser) async{
+  }
 }

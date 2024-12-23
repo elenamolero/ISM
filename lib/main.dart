@@ -9,6 +9,7 @@ import 'package:petuco/presentation/pages/pet_info_page.dart';
 import 'package:petuco/presentation/pages/pet_medical_historial_page.dart';
 import 'package:petuco/presentation/pages/users/register_user_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:supabase_auth_ui/supabase_auth_ui.dart';
 import 'package:petuco/presentation/pages/users/edit_user_info_page.dart';
 import 'package:petuco/presentation/pages/update_pet_info_page.dart';
 import 'package:flutter/services.dart';
