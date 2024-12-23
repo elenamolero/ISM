@@ -11,7 +11,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:petuco/presentation/widgets/custom_text_field_widget.dart';
 
 import 'package:petuco/presentation/widgets/custom_text_widget.dart';
-
 final outlineInputBorder = OutlineInputBorder(
   borderRadius: BorderRadius.circular(15.0),
   borderSide: BorderSide.none,
@@ -26,12 +25,13 @@ class RegisterUserPage extends StatefulWidget {
 
 class _RegisterUserPageState extends State<RegisterUserPage> {
   bool _showVet = false;
-  String? _selectedValue;
+  String? _selectedValue = 'owner'; // Valor predeterminado
 
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
   final _phoneController = TextEditingController();
   final _addressController = TextEditingController();
   final _companyController = TextEditingController();
@@ -42,6 +42,7 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
     _nameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
+    _confirmPasswordController.dispose();
     _phoneController.dispose();
     _addressController.dispose();
     _companyController.dispose();
@@ -50,6 +51,7 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
   }
 
   bool _isObscure = true;
+  bool _isConfirmObscure = true;
 
   @override
   Widget build(BuildContext context) {
@@ -154,6 +156,37 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
                                       ),
                                       const SizedBox(height: 8),
                                       const CustomText(
+                                        text: 'Confirm Password',
+                                        fontSize: 18,
+                                        color: Colors.white,
+                                      ),
+                                      CustomTextField(
+                                        labelText: 'Confirm Password',
+                                        controller: _confirmPasswordController,
+                                        icon: Icons.lock,
+                                        keyboardType: TextInputType.visiblePassword,
+                                        obscureText: _isConfirmObscure,
+                                        suffixIcon: IconButton(
+                                          icon: Icon(
+                                            _isConfirmObscure ? Icons.visibility_off : Icons.visibility,
+                                          ),
+                                          onPressed: () {
+                                            setState(() {
+                                              _isConfirmObscure = !_isConfirmObscure;
+                                            });
+                                          },
+                                        ),
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'Please confirm your password';
+                                          } else if (value != _passwordController.text) {
+                                            return 'Passwords do not match';
+                                          }
+                                          return null;
+                                        },
+                                      ),
+                                      const SizedBox(height: 8),
+                                      const CustomText(
                                         text: 'Phone Number',
                                         fontSize: 18,
                                         color: Colors.white,
@@ -182,6 +215,7 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
                                         color: Colors.white,
                                       ),
                                       DropdownButtonFormField<String>(
+                                        value: _selectedValue, // Valor predeterminado
                                         decoration: InputDecoration(
                                           filled: true,
                                           fillColor: Colors.white,
