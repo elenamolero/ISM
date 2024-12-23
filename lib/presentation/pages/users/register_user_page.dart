@@ -25,7 +25,7 @@ class RegisterUserPage extends StatefulWidget {
 
 class _RegisterUserPageState extends State<RegisterUserPage> {
   bool _showVet = false;
-  String? _selectedValue = 'owner'; // Valor predeterminado
+  String? _selectedValue = 'owner'; 
 
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
@@ -215,7 +215,7 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
                                         color: Colors.white,
                                       ),
                                       DropdownButtonFormField<String>(
-                                        value: _selectedValue, // Valor predeterminado
+                                        value: _selectedValue, 
                                         decoration: InputDecoration(
                                           filled: true,
                                           fillColor: Colors.white,
