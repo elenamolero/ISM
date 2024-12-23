@@ -145,11 +145,11 @@ class HomePage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const EditVetInfoPage(),
+                      builder: (context) => const EditUserInfoPage(),
                     ),
                   );
                 },
-                child: const Text('Go to Edit Vet Info page'),
+                child: const Text('Go to Edit user Info page'),
               ),
               ElevatedButton(
                 onPressed: () {

@@ -5,5 +5,8 @@ abstract class UserRepositoryInterface {
   
   Future<void> saveUserInfo(user.User user);
 
+  Future<void> registerUserInfo(user.User user);
+
+
   Future<void> loginUser(user.User user);
 }
