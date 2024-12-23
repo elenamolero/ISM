@@ -1,14 +1,11 @@
 import 'package:injector/injector.dart';
 import 'package:petuco/data/repository/impl/health_test_repository_impl.dart';
 import 'package:petuco/data/repository/impl/pet_repository_impl.dart';
-import 'package:petuco/data/repository/pets_repository_interface.dart';
 import 'package:petuco/data/services/model/health_test_response.dart';
 import 'package:petuco/data/services/model/pet_response.dart';
-import 'package:petuco/data/services/pet/pets_service.dart';
 import 'package:petuco/domain/usecases/impl/get_health_tests_use_case.dart';
 import 'package:petuco/domain/usecases/impl/get_pet_info_use_case.dart';
 import 'package:petuco/domain/usecases/impl/get_pets_home_use_case.dart';
-import 'package:injector/injector.dart';
 import 'package:petuco/data/repository/impl/user_repository.dart';
 import 'package:petuco/data/services/user/user_service.dart';
 import 'package:petuco/domain/usecases/impl/get_user_info_use_case.dart';

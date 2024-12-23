@@ -6,6 +6,7 @@ import 'package:petuco/domain/usecases/impl/save_user_info_use_case.dart';
 import 'package:petuco/presentation/blocs/users/get_user_info_bloc.dart';
 import 'package:petuco/presentation/blocs/users/save_user_info_bloc.dart';
 import 'package:petuco/presentation/widgets/background_widget.dart';
+import 'package:supabase_auth_ui/supabase_auth_ui.dart';
 import '../../../domain/entities/user.dart' as user;
 
 class EditUserInfoPage extends StatefulWidget {
@@ -50,7 +51,7 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => GetUserInfoBloc(getUserInfoUseCase: appInjector.get<GetUserInfoUseCase>())..add(GetUserEvent('arvipe@hotmail.com')),
+          create: (context) => GetUserInfoBloc(getUserInfoUseCase: appInjector.get<GetUserInfoUseCase>())..add(GetUserEvent(Supabase.instance.client.auth.currentUser!.email!)),
         ),
         BlocProvider(
           create: (_) => SaveUserInfoBloc(saveUserInfoUseCase: appInjector.get<SaveUserInfoUseCase>()),
