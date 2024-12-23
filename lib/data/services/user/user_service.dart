@@ -26,7 +26,31 @@ class UserService {
   }
 
   Future<void> registerUserInfo(user.User user) async {
-    await Supabase.instance.client.from('User').insert({ 'name': user.name, 'email': user.email, 'address': user.address, 'phoneNumber': user.phoneNumber, 'password': user.password, 'role': user.role, 'company': user.company, 'cif': user.cif});
+    try {
+
+      final AuthResponse res = await Supabase.instance.client.auth.signUp(
+        email: user.email,
+        password: user.password,
+      );
+
+      if (res.user != null) {
+          await Supabase.instance.client.from('User').insert({
+          'name': user.name,
+          'email': user.email,
+          'address': user.address,
+          'phoneNumber': user.phoneNumber,
+          'password': user.password,
+          'role': user.role,
+          'company': user.company,
+          'cif': user.cif,
+        });
+
+        print('User registered and data inserted successfully');
+      } 
+    } catch (e) {
+      print('Error during user registration: $e');
+      rethrow; 
+    }
   }
 
   Future<bool> loginUser(user.User user) async {

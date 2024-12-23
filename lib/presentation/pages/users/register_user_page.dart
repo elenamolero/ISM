@@ -6,6 +6,11 @@ import 'package:petuco/domain/usecases/impl/register_user_use_case.dart';
 import 'package:petuco/presentation/blocs/users/register_user_bloc.dart';
 
 import 'package:petuco/presentation/widgets/background_widget.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:petuco/presentation/widgets/custom_text_field_widget.dart';
+
+import 'package:petuco/presentation/widgets/custom_text_widget.dart';
 
 final outlineInputBorder = OutlineInputBorder(
   borderRadius: BorderRadius.circular(15.0),
@@ -23,6 +28,7 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
   bool _showVet = false;
   String? _selectedValue;
 
+  final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -54,12 +60,12 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
       child: Scaffold(
         body: Stack(
           children: [
-            const BackGround(title: 'Registro de usuario'),
+            const BackGround(title: 'User register'),
             BlocListener<RegisterUserInfoBloc, RegisterUserInfoState>(
               listener: (context, state) {
                 if (state is RegisterUserSuccess) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Usuario registrado exitosamente')),
+                    const SnackBar(content: Text('You were successfully registered')),
                   );
                 } else if (state is RegisterUserError) {
                   ScaffoldMessenger.of(context).showSnackBar(
@@ -76,106 +82,57 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
                   return Padding(
                     padding: const EdgeInsets.all(40),
                     child: SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(height: 80),
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(12),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.53),
-                                borderRadius: BorderRadius.circular(40),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(50.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const Text(
-                                      'Name',
-                                      style: TextStyle(
+                      child: Form(
+                        key: _formKey,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(height: 80),
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withOpacity(0.53),
+                                  borderRadius: BorderRadius.circular(40),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(50.0),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      const CustomText(
+                                        text: 'Name',
                                         fontSize: 18,
                                         color: Colors.white,
                                       ),
-                                    ),
-                                    TextField(
-                                      controller: _nameController,
-                                      decoration: InputDecoration(
-                                        hintText: 'Name',
-                                        hintStyle: TextStyle(
-                                          fontSize: 18,
-                                          color: Colors.grey[400],
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                        labelStyle: const TextStyle(
-                                          fontSize: 18,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                        suffixIcon: const Icon(
-                                          Icons.person,
-                                          color: Colors.grey,
-                                        ),
-                                        border: outlineInputBorder,
-                                        filled: true,
-                                        fillColor: Colors.white,
+                                      CustomTextField(
+                                        labelText: 'Name',
+                                        controller: _nameController,
+                                        icon: Icons.person,
                                       ),
-                                    ),
-                                    const SizedBox(height: 8),
-                                    const Text(
-                                      'Email',
-                                      style: TextStyle(
+                                      const SizedBox(height: 8),
+                                      const CustomText(
+                                        text: 'Email',
                                         fontSize: 18,
                                         color: Colors.white,
                                       ),
-                                    ),
-                                    TextField(
-                                      controller: _emailController,
-                                      decoration: InputDecoration(
-                                        hintText: 'Email',
-                                        hintStyle: TextStyle(
-                                          fontSize: 18,
-                                          color: Colors.grey[400],
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                        labelStyle: const TextStyle(
-                                          fontSize: 18,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                        suffixIcon: const Icon(
-                                          Icons.email,
-                                          color: Colors.grey,
-                                        ),
-                                        border: outlineInputBorder,
-                                        filled: true,
-                                        fillColor: Colors.white,
+                                      CustomTextField(
+                                        labelText: 'Email',
+                                        controller: _emailController,
+                                        icon: Icons.email,
                                       ),
-                                    ),
-                                    const SizedBox(height: 8),
-                                    const Text(
-                                      'Password',
-                                      style: TextStyle(
+                                      const SizedBox(height: 8),
+                                      const CustomText(
+                                        text: 'Password',
                                         fontSize: 18,
                                         color: Colors.white,
                                       ),
-                                    ),
-                                    TextField(
-                                      obscureText: _isObscure,
-                                      controller: _passwordController,
-                                      decoration: InputDecoration(
-                                        hintText: 'Password',
-                                        hintStyle: TextStyle(
-                                          fontSize: 18,
-                                          color: Colors.grey[400],
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                        labelStyle: const TextStyle(
-                                          fontSize: 18,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                                      CustomTextField(
+                                        labelText: 'Password',
+                                        controller: _passwordController,
+                                        icon: Icons.lock,
+                                        keyboardType: TextInputType.visiblePassword,
+                                        obscureText: _isObscure,
                                         suffixIcon: IconButton(
                                           icon: Icon(
                                             _isObscure ? Icons.visibility_off : Icons.visibility,
@@ -186,204 +143,130 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
                                             });
                                           },
                                         ),
-                                        border: outlineInputBorder,
-                                        filled: true,
-                                        fillColor: Colors.white,
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'Please enter a password';
+                                          } else if (value.length < 8) {
+                                            return 'Password must be at least 8 characters long';
+                                          }
+                                          return null;
+                                        },
                                       ),
-                                    ),
-                                    const SizedBox(height: 8),
-                                    const Text(
-                                      'Phone Number',
-                                      style: TextStyle(
+                                      const SizedBox(height: 8),
+                                      const CustomText(
+                                        text: 'Phone Number',
                                         fontSize: 18,
                                         color: Colors.white,
                                       ),
-                                    ),
-                                    TextField(
-                                      controller: _phoneController,
-                                      decoration: InputDecoration(
-                                        hintText: 'Phone Number',
-                                        hintStyle: TextStyle(
-                                          fontSize: 18,
-                                          color: Colors.grey[400],
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                        labelStyle: const TextStyle(
-                                          fontSize: 18,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                        suffixIcon: const Icon(
-                                          Icons.phone,
-                                          color: Colors.grey,
-                                        ),
-                                        border: outlineInputBorder,
-                                        filled: true,
-                                        fillColor: Colors.white,
+                                      CustomTextField(
+                                        labelText: 'Phone Number',
+                                        controller: _phoneController,
+                                        icon: Icons.phone,
+                                        keyboardType: TextInputType.phone,
                                       ),
-                                    ),
-                                    const SizedBox(height: 8),
-                                    const Text(
-                                      'Address',
-                                      style: TextStyle(
+                                      const SizedBox(height: 8),
+                                      const CustomText(
+                                        text: 'Address',
                                         fontSize: 18,
                                         color: Colors.white,
                                       ),
-                                    ),
-                                    TextField(
-                                      controller: _addressController,
-                                      decoration: InputDecoration(
-                                        hintText: 'Address',
-                                        hintStyle: TextStyle(
-                                          fontSize: 18,
-                                          color: Colors.grey[400],
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                        labelStyle: const TextStyle(
-                                          fontSize: 18,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                        suffixIcon: const Icon(
-                                          Icons.home,
-                                          color: Colors.grey,
-                                        ),
-                                        border: outlineInputBorder,
-                                        filled: true,
-                                        fillColor: Colors.white,
+                                      CustomTextField(
+                                        labelText: 'Address',
+                                        controller: _addressController,
+                                        icon: Icons.home,
                                       ),
-                                    ),
-                                    const SizedBox(height: 8),
-                                    const Text(
-                                      'Role',
-                                      style: TextStyle(
+                                      const SizedBox(height: 8),
+                                      const CustomText(
+                                        text: 'Role',
                                         fontSize: 18,
                                         color: Colors.white,
                                       ),
-                                    ),
-                                    DropdownButtonFormField<String>(
-                                      decoration: InputDecoration(
-                                        filled: true,
-                                        fillColor: Colors.white,
-                                        enabledBorder: outlineInputBorder,
-                                        focusedBorder: outlineInputBorder,
+                                      DropdownButtonFormField<String>(
+                                        decoration: InputDecoration(
+                                          filled: true,
+                                          fillColor: Colors.white,
+                                          enabledBorder: outlineInputBorder,
+                                          focusedBorder: outlineInputBorder,
+                                        ),
+                                        items: ["vet", "owner"].map((name) {
+                                          return DropdownMenuItem(value: name, child: Text(name));
+                                        }).toList(),
+                                        onChanged: (value) {
+                                          setState(() {
+                                            _selectedValue = value;
+                                            _showVet = _selectedValue == 'vet';
+                                          });
+                                        },
                                       ),
-                                      items: ["Veterinario", "Dueño de un animal"].map((name) {
-                                        return DropdownMenuItem(value: name, child: Text(name));
-                                      }).toList(),
-                                      onChanged: (value) {
-                                        setState(() {
-                                          _selectedValue = value;
-                                          _showVet = _selectedValue == 'Veterinario';
-                                        });
-                                      },
-                                    ),
-                                    const SizedBox(height: 8),
-                                    Visibility(
-                                      visible: _showVet,
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          const Text(
-                                            'Company',
-                                            style: TextStyle(
+                                      const SizedBox(height: 8),
+                                      Visibility(
+                                        visible: _showVet,
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            const CustomText(
+                                              text: 'Company',
                                               fontSize: 18,
                                               color: Colors.white,
                                             ),
-                                          ),
-                                          TextField(
-                                            controller: _companyController,
-                                            decoration: InputDecoration(
-                                              hintText: 'Company',
-                                              hintStyle: TextStyle(
-                                                fontSize: 18,
-                                                color: Colors.grey[400],
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                              labelStyle: const TextStyle(
-                                                fontSize: 18,
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                              suffixIcon: const Icon(
-                                                Icons.business,
-                                                color: Colors.grey,
-                                              ),
-                                              border: outlineInputBorder,
-                                              filled: true,
-                                              fillColor: Colors.white,
+                                            CustomTextField(
+                                              labelText: 'Company',
+                                              controller: _companyController,
+                                              icon: Icons.business,
                                             ),
-                                          ),
-                                          const SizedBox(height: 8),
-                                          const Text(
-                                            'CIF',
-                                            style: TextStyle(
+                                            const SizedBox(height: 8),
+                                            const CustomText(
+                                              text: 'CIF',
                                               fontSize: 18,
                                               color: Colors.white,
                                             ),
-                                          ),
-                                          TextField(
-                                            controller: _cifController,
-                                            decoration: InputDecoration(
-                                              hintText: 'CIF',
-                                              hintStyle: TextStyle(
+                                            CustomTextField(
+                                              labelText: 'CIF',
+                                              controller: _cifController,
+                                              icon: Icons.document_scanner_outlined,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      const SizedBox(height: 16),
+                                      Center(
+                                        child: SizedBox(
+                                          width: 224,
+                                          child: ElevatedButton(
+                                            onPressed: () {
+                                              if (_formKey.currentState?.validate() ?? false) {
+                                                _registerUser(context);
+                                              }
+                                            },
+                                            style: ElevatedButton.styleFrom(
+                                              backgroundColor: const Color.fromRGBO(97, 187, 255, 1),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(50),
+                                                side: const BorderSide(
+                                                  color: Colors.white,
+                                                  width: 2.0,
+                                                ),
+                                              ),
+                                              padding: const EdgeInsets.symmetric(vertical: 16),
+                                            ),
+                                            child: const Text(
+                                              'Register',
+                                              style: TextStyle(
                                                 fontSize: 18,
-                                                color: Colors.grey[400],
-                                                fontWeight: FontWeight.bold,
+                                                color: Colors.white,
+                                                height: 2,
                                               ),
-                                              labelStyle: const TextStyle(
-                                                fontSize: 18,
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                              suffixIcon: const Icon(
-                                                Icons.document_scanner_outlined,
-                                                color: Colors.grey,
-                                              ),
-                                              border: outlineInputBorder,
-                                              filled: true,
-                                              fillColor: Colors.white,
                                             ),
                                           ),
-                                        ],
+                                        ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 16),
-                          Center(
-                            child: SizedBox(
-                              width: 224,
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  _registerUser(context);
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: const Color.fromRGBO(97, 187, 255, 1),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(50),
-                                    side: const BorderSide(
-                                      color: Colors.white,
-                                      width: 2.0,
-                                    ),
-                                  ),
-                                  padding: const EdgeInsets.symmetric(vertical: 16),
-                                ),
-                                child: const Text(
-                                  'Register',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    color: Colors.white,
-                                    height: 2,
+                                    ],
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   );
@@ -403,7 +286,7 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
       address: _addressController.text,
       phoneNumber: int.tryParse(_phoneController.text) ?? 0,
       password: _passwordController.text,
-      role: _selectedValue ?? 'Dueño de un animal',
+      role: _selectedValue ?? 'owner',
       company: _showVet ? _companyController.text : null,
       cif: _showVet ? _cifController.text : null,
     );
