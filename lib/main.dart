@@ -5,6 +5,7 @@ import 'package:petuco/di/dependency_injection.dart';
 import 'package:petuco/presentation/pages/create_pet_info_page.dart';
 import 'package:petuco/presentation/pages/edit_profile_vet.dart';
 import 'package:petuco/presentation/pages/home_page.dart';
+import 'package:petuco/presentation/pages/nfc_connection_view.dart';
 import 'package:petuco/presentation/pages/pet_info_page.dart';
 import 'package:petuco/presentation/pages/pet_medical_historial_page.dart';
 import 'package:petuco/presentation/pages/users/register_user_page.dart';
@@ -13,6 +14,7 @@ import 'package:petuco/presentation/pages/users/edit_user_info_page.dart';
 import 'package:petuco/presentation/pages/update_pet_info_page.dart';
 import 'package:flutter/services.dart';
 import 'package:petuco/presentation/pages/login_page.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
@@ -35,7 +37,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'petUco',
       debugShowCheckedModeBanner: false,
-       theme: ThemeData(
+      theme: ThemeData(
         scaffoldBackgroundColor: Colors.blue, // Fondo común
         useMaterial3: true,
       ),
@@ -107,15 +109,14 @@ class HomePage extends StatelessWidget {
                 child: const Text('Go to Profile'),
               ),
               ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const RegisterUserPage()),
-                  );
-                },
-                child: const Text("Go to register page")
-              ),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const RegisterUserPage()),
+                    );
+                  },
+                  child: const Text("Go to register page")),
               ElevatedButton(
                 onPressed: () {
                   Navigator.push(
@@ -128,7 +129,7 @@ class HomePage extends StatelessWidget {
                 child: const Text('Go to Login page'),
               ),
               ElevatedButton(
-                 onPressed: () {
+                onPressed: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -136,10 +137,10 @@ class HomePage extends StatelessWidget {
                     ),
                   );
                 },
-                  child: const Text('Go to Create Health View'),
-                ),
-                ElevatedButton(
-                  onPressed: () {
+                child: const Text('Go to Create Health View'),
+              ),
+              ElevatedButton(
+                onPressed: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -160,6 +161,14 @@ class HomePage extends StatelessWidget {
                 },
                 child: const Text('Go to Medical Historial Pet'),
               ),
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const NfcConectionView()));
+                  },
+                  child: const Text("Go to Nfc conection view"))
             ],
           ),
         ),
