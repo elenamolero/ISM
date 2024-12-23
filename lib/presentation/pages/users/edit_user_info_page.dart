@@ -22,6 +22,8 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
   late TextEditingController addressController;
   late TextEditingController phoneNumberController;
   late TextEditingController passwordController;
+  late TextEditingController confirmPasswordController;
+  late TextEditingController roleController;
 
   @override
   void initState() {
@@ -31,6 +33,8 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
     addressController = TextEditingController();
     phoneNumberController = TextEditingController();
     passwordController = TextEditingController();
+    roleController = TextEditingController();
+    confirmPasswordController = TextEditingController();
   }
 
   @override
@@ -41,10 +45,13 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
     addressController.dispose();
     phoneNumberController.dispose();
     passwordController.dispose();
+    roleController.dispose();
+    confirmPasswordController.dispose();
     super.dispose();
   }
 
   bool _isObscure = true;
+  bool _isObscureConfirm = true;
 
   @override
   Widget build(BuildContext context) {
@@ -84,6 +91,8 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
                 addressController.text = userInfo.address;
                 phoneNumberController.text = userInfo.phoneNumber.toString();
                 passwordController.text = userInfo.password;
+                confirmPasswordController.text = userInfo.password;
+                roleController.text = userInfo.role;
               } else if (state is GetUserError) {
                 return Center(child: Text('Error: ${state.message}'));
               }
@@ -155,6 +164,7 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
 
                                 TextField(
                                   controller: emailController,
+                                  enabled: false,
                                   decoration: InputDecoration(
                                     hintText: 'Email',
                                     hintStyle: TextStyle(
@@ -291,6 +301,48 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
                                     fillColor: Colors.white,
                                   ),
                                 ),
+
+                                const Text(
+                                  'Confirm Password',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                      
+                                TextField(
+                                  obscureText: _isObscureConfirm,
+                                  controller: confirmPasswordController,
+                                  decoration: InputDecoration(
+                                    hintText: 'Password',
+                                    hintStyle: TextStyle(
+                                      fontSize: 18,
+                                      color: Colors.grey[400],
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    labelStyle: const TextStyle(
+                                      fontSize: 18,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    suffixIcon: IconButton(
+                                      icon: Icon(
+                                        _isObscureConfirm ? Icons.visibility_off : Icons.visibility,
+                                      ),
+                                      onPressed: () {
+                                        setState(() {
+                                          _isObscureConfirm = !_isObscureConfirm; // Alterna el estado
+                                        });
+                                      },
+                                    ),
+                                    border: OutlineInputBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(12),
+                                    ),
+                                    filled: true,
+                                    fillColor: Colors.white,
+                                  ),
+                                ),
                               ],
                             )
                             )
@@ -304,13 +356,19 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
                           width: 224,
                           child: ElevatedButton(
                             onPressed: () {
+                              if (passwordController.text != confirmPasswordController.text) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(content: Text('Passwords do not match')),
+                                );
+                                return;
+                              }
                               final updatedUser = user.User(
                               name: nameController.text,
                               email: emailController.text,
                               address: addressController.text,
                               phoneNumber: int.tryParse(phoneNumberController.text) ?? 0,
                               password: passwordController.text,
-                              role: 'user',
+                              role: roleController.text,
                             );
                             context.read<SaveUserInfoBloc>().add(
                                   SaveUserEvent(updatedUser),
