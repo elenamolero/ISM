@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:petuco/presentation/widgets/background_widget.dart';
 import 'package:petuco/presentation/widgets/custom_text_widget.dart';
 import 'package:petuco/presentation/widgets/custom_text_field_widget.dart';
+import 'package:petuco/presentation/widgets/footer_widget.dart';
 
 class CreateHealthView extends StatefulWidget {
   const CreateHealthView({super.key});
@@ -32,7 +33,7 @@ class _CreateHealthViewState extends State<CreateHealthView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false, 
+      resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
           const BackGround(title: "Health Test"),
@@ -79,40 +80,52 @@ class _CreateHealthViewState extends State<CreateHealthView> {
                         labelText: "Cordoba Vet",
                         icon: Icons.place_outlined,
                       ),
-                       const SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       const CustomText(text: "Date"),
                       const SizedBox(height: 10),
                       CustomTextField(
                         labelText: "Select Date",
                         icon: Icons.date_range_outlined,
                         controller: dateController,
-                        onTap: () => _selectDate(context), // Activar el selector de fecha
-                        keyboardType: TextInputType.none, // Deshabilitar teclado
+                        onTap: () => _selectDate(
+                            context), // Activar el selector de fecha
+                        keyboardType:
+                            TextInputType.none, // Deshabilitar teclado
                       ),
                       const SizedBox(height: 30),
                       Center(
                         child: ElevatedButton(
                           onPressed: () {
                             ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text("Información guardada")),
+                              const SnackBar(
+                                  content: Text("Información guardada")),
                             );
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color.fromRGBO(97, 187, 255, 1),
+                            backgroundColor:
+                                const Color.fromRGBO(97, 187, 255, 1),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(50),
-                              side: const BorderSide(color: Colors.white, width: 2.0),
+                              side: const BorderSide(
+                                  color: Colors.white, width: 2.0),
                             ),
                           ),
                           child: const CustomText(text: "Save"),
                         ),
                       ),
+                      
                     ],
                   ),
                 ),
               ),
             ),
           ),
+          const Positioned(
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        child: FooterWidget(),
+                      ),
         ],
       ),
     );

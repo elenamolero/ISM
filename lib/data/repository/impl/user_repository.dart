@@ -40,5 +40,6 @@ class UserRepository implements UserRepositoryInterface {
   
   @override
   Future<void> loginUser(user.User loginUser) async{
+    await userService.loginUser(user);
   }
 }
