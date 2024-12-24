@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:petuco/presentation/widgets/background_widget.dart';
+import 'package:petuco/presentation/widgets/footer_widget.dart';
 import '../../../domain/usecases/update_pet_info.dart';
 import '../blocs/pets/update_pet_info_bloc.dart';
 import '../../domain/entity/pet.entity.dart';
@@ -16,7 +17,7 @@ class UpdatePetInfoPage extends StatelessWidget {
   final String? photo;
 
   UpdatePetInfoPage({
-    Key? key,
+    super.key,
     required this.id,
     required this.name,
     required this.age,
@@ -24,7 +25,7 @@ class UpdatePetInfoPage extends StatelessWidget {
     required this.breed,
     required this.ownerEmail,
     this.photo,
-  }) : super(key: key);
+  });
 
   // Controllers for the input fields
   final TextEditingController _nameController = TextEditingController();
@@ -214,6 +215,12 @@ class UpdatePetInfoPage extends StatelessWidget {
                   );
                 },
               ),
+            ),
+            const Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: FooterWidget(),
             ),
           ],
         ),

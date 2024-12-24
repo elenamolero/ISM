@@ -6,7 +6,9 @@ class CustomTextField extends StatelessWidget {
   final String? Function(String?)? validator;
   final TextEditingController? controller;
   final TextInputType keyboardType;
-  final VoidCallback? onTap; // Callback para cuando se toca el campo
+  final bool obscureText;
+  final Widget? suffixIcon;
+  final VoidCallback? onTap;
 
   const CustomTextField({
     super.key,
@@ -15,7 +17,9 @@ class CustomTextField extends StatelessWidget {
     this.controller,
     this.keyboardType = TextInputType.text,
     required this.icon,
-    this.onTap, // Asignar el onTap para cuando se toque el campo
+    this.obscureText = false,
+    this.suffixIcon,
+    this.onTap,
   });
 
   @override
@@ -24,12 +28,13 @@ class CustomTextField extends StatelessWidget {
       controller: controller,
       keyboardType: keyboardType,
       validator: validator,
+      obscureText: obscureText,
       style: const TextStyle(
         fontSize: 16,
         color: Colors.black87,
         fontWeight: FontWeight.w500,
       ),
-      onTap: onTap, // Solo se activa en el caso de la fecha
+      onTap: onTap,
       decoration: InputDecoration(
         labelText: labelText,
         labelStyle: const TextStyle(
@@ -37,12 +42,12 @@ class CustomTextField extends StatelessWidget {
           color: Color(0xFFA4A4A4),
           fontWeight: FontWeight.w400,
         ),
-        floatingLabelBehavior: FloatingLabelBehavior.never, // Evita que se mueva la etiqueta
+        floatingLabelBehavior: FloatingLabelBehavior.never,
         border: const OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(20)),
           borderSide: BorderSide.none,
         ),
-        suffixIcon: Icon(icon, color: Colors.grey),
+        suffixIcon: suffixIcon ?? Icon(icon, color: Colors.grey),
         contentPadding: const EdgeInsets.symmetric(
           vertical: 16.0,
           horizontal: 12.0,

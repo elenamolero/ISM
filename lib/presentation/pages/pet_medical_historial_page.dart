@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:petuco/presentation/pages/create_health_view.dart';
 import 'package:petuco/presentation/widgets/background_widget.dart';
 import 'package:petuco/di/dependency_injection.dart';
 import 'package:petuco/domain/entities/healthTest.dart';
 import 'package:petuco/domain/usecases/impl/get_health_tests_use_case.dart';
 import 'package:petuco/presentation/blocs/healthTests/get_health_tests_bloc.dart';
+import 'package:petuco/presentation/widgets/footer_widget.dart';
 
 const String _petname = "Fentanyl Jr.";
 
@@ -72,6 +74,7 @@ class _PetMedicalHistorialPageState extends State<PetMedicalHistorialPage> {
                             children: [
                               const SizedBox(height: 40),
                               _buildHealthTestsList(healthTestState.healthTests, screenWidth),
+                              
                             ],
                           ),
                         );
@@ -90,11 +93,20 @@ class _PetMedicalHistorialPageState extends State<PetMedicalHistorialPage> {
                     },
                   ),
                 ),
+                 const Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: FooterWidget(),
+            ),
               ],
+              
             ),
           ],
         ),
+        
       ),
+      
     );
   }
 
@@ -172,34 +184,47 @@ class _PetMedicalHistorialPageState extends State<PetMedicalHistorialPage> {
     );
   }
 
-  Widget _buildNewHealthTestContainer(double screenWidth) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Container(
-          width: screenWidth * 0.1,
-          height: screenWidth * 0.1,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(40),
+   Widget _buildNewHealthTestContainer(double screenWidth) {
+    return GestureDetector(
+      onTap: _onNewHealthTestPressed,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            width: screenWidth * 0.1,
+            height: screenWidth * 0.1,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(40),
+            ),
+            child: const Icon(
+              Icons.add,
+              color: Color(0xFF4B8DAF),
+              size: 50.0,
+            ),
           ),
-          child: const Icon(
-            Icons.add,
-            color: Color(0xFF4B8DAF),
-            size: 50.0,
+          const SizedBox(width: 10),
+          Text(
+            'New Health Test',
+            style: TextStyle(
+              color: const Color(0xFF4B8DAF),
+              fontSize: screenWidth * 0.06,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-        ),
-        const SizedBox(width: 10),
-        Text(
-          'New Health Test',
-          style: TextStyle(
-            color: const Color(0xFF4B8DAF),
-            fontSize: screenWidth * 0.06,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ],
+        ],
+      ),
     );
   }
+  void _onNewHealthTestPressed() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const CreateHealthView(),
+      ),
+    );
+  }
+
+ 
 
   Widget _buildHealthTestContainer(HealthTest healthTest, double screenWidth) {
     return ListTile(
