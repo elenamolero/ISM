@@ -11,6 +11,7 @@ import 'package:petuco/presentation/blocs/pets/get_pet_info_bloc.dart';
 import 'package:petuco/presentation/widgets/footer_widget.dart';
 
 class PetInfoPage extends StatefulWidget {
+  static const String route = 'pet';
   final int petId;
 
   const PetInfoPage({Key? key, required this.petId}) : super(key: key);
@@ -226,14 +227,17 @@ class _PetInfoPageState extends State<PetInfoPage> {
                 child: SizedBox(
                   width: 200,
                   child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const PetMedicalHistorialPage(),
-                        ),
-                      );
-                    },
+                     onPressed: () {
+                       Navigator.push(
+                          context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                PetMedicalHistorialPage(
+                                  petId: widget.petId,
+                                ),
+                            ),
+                        );
+                      },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color.fromARGB(166, 23, 219, 99),
                       shape: RoundedRectangleBorder(

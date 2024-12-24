@@ -1,5 +1,4 @@
 import 'package:petuco/domain/usecases/register_user_use_case_interface.dart';
-import 'package:petuco/domain/usecases/save_user_info_use_case_inteface.dart';
 import '../../../data/repository/impl/user_repository.dart';
 import '../../entities/user.dart';
 

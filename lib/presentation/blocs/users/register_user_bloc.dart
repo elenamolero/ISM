@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:petuco/domain/entities/user.dart';
 import 'package:petuco/domain/usecases/register_user_use_case_interface.dart';
-import 'package:petuco/domain/usecases/save_user_info_use_case_inteface.dart';
+
 
 //Events
 

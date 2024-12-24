@@ -14,6 +14,7 @@ import 'package:petuco/presentation/widgets/footer_widget.dart';
 class HomeUserPage extends StatefulWidget {
   const HomeUserPage({super.key});
 
+
   @override
   State<HomeUserPage> createState() => _HomeUserPageState();
 }

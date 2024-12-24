@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:petuco/data/services/pet/pets_service.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:path/path.dart' as path;
 
 class PetsService {
   Future<List<PetResponse>> fetchPetsData(String ownerEmail) async {

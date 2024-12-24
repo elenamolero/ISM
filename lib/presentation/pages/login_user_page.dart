@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:petuco/di/dependency_injection.dart';
 import 'package:petuco/domain/usecases/impl/login_user_use_case.dart';
-import 'package:petuco/main.dart';
+import 'package:petuco/presentation/pages/home_page.dart';
 import '../../../presentation/blocs/users/login_user_bloc.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:petuco/presentation/widgets/background_widget.dart';
@@ -55,7 +55,7 @@ class LoginUserPageState extends State<LoginUserPage> {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const HomePage(), // Main page after login
+                      builder: (context) => const HomeUserPage(), // Main page after login
                     ),
                   );
 
