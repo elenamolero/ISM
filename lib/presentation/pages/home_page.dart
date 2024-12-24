@@ -10,6 +10,7 @@ import 'package:petuco/presentation/pages/create_pet_info_page.dart';
 import 'package:petuco/presentation/pages/pet_info_page.dart';
 import 'package:petuco/presentation/widgets/background_widget.dart';
 import 'package:petuco/presentation/widgets/footer_widget.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class HomeUserPage extends StatefulWidget {
   const HomeUserPage({super.key});
@@ -26,18 +27,19 @@ class _HomeUserPageState extends State<HomeUserPage> {
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
+    String email = Supabase.instance.client.auth.currentUser!.email!;
 
     return MultiBlocProvider(
       providers: [
         BlocProvider(
           create: (context) => PetBloc(
             getPetsUseCase: appInjector.get<GetPetsHomeUseCase>(),
-          )..add(FetchPets(ownerEmail: 'ele@gmail.com')),
+          )..add(FetchPets(ownerEmail: email)),
         ),
         BlocProvider(
           create: (context) => GetUserInfoBloc(
             getUserInfoUseCase: appInjector.get<GetUserInfoUseCase>(),
-          )..add(GetUserEvent('ele@gmail.com')),
+          )..add(GetUserEvent(email)),
         ),
       ],
       child: Scaffold(
