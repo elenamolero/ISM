@@ -46,6 +46,7 @@ dependencies:
   injector: ^4.0.0
   supabase_auth_ui: ^0.5.4
   image_picker: ^1.1.2
+  nfc_manager: ^3.5.0
 
 
 dev_dependencies:

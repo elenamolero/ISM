@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:nfc_manager/nfc_manager.dart';
+import 'package:petuco/presentation/pages/pet_info_page.dart';
 import 'package:petuco/presentation/widgets/background_widget.dart';
 import 'package:petuco/presentation/widgets/footer_widget.dart';
 
@@ -10,7 +12,9 @@ class NfcConectionView extends StatefulWidget {
 }
 
 class _NfcConectionViewState extends State<NfcConectionView> {
-  bool isNfcConnected = false;
+  bool isNfcConnected = false; // Track the NFC connection state
+  bool isWritingInProgress = false; // Track if NFC writing is in progress
+  String _nfcData = ''; // Display any data related to NFC
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +51,7 @@ class _NfcConectionViewState extends State<NfcConectionView> {
             ),
           ),
           Positioned(
-            bottom: screenHeight * 0.40, 
+            bottom: screenHeight * 0.40,
             left: 0,
             right: 0,
             child: const Text(
@@ -62,14 +66,14 @@ class _NfcConectionViewState extends State<NfcConectionView> {
             ),
           ),
           Positioned(
-            bottom: screenHeight * 0.28, 
+            bottom: screenHeight * 0.28,
             left: screenWidth * 0.1,
             right: screenWidth * 0.1,
             child: Container(
-              padding: EdgeInsets.all(screenWidth * 0.07), 
+              padding: EdgeInsets.all(screenWidth * 0.07),
               decoration: BoxDecoration(
                 color: isNfcConnected
-                    ? Colors.green.withOpacity(0.7) 
+                    ? Colors.green.withOpacity(0.7)
                     : Colors.white.withOpacity(0.53),
                 borderRadius: BorderRadius.circular(40),
                 border: isNfcConnected
@@ -77,7 +81,7 @@ class _NfcConectionViewState extends State<NfcConectionView> {
                         color: Colors.green,
                         width: 2,
                       )
-                    : null, 
+                    : null,
               ),
               child: Text(
                 isNfcConnected ? "NFC Connected" : "No NFC connection",
@@ -97,25 +101,24 @@ class _NfcConectionViewState extends State<NfcConectionView> {
             child: Opacity(
               opacity: 0.9,
               child: ElevatedButton(
-                onPressed: () {
-                  // Cambiar el estado de la conexión NFC cuando se presiona el botón
-                  setState(() {
-                    isNfcConnected = !isNfcConnected;
-                  });
-                },
+                onPressed: !isWritingInProgress && !isNfcConnected
+                    ? () {
+                        _startNfcSession();
+                      }
+                    : null, // Disable if NFC is connected or writing is in progress
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF65D389), 
+                  backgroundColor: const Color(0xFF65D389),
                   side: const BorderSide(
                     color: Colors.white,
                     width: 2,
                   ),
                   padding: EdgeInsets.symmetric(
-                      horizontal: screenWidth * 0.12, vertical: screenHeight * 0.03), 
+                      horizontal: screenWidth * 0.12, vertical: screenHeight * 0.03),
                 ),
                 child: Text(
-                  'Look for a NFC',
+                  isWritingInProgress ? 'Writing...' : 'Look for a NFC',
                   style: TextStyle(
-                    fontSize: screenWidth * 0.06, 
+                    fontSize: screenWidth * 0.06,
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                   ),
@@ -133,4 +136,66 @@ class _NfcConectionViewState extends State<NfcConectionView> {
       ),
     );
   }
+
+void _startNfcSession() async {
+  setState(() {
+    isWritingInProgress = true;
+  });
+
+  await NfcManager.instance.startSession(
+    onDiscovered: (NfcTag tag) async {
+      final ndef = Ndef.from(tag);
+
+      if (ndef != null) {
+        try {
+          if (isWritingInProgress) {
+            //This will be get from the pet info view when we have the button
+            String petId = "1"; // this is temporal!!!!
+
+            // Write in the NFC tag
+            NdefMessage message = NdefMessage([NdefRecord.createText(petId)]);
+            await ndef.write(message);  
+            print("Data written to NFC: $petId");
+            setState(() {
+              isWritingInProgress = false;
+            });
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Data written to NFC')));
+
+          } else {
+            // Read from the NFC tag
+            NdefMessage message = await ndef.read();  
+            String nfcData = message.records.first.payload.toString();  
+
+            // get id from payload
+            String petIdString = nfcData.trim(); 
+            int petId = int.parse(petIdString);
+            setState(() {
+              isNfcConnected = true;
+              isWritingInProgress = false;
+            });
+
+            //go to the page
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => PetInfoPage(petId: petId), 
+              ),
+            );
+          }
+
+        } catch (e) {
+          print("Error reading or writing NFC data: $e");
+          setState(() {
+            _nfcData = 'Error processing NFC data';
+            isWritingInProgress = false;
+          });
+        }
+      } else {
+        setState(() {
+          _nfcData = 'NDEF not supported';
+          isWritingInProgress = false; 
+        });
+      }
+    },
+  );
+}
 }
