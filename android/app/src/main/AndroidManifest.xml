@@ -29,7 +29,9 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="text/plain" />
                 <!-- put the other if we have to put the uri-->
-                <!-- <data android:scheme="https" android:host="www.ejemplo.com" android:pathPrefix="/ruta" /> -->
+                <data android:scheme="https"
+                android:host="www.youtube.com"
+                android:pathPrefix="/results" />
             </intent-filter>
         </activity>
         <!-- Don't delete the meta-data below.

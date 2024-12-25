@@ -47,7 +47,7 @@ dependencies:
   supabase_auth_ui: ^0.5.4
   image_picker: ^1.1.2
   nfc_manager: ^3.5.0
-
+  url_launcher: ^6.1.7
 
 dev_dependencies:
   flutter_test:

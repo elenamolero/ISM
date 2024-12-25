@@ -3,6 +3,7 @@ import 'package:nfc_manager/nfc_manager.dart';
 import 'package:petuco/presentation/pages/pet_info_page.dart';
 import 'package:petuco/presentation/widgets/background_widget.dart';
 import 'package:petuco/presentation/widgets/footer_widget.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class NfcConectionView extends StatefulWidget {
   const NfcConectionView({super.key});
@@ -14,7 +15,7 @@ class NfcConectionView extends StatefulWidget {
 class _NfcConectionViewState extends State<NfcConectionView> {
   bool isNfcConnected = false; // Track the NFC connection state
   bool isWritingInProgress = false; // Track if NFC writing is in progress
-  String _nfcData = ''; // Display any data related to NFC
+  //String _nfcData = ''; // Display any data related to NFC
 
   @override
   Widget build(BuildContext context) {
@@ -149,53 +150,53 @@ void _startNfcSession() async {
       if (ndef != null) {
         try {
           if (isWritingInProgress) {
-            //This will be get from the pet info view when we have the button
-            String petId = "1"; // this is temporal!!!!
+            String youtubeUrl = "https://www.youtube.com/results?search_query=supabase+flutter+registrar";
 
-            // Write in the NFC tag
-            NdefMessage message = NdefMessage([NdefRecord.createText(petId)]);
-            await ndef.write(message);  
-            print("Data written to NFC: $petId");
+            // Escribir la URL en la etiqueta NFC
+            NdefMessage message = NdefMessage([
+              NdefRecord.createUri(Uri.parse(youtubeUrl)),
+            ]);
+
+            await ndef.write(message);
+            debugPrint("URL escrita en NFC: $youtubeUrl");
             setState(() {
               isWritingInProgress = false;
             });
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Data written to NFC')));
 
           } else {
-            // Read from the NFC tag
-            NdefMessage message = await ndef.read();  
-            String nfcData = message.records.first.payload.toString();  
+            // Leer desde la etiqueta NFC
+            NdefMessage message = await ndef.read();
+            String nfcData = message.records.first.payload.toString();
+            debugPrint("URL leída desde NFC: $nfcData");
 
-            // get id from payload
-            String petIdString = nfcData.trim(); 
-            int petId = int.parse(petIdString);
             setState(() {
               isNfcConnected = true;
               isWritingInProgress = false;
             });
 
-            //go to the page
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => PetInfoPage(petId: petId), 
-              ),
-            );
+            if (mounted) {
+              // Abrir la URL directamente en el navegador
+              Uri uri = Uri.parse(nfcData.trim());
+              if (await canLaunchUrl(uri)) {
+                await launchUrl(uri);
+              } else {
+                debugPrint("No se pudo abrir la URL: $uri");
+              }
+            }
           }
-
         } catch (e) {
-          print("Error reading or writing NFC data: $e");
+          debugPrint("Error leyendo o escribiendo datos NFC: $e");
           setState(() {
-            _nfcData = 'Error processing NFC data';
             isWritingInProgress = false;
           });
         }
       } else {
         setState(() {
-          _nfcData = 'NDEF not supported';
-          isWritingInProgress = false; 
+          isWritingInProgress = false;
         });
       }
     },
   );
 }
+
 }
