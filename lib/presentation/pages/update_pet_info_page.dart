@@ -28,6 +28,7 @@ class _UpdatePetInfoPageState extends State<UpdatePetInfoPage> {
   final _breedController = TextEditingController();
   File? _imageFile;
   String? _currentImageUrl;
+  bool _isFieldsPopulated = false;
 
   @override
   void dispose() {
@@ -94,8 +95,9 @@ class _UpdatePetInfoPageState extends State<UpdatePetInfoPage> {
                 }
               },
               builder: (context, state) {
-                if (state is PetLoaded) {
+                if (state is PetLoaded && !_isFieldsPopulated) {
                   _populateFields(state.pet);
+                  _isFieldsPopulated = true;
                 }
                 return Padding(
                   padding: const EdgeInsets.all(40),
