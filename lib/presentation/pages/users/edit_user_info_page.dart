@@ -127,17 +127,19 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
                                 const CustomText(
                                   text: 'Name'
                                 ),
-                                const CustomTextField(
+                                CustomTextField(
                                   labelText: 'Name',
-                                  icon: Icons.person,
+                                  controller: nameController,
+                                  icon: Icons.person
                                 ),
                                 const SizedBox(height: 8),
 
                                 const CustomText(
                                   text: 'Email'
                                 ),
-                                const CustomTextField(
+                                CustomTextField(
                                   labelText: 'Email',
+                                  controller: emailController,
                                   icon: Icons.email,
                                 ),
                                 const SizedBox(height: 8),
@@ -145,8 +147,9 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
                                 const CustomText(
                                   text: 'Address'
                                 ),
-                                const CustomTextField(
+                                CustomTextField(
                                   labelText: 'Address',
+                                  controller: addressController,
                                   icon: Icons.home,
                                 ),
                                 const SizedBox(height: 8),
@@ -154,8 +157,9 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
                                 const CustomText(
                                   text: 'Phone Number'
                                 ),
-                                const CustomTextField(
+                                CustomTextField(
                                   labelText: 'Phone Number',
+                                  controller: phoneNumberController,
                                   icon: Icons.email,
                                 ),
 
@@ -165,6 +169,7 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
                                 ),
                                 CustomTextField(
                                   obscureText: _isObscure,
+                                  controller: passwordController,
                                   labelText: 'Password',
                                   icon: Icons.email,
                                   suffixIcon: IconButton(
@@ -185,6 +190,7 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
                                 ),
                                 CustomTextField(
                                   obscureText: _isObscureConfirm,
+                                  controller: confirmPasswordController,
                                   labelText: 'Password',
                                   icon: Icons.email,
                                   suffixIcon: IconButton(
