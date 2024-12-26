@@ -38,7 +38,7 @@ class _PetInfoPageState extends State<PetInfoPage> {
         body: Stack(
           children: [
             const BackGround(title: 'Pet Info'),
-          
+
             // Main content
             SingleChildScrollView(
               child: Column(
@@ -47,7 +47,8 @@ class _PetInfoPageState extends State<PetInfoPage> {
 
                   // Header Text
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.1),
+                    padding:
+                        EdgeInsets.symmetric(horizontal: screenWidth * 0.1),
                     child: BlocBuilder<PetBloc, PetState>(
                       builder: (context, petState) {
                         String titleText = "Fetching pet's data...";
@@ -76,7 +77,8 @@ class _PetInfoPageState extends State<PetInfoPage> {
 
                   // Main Content Container
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.1),
+                    padding:
+                        EdgeInsets.symmetric(horizontal: screenWidth * 0.1),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(12),
                       child: BackdropFilter(
@@ -97,7 +99,8 @@ class _PetInfoPageState extends State<PetInfoPage> {
                                 } else if (petState is PetLoaded) {
                                   final pet = petState.pet;
                                   return Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     children: [
                                       // Centering the pet image
                                       Center(
@@ -105,11 +108,14 @@ class _PetInfoPageState extends State<PetInfoPage> {
                                           width: screenWidth * 0.1,
                                           height: screenWidth * 0.1,
                                           decoration: BoxDecoration(
-                                            border: Border.all(color: Colors.white, width: 2),
-                                            borderRadius: BorderRadius.circular(15),
+                                            border: Border.all(
+                                                color: Colors.white, width: 2),
+                                            borderRadius:
+                                                BorderRadius.circular(15),
                                           ),
                                           child: ClipRRect(
-                                            borderRadius: BorderRadius.circular(15),
+                                            borderRadius:
+                                                BorderRadius.circular(15),
                                             child: pet.photo != null
                                                 ? Image.network(
                                                     pet.photo!,
@@ -131,31 +137,37 @@ class _PetInfoPageState extends State<PetInfoPage> {
                                         alignment: Alignment.center,
                                         width: screenWidth * 0.8,
                                         child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Text(
                                               'Name: ${pet.name}',
-                                              style: const TextStyle(fontSize: 15),
+                                              style:
+                                                  const TextStyle(fontSize: 15),
                                             ),
                                             const SizedBox(height: 10),
                                             Text(
                                               'Age: ${pet.age}',
-                                              style: const TextStyle(fontSize: 15),
+                                              style:
+                                                  const TextStyle(fontSize: 15),
                                             ),
                                             const SizedBox(height: 10),
                                             Text(
                                               'Type: ${pet.type}',
-                                              style: const TextStyle(fontSize: 15),
+                                              style:
+                                                  const TextStyle(fontSize: 15),
                                             ),
                                             const SizedBox(height: 10),
                                             Text(
                                               'Breed: ${pet.breed}',
-                                              style: const TextStyle(fontSize: 15),
+                                              style:
+                                                  const TextStyle(fontSize: 15),
                                             ),
                                             const SizedBox(height: 10),
                                             Text(
                                               'Owner email: ${pet.ownerEmail}',
-                                              style: const TextStyle(fontSize: 15),
+                                              style:
+                                                  const TextStyle(fontSize: 15),
                                             ),
                                           ],
                                         ),
@@ -169,23 +181,20 @@ class _PetInfoPageState extends State<PetInfoPage> {
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(
-                                                builder: (context) => UpdatePetInfoPage(
-                                                  id: pet.id,
-                                                  name: pet.name,
-                                                  age: pet.age,
-                                                  type: pet.type,
-                                                  breed: pet.breed,
-                                                  ownerEmail: pet.ownerEmail,
-                                                  photo: pet.photo,
+                                                builder: (context) =>
+                                                    UpdatePetInfoPage(
+                                                  petId: pet.id,
                                                 ),
                                               ),
                                             );
                                           },
                                           style: ElevatedButton.styleFrom(
                                             backgroundColor:
-                                                const Color.fromRGBO(97, 187, 255, 1),
+                                                const Color.fromRGBO(
+                                                    97, 187, 255, 1),
                                             shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(50),
+                                              borderRadius:
+                                                  BorderRadius.circular(50),
                                               side: const BorderSide(
                                                 color: Colors.white,
                                                 width: 2.0,
@@ -253,13 +262,15 @@ class _PetInfoPageState extends State<PetInfoPage> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => PetMedicalHistorialPage(petId: petState.pet.id),
+                                  builder: (context) => PetMedicalHistorialPage(
+                                      petId: petState.pet.id),
                                 ),
                               );
                             }
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color.fromRGBO(97, 187, 255, 1),
+                            backgroundColor:
+                                const Color.fromRGBO(97, 187, 255, 1),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(50),
                               side: const BorderSide(
@@ -281,7 +292,6 @@ class _PetInfoPageState extends State<PetInfoPage> {
                       },
                     ),
                   ),
-
 
                   SizedBox(height: screenHeight * 0.02),
 
