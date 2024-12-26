@@ -131,7 +131,7 @@ class HomePage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const CreateHealthView(),
+                      builder: (context) => const CreateHealthView(petId: 1,),
                     ),
                   );
                 },

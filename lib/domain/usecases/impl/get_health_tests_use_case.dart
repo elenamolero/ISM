@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:petuco/data/repository/impl/health_test_repository_impl.dart';
-import 'package:petuco/data/repository/impl/pet_repository_impl.dart';
-import 'package:petuco/data/repository/pets_repository_interface.dart';
 import 'package:petuco/domain/entities/healthTest.dart';
-import 'package:petuco/domain/entity/pet.entity.dart';
 import 'package:petuco/domain/usecases/get_health_tests_use_case_interface.dart';
-import 'package:petuco/domain/usecases/get_pets_home_use_case_interface.dart';
 class GetHealthTestsUseCase implements GetHealthTestsUseCaseInterface {
   HealthTestRepositoryImpl healthTestsRepository;
   GetHealthTestsUseCase({required this.healthTestsRepository});
@@ -15,7 +11,7 @@ class GetHealthTestsUseCase implements GetHealthTestsUseCaseInterface {
     final healthTests = await healthTestsRepository.getHealthTests(petId);
     debugPrint('Fetched healthTests in use case:');
     for (var healthTest in healthTests) {
-      debugPrint('healthTest: ${healthTest.id}, ${healthTest.testName}, ${healthTest.description}, ${healthTest.date}, ${healthTest.vetId}, ${healthTest.petId}, ${healthTest.place}');
+      debugPrint('healthTest:${healthTest.testName}, ${healthTest.description}, ${healthTest.date}, ${healthTest.vetId}, ${healthTest.petId}, ${healthTest.place}');
     }
     return healthTests;
   }

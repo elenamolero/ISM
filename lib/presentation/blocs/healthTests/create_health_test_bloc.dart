@@ -1,6 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:petuco/domain/entities/healthTest.dart';
-import 'package:petuco/domain/usecases/register_user_use_case_interface.dart';
 import 'package:petuco/domain/usecases/save_health_test_use_case_interface.dart';
 
 
@@ -33,7 +33,9 @@ class CreateHealthTestInfoBloc extends Bloc<CreateHealthTestEvent, CreateHealthT
     on<CreateHealthTestEvent>((event, emit) async {
       emit(CreateHealthTestLoading());
       try {
-        createHealthTestUseCase.saveHealthTestInfo(event.healthTest);
+        debugPrint("Saving health test...");
+        await createHealthTestUseCase.saveHealthTestInfo(event.healthTest);
+        debugPrint("Health test saved successfully.");
         emit(CreateHealthTestSuccess());
       } catch (e) {
         emit(CreateHealthTestError("Failed to save new healthTest info") as CreateHealthTestInfoState);

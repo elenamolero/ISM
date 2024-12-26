@@ -219,7 +219,7 @@ class _PetMedicalHistorialPageState extends State<PetMedicalHistorialPage> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => const CreateHealthView(),
+        builder: (context) => CreateHealthView(petId: widget.petId,),
       ),
     );
   }
