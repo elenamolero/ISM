@@ -13,6 +13,7 @@ import 'package:petuco/data/services/user/user_service.dart';
 import 'package:petuco/domain/usecases/impl/get_user_info_use_case.dart';
 import 'package:petuco/domain/usecases/impl/login_user_use_case.dart';
 import 'package:petuco/domain/usecases/impl/register_user_use_case.dart';
+import 'package:petuco/domain/usecases/impl/save_health_test_info_use_case.dart';
 import 'package:petuco/domain/usecases/impl/save_user_info_use_case.dart';
 
 final appInjector = Injector.appInstance;
@@ -73,5 +74,8 @@ void initInjection() {
 
   appInjector.registerSingleton<RegisterUserInfoUseCase>(() => RegisterUserInfoUseCase(
         userRepository: appInjector.get<UserRepository>(),
+      ));
+  appInjector.registerSingleton<SaveHealthTestInfoUseCase>(() => SaveHealthTestInfoUseCase(
+        healthTestRepository: appInjector.get<HealthTestRepositoryImpl>(),
       ));
 }

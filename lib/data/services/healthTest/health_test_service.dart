@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:petuco/data/services/healthTest/health_test_service.dart';
 import 'package:petuco/data/services/model/health_test_response.dart';
-import 'package:petuco/data/services/pet/pets_service.dart';
-import 'package:petuco/domain/entity/pet.entity.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:petuco/data/services/model/pet_response.dart'; 
+import 'package:petuco/domain/entities/healthTest.dart';
+import 'package:supabase_flutter/supabase_flutter.dart'; 
 
 class HealthTestsService {
 
@@ -13,7 +10,7 @@ class HealthTestsService {
       final response = await Supabase.instance.client.from('HealthTest').select('*').eq('petId', petId);
       debugPrint('Response from Supabase: $response'); 
 
-      if (response != null && response.isNotEmpty) {
+      if (response.isNotEmpty) {
         return response.map<HealthTestResponse>((healthTest) {
           return HealthTestResponse.toDomain(healthTest);
         }).toList();
@@ -24,6 +21,14 @@ class HealthTestsService {
     } catch (error) {
       debugPrint('Error fetching healthTests: $error');  
       return [];
+    }
+  }
+
+  Future<void> saveHealthTestInfo(HealthTest healthTest) async {
+    try {
+      await Supabase.instance.client.from('HealthTest').insert(healthTest.toMap());
+    } catch (e) {
+      throw Exception('Failed to save healthTest info: $e');
     }
   }
 }
