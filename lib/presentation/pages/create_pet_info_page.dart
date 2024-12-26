@@ -214,7 +214,6 @@ class _CreatePetInfoPageState extends State<CreatePetInfoPage> {
                                           ),
                                         ),
                                       ),
-                                      
                                     ],
                                   ),
                                 ),
@@ -222,8 +221,6 @@ class _CreatePetInfoPageState extends State<CreatePetInfoPage> {
                             ),
                           ),
                           const SizedBox(height: 60), // Espacio adicional
-
-                          
                         ],
                       ),
                     ),
@@ -232,17 +229,14 @@ class _CreatePetInfoPageState extends State<CreatePetInfoPage> {
               },
             ),
             const Positioned(
-                        bottom: 0,
-                        left: 0,
-                        right: 0,
-                        child: FooterWidget(),
-                      ),
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: FooterWidget(),
+            ),
           ],
-          
         ),
-        
       ),
-      
     );
   }
 

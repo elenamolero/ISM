@@ -41,6 +41,7 @@ class PetRepositoryImpl implements PetsRepositoryInterface {
     try {
       String? imageUrl = pet.photo;
       if (imageFile != null) {
+        debugPrint('Uploading new image...');
         imageUrl = await petsService.uploadImage(imageFile);
       }
 
@@ -54,10 +55,11 @@ class PetRepositoryImpl implements PetsRepositoryInterface {
         photo: imageUrl,
       );
 
-      print('Updating pet data: ${petResponse.toMap()}');
+      debugPrint('Updating pet data: ${petResponse.toMap()}');
       await petsService.updatePetData(petResponse);
+      debugPrint('Pet data updated successfully');
     } catch (e) {
-      print('Error in repository while updating pet info: $e');
+      debugPrint('Error in repository while updating pet info: $e');
       throw Exception('Failed to update pet info: $e');
     }
   }

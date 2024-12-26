@@ -3,7 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:petuco/data/services/pet/pets_service.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:path/path.dart' as path;
+import 'package:path/path.dart'
+    as path; // Ensure 'path' is added to pubspec.yaml
 
 class PetsService {
   Future<List<PetResponse>> fetchPetsData(String ownerEmail) async {
@@ -14,7 +15,7 @@ class PetsService {
           .eq('ownerEmail', ownerEmail);
       debugPrint('Response from Supabase: $response');
 
-      if (response != null && response.isNotEmpty) {
+      if (response.isNotEmpty) {
         return response.map<PetResponse>((pet) {
           return PetResponse.toDomain(pet);
         }).toList();
@@ -55,6 +56,7 @@ class PetsService {
   }
 
   Future<void> updatePetData(PetResponse pet) async {
+    // Perform the update operation
     await Supabase.instance.client
         .from('Pet')
         .update(pet.toMap())
@@ -73,7 +75,7 @@ class PetsService {
 
       debugPrint('Response from Supabase: $response');
 
-      if (response != null) {
+      if (response.isNotEmpty) {
         // Convertir la respuesta al dominio PetResponse
         return PetResponse.toDomain(response);
       } else {

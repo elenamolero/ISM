@@ -1,12 +1,16 @@
 import 'dart:io';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:petuco/data/repository/pets_repository_interface.dart';
 import '../../../domain/entity/pet.entity.dart';
 import '../../../domain/usecases/update_pet_info.dart';
 
-//Events
+// Events
 abstract class UpdatePetInfoEvent {}
+
+class LoadPetEvent extends UpdatePetInfoEvent {
+  final int petId;
+  LoadPetEvent(this.petId);
+}
 
 class UpdatePetEvent extends UpdatePetInfoEvent {
   final Pet pet;
@@ -14,12 +18,7 @@ class UpdatePetEvent extends UpdatePetInfoEvent {
   UpdatePetEvent(this.pet, this.imageFile);
 }
 
-class LoadPetEvent extends UpdatePetInfoEvent {
-  final int petId;
-  LoadPetEvent(this.petId);
-}
-
-//States
+// States
 abstract class UpdatePetInfoState {}
 
 class UpdatePetInitial extends UpdatePetInfoState {}
