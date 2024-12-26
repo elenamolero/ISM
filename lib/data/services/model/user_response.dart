@@ -6,6 +6,8 @@ class UserResponse {
   final int phoneNumber;
   final String password;
   final String role;
+  final String? company;
+  final String? cif;
 
   UserResponse({
     required this.id,
@@ -15,6 +17,8 @@ class UserResponse {
     required this.phoneNumber,
     required this.password,
     required this.role,
+    this.company,
+    this.cif,
   });
 
   static UserResponse toDomain(Map<String, dynamic>? map) {
@@ -26,6 +30,8 @@ class UserResponse {
       phoneNumber: map?['phoneNumber'] ?? 0,
       password: map?['password'] ?? '',
       role: map?['role'] ?? '',
+      company: map?['company'],
+      cif: map?['cif'],
     );
   }
 }

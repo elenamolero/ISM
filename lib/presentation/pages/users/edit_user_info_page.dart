@@ -6,6 +6,10 @@ import 'package:petuco/domain/usecases/impl/save_user_info_use_case.dart';
 import 'package:petuco/presentation/blocs/users/get_user_info_bloc.dart';
 import 'package:petuco/presentation/blocs/users/save_user_info_bloc.dart';
 import 'package:petuco/presentation/widgets/background_widget.dart';
+import 'package:petuco/presentation/widgets/custom_text_field_widget.dart';
+import 'package:petuco/presentation/widgets/custom_text_widget.dart';
+import 'package:petuco/presentation/widgets/footer_widget.dart';
+import 'package:supabase_auth_ui/supabase_auth_ui.dart';
 import '../../../domain/entities/user.dart' as user;
 
 class EditUserInfoPage extends StatefulWidget {
@@ -21,6 +25,8 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
   late TextEditingController addressController;
   late TextEditingController phoneNumberController;
   late TextEditingController passwordController;
+  late TextEditingController confirmPasswordController;
+  late TextEditingController roleController;
 
   @override
   void initState() {
@@ -30,6 +36,8 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
     addressController = TextEditingController();
     phoneNumberController = TextEditingController();
     passwordController = TextEditingController();
+    roleController = TextEditingController();
+    confirmPasswordController = TextEditingController();
   }
 
   @override
@@ -40,27 +48,31 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
     addressController.dispose();
     phoneNumberController.dispose();
     passwordController.dispose();
+    roleController.dispose();
+    confirmPasswordController.dispose();
     super.dispose();
   }
 
   bool _isObscure = true;
+  bool _isObscureConfirm = true;
 
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => GetUserInfoBloc(getUserInfoUseCase: appInjector.get<GetUserInfoUseCase>())..add(GetUserEvent('arvipe@hotmail.com')),
+          create: (context) => GetUserInfoBloc(getUserInfoUseCase: appInjector.get<GetUserInfoUseCase>())..add(GetUserEvent(Supabase.instance.client.auth.currentUser!.email!)),
         ),
         BlocProvider(
           create: (_) => SaveUserInfoBloc(saveUserInfoUseCase: appInjector.get<SaveUserInfoUseCase>()),
         ),
       ],
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         body:Stack(
         children: [
           const BackGround(title: 'Edit User Info'),
-         BlocListener<SaveUserInfoBloc, SaveUserInfoState>(
+          BlocListener<SaveUserInfoBloc, SaveUserInfoState>(
           listener: (context, state) {
             if (state is SaveUserSuccess) {
               ScaffoldMessenger.of(context).showSnackBar(
@@ -83,17 +95,23 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
                 addressController.text = userInfo.address;
                 phoneNumberController.text = userInfo.phoneNumber.toString();
                 passwordController.text = userInfo.password;
+                confirmPasswordController.text = userInfo.password;
+                roleController.text = userInfo.role;
               } else if (state is GetUserError) {
                 return Center(child: Text('Error: ${state.message}'));
               }
 
               return Padding(
-                padding: const EdgeInsets.all(40),
+                padding: EdgeInsets.only(
+                  left: 40, 
+                  right: 40,
+                  top: kToolbarHeight+MediaQuery.of(context).padding.top,
+                  bottom: 50),
                 child: SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const SizedBox(height: 80),
+                      const SizedBox(height: 30),
                       ClipRRect(
                         borderRadius: BorderRadius.circular(12),
                         child: Container(
@@ -102,177 +120,54 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
                             borderRadius: BorderRadius.circular(40),
                           ),
                           child: Padding(
-                            padding: const EdgeInsets.all(50.0),
+                            padding: const EdgeInsets.all(40.0),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-
-                                const Text(
-                                  'Name',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    color: Colors.white,
-                                  ),
+                                const CustomText(
+                                  text: 'Name'
                                 ),
+                                const CustomTextField(
+                                  labelText: 'Name',
+                                  icon: Icons.person,
+                                ),
+                                const SizedBox(height: 8),
 
-                                TextField(
-                                  controller: nameController,
-                                  decoration: InputDecoration(
-                                    hintText: 'Name',
-                                            hintStyle: TextStyle(
-                                              fontSize: 18,
-                                              color: Colors.grey[400],
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                            labelStyle: const TextStyle(
-                                              fontSize: 18,
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                            suffixIcon: const Icon(
-                                              Icons.person,
-                                              color: Colors.grey,
-                                            ),
-                                            border: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(12),
-                                            ),
-                                            filled: true,
-                                            fillColor: Colors.white,
-                                          ),
+                                const CustomText(
+                                  text: 'Email'
+                                ),
+                                const CustomTextField(
+                                  labelText: 'Email',
+                                  icon: Icons.email,
+                                ),
+                                const SizedBox(height: 8),
+
+                                const CustomText(
+                                  text: 'Address'
+                                ),
+                                const CustomTextField(
+                                  labelText: 'Address',
+                                  icon: Icons.home,
+                                ),
+                                const SizedBox(height: 8),
+
+                                const CustomText(
+                                  text: 'Phone Number'
+                                ),
+                                const CustomTextField(
+                                  labelText: 'Phone Number',
+                                  icon: Icons.email,
                                 ),
 
                                 const SizedBox(height: 8),
-
-                                const Text(
-                                  'Email',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    color: Colors.white,
-                                  ),
+                                const CustomText(
+                                  text: 'Password'
                                 ),
-
-                                TextField(
-                                  controller: emailController,
-                                  decoration: InputDecoration(
-                                    hintText: 'Email',
-                                    hintStyle: TextStyle(
-                                      fontSize: 18,
-                                      color: Colors.grey[400],
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                    labelStyle: const TextStyle(
-                                      fontSize: 18,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                    suffixIcon: const Icon(
-                                      Icons.email,
-                                      color: Colors.grey,
-                                    ),
-                                    border: OutlineInputBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(12),
-                                    ),
-                                    filled: true,
-                                    fillColor: Colors.white,
-                                  ),
-                                ),
-
-                                const Text(
-                                  'Address',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    color: Colors.white,
-                                  ),
-                                ),
-
-                                TextField(
-                                  controller: addressController,
-                                  decoration: InputDecoration(
-                                    hintText: 'Address',
-                                    hintStyle: TextStyle(
-                                      fontSize: 18,
-                                      color: Colors.grey[400],
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                    labelStyle: const TextStyle(
-                                      fontSize: 18,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                    suffixIcon: const Icon(
-                                      Icons.home,
-                                      color: Colors.grey,
-                                    ),
-                                    border: OutlineInputBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(12),
-                                    ),
-                                    filled: true,
-                                    fillColor: Colors.white,
-                                  ),
-                                ),
-
-                                const Text(
-                                  'Phone Number',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    color: Colors.white,
-                                  ),
-                                ),
-
-                                TextField(
-                                  controller: phoneNumberController,
-                                  decoration: InputDecoration(
-                                    hintText: 'Phone Number',
-                                    hintStyle: TextStyle(
-                                      fontSize: 18,
-                                      color: Colors.grey[400],
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                    labelStyle: const TextStyle(
-                                      fontSize: 18,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                    suffixIcon: const Icon(
-                                      Icons.phone,
-                                      color: Colors.grey,
-                                    ),
-                                    border: OutlineInputBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(12),
-                                    ),
-                                    filled: true,
-                                    fillColor: Colors.white,
-                                  ),
-                                ),
-
-                                const Text(
-                                  'Password',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                      
-                                TextField(
+                                CustomTextField(
                                   obscureText: _isObscure,
-                                  controller: passwordController,
-                                  decoration: InputDecoration(
-                                    hintText: 'Password',
-                                    hintStyle: TextStyle(
-                                      fontSize: 18,
-                                      color: Colors.grey[400],
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                    labelStyle: const TextStyle(
-                                      fontSize: 18,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                    suffixIcon: IconButton(
+                                  labelText: 'Password',
+                                  icon: Icons.email,
+                                  suffixIcon: IconButton(
                                       icon: Icon(
                                         _isObscure ? Icons.visibility_off : Icons.visibility,
                                       ),
@@ -282,14 +177,27 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
                                         });
                                       },
                                     ),
-                                    border: OutlineInputBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(12),
-                                    ),
-                                    filled: true,
-                                    fillColor: Colors.white,
-                                  ),
                                 ),
+
+                                const SizedBox(height: 8),
+                                const CustomText(
+                                  text: 'Confirm Password'
+                                ),
+                                CustomTextField(
+                                  obscureText: _isObscureConfirm,
+                                  labelText: 'Password',
+                                  icon: Icons.email,
+                                  suffixIcon: IconButton(
+                                      icon: Icon(
+                                        _isObscureConfirm ? Icons.visibility_off : Icons.visibility,
+                                      ),
+                                      onPressed: () {
+                                        setState(() {
+                                          _isObscureConfirm = !_isObscureConfirm; // Alterna el estado
+                                        });
+                                      },
+                                    ),
+                                )
                               ],
                             )
                             )
@@ -303,13 +211,19 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
                           width: 224,
                           child: ElevatedButton(
                             onPressed: () {
+                              if (passwordController.text != confirmPasswordController.text) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(content: Text('Passwords do not match')),
+                                );
+                                return;
+                              }
                               final updatedUser = user.User(
                               name: nameController.text,
                               email: emailController.text,
                               address: addressController.text,
                               phoneNumber: int.tryParse(phoneNumberController.text) ?? 0,
                               password: passwordController.text,
-                              role: 'user',
+                              role: roleController.text,
                             );
                             context.read<SaveUserInfoBloc>().add(
                                   SaveUserEvent(updatedUser),
@@ -341,7 +255,8 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
                             ),
                           )
                         )
-                      )
+                      ),
+                      const SizedBox(height: 50),
                     ],
                   ),
                 ),
@@ -349,12 +264,15 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
             },
           ),
         ),
+          const Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: FooterWidget(),
+          ),
         ],
       ),
       ),
     );
   }
 }
-
-
-

@@ -1,8 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:petuco/domain/entities/healthTest.dart';
-import 'package:petuco/domain/entity/pet.entity.dart';
 import 'package:petuco/domain/usecases/get_health_tests_use_case_interface.dart';
-import 'package:petuco/domain/usecases/get_pets_home_use_case_interface.dart';
+
 
 // Estados
 abstract class HealthTestState {}
