@@ -1,78 +1,76 @@
 import 'dart:io';
-import 'package:path/path.dart' as path;
-import 'package:flutter/material.dart';
-import 'package:petuco/data/services/model/pet_response.dart';
-import 'package:petuco/data/services/pet/pets_service.dart';
+
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class PetsService {
-  Future<List<PetResponse>> fetchPetsData(String ownerEmail) async {
-    try {
-      final response = await Supabase.instance.client
-          .from('Pet')
-          .select('*')
-          .eq('ownerEmail', ownerEmail);
-      debugPrint('Response from Supabase: $response');
+class PetResponse {
+  final int id;
+  final String name;
+  final String ownerEmail;
+  final int age;
+  final String type;
+  final String breed;
+  final String? photo;
 
-      if (response != null && response.isNotEmpty) {
-        return response.map<PetResponse>((pet) {
-          return PetResponse.toDomain(pet);
-        }).toList();
-      } else {
-        debugPrint('No pets found in response');
-        return [];
-      }
-    } catch (error) {
-      debugPrint('Error fetching pets: $error');
-      return [];
-    }
-  }
-
-  Future<String> uploadImage(File photo) async {
-    final fileName =
-        '${DateTime.now().toIso8601String()}_${path.basename(photo.path)}';
-    await Supabase.instance.client.storage
-        .from('petUCOFotos')
-        .upload(fileName, photo);
-
-    final photoUrl = Supabase.instance.client.storage
-        .from('petUCOFotos')
-        .getPublicUrl(fileName);
-
-    return photoUrl;
-  }
+  PetResponse({
+    required this.id,
+    required this.name,
+    required this.ownerEmail,
+    required this.age,
+    required this.type,
+    required this.breed,
+    this.photo,
+  });
 
   Future<void> savePetData(PetResponse pet) async {
+    await Supabase.instance.client
+        .from('Pet') // Fixed table name to match fetchPetsData
+        .insert(pet); // Insert the PetResponse objects directly
+  }
+
+  Future<void> updatePetData(PetResponse pet) async {
     try {
-      // Convert the PetResponse object to a Map before inserting
-      await Supabase.instance.client
+      print('Attempting to update pet with ID: ${pet.id}');
+      print('Update data: ${pet.toMap()}');
+
+      final response = await Supabase.instance.client
           .from('Pet')
-          .insert(pet.toMap()); // Call toMap() to serialize the object
-      debugPrint('Save response from Supabase');
+          .update({'name': 'marujitas', 'age': 5}).eq('id', pet.id);
+
+      if (response.error != null) {
+        print('Supabase update error: ${response.error!.message}');
+        throw Exception('Failed to update pet: ${response.error!.message}');
+      } else {
+        print('Pet updated successfully. Response: ${response.data}');
+      }
     } catch (error) {
-      debugPrint('Error saving pet data: $error');
+      print('Error updating pet data: $error');
+      throw Exception('Failed to update pet: $error');
     }
   }
 
-  Future<PetResponse?> fetchPetDataById(int petId) async {
-    try {
-      final response = await Supabase.instance.client
-          .from('Pet')
-          .select()
-          .eq('id', petId)
-          .single();
+  // Convert a map to a PetResponse instance
+  static PetResponse toDomain(Map<String, dynamic> map) {
+    return PetResponse(
+      id: map['id'] ?? '',
+      name: map['name'] ?? '',
+      ownerEmail: map['ownerEmail'] ?? '',
+      age: map['age'] ?? 0,
+      type: map['type'] ?? '',
+      breed: map['breed'] ?? '',
+      photo: map['photo'],
+    );
+  }
 
-      debugPrint('Response from Supabase: $response');
-
-      if (response != null) {
-        return PetResponse.toDomain(response);
-      } else {
-        debugPrint('No pet found in response');
-        return null;
-      }
-    } catch (error) {
-      debugPrint('Error fetching pet: $error');
-      return null;
-    }
+  // Convert PetResponse instance to a Map for insertion into Supabase
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'name': name,
+      'age': age,
+      'type': type,
+      'breed': breed,
+      'ownerEmail': ownerEmail,
+      'photo': photo,
+    };
   }
 }

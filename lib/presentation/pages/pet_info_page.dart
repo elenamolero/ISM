@@ -72,7 +72,6 @@ class _PetInfoPageState extends State<PetInfoPage> {
                       },
                     ),
                   ),
-
                   SizedBox(height: screenHeight * 0.03),
 
                   // Main Content Container
