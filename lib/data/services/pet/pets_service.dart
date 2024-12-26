@@ -56,7 +56,6 @@ class PetsService {
 
   Future<PetResponse?> fetchPetDataById(int petId) async {
     try {
-
       final response = await Supabase.instance.client
           .from('Pet')
           .select()
@@ -66,7 +65,6 @@ class PetsService {
       debugPrint('Response from Supabase: $response');
 
       if (response != null) {
-
         return PetResponse.toDomain(response);
       } else {
         debugPrint('No pet found in response');

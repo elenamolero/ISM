@@ -1,12 +1,12 @@
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:petuco/data/repository/impl/pet_repository_impl.dart';
-import 'package:petuco/data/services/model/pet_response.dart';
 import 'package:petuco/data/services/pet/pets_service.dart';
 import 'package:petuco/presentation/widgets/background_widget.dart';
-import 'package:petuco/presentation/widgets/footer_widget.dart';
 import '../../../domain/usecases/save_pet_info.dart';
 import '../blocs/pets/create_pet_info_bloc.dart';
 import '../../domain/entity/pet.entity.dart';
@@ -26,7 +26,9 @@ class _CreatePetInfoPageState extends State<CreatePetInfoPage> {
   final _ageController = TextEditingController();
   final _typeController = TextEditingController();
   final _breedController = TextEditingController();
-  File? _imageFile;
+  File? _imageFile; // Native platforms
+  Uint8List? _imageBytes; // Web platforms
+  String? _imageName;
 
   @override
   void dispose() {
@@ -39,12 +41,26 @@ class _CreatePetInfoPageState extends State<CreatePetInfoPage> {
   }
 
   Future<void> _pickImage() async {
-    final pickedFile =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
-    if (pickedFile != null) {
-      setState(() {
-        _imageFile = File(pickedFile.path);
-      });
+    if (kIsWeb) {
+      // Use FilePicker for web
+      final result = await FilePicker.platform.pickFiles(
+        type: FileType.image,
+      );
+      if (result != null && result.files.single.bytes != null) {
+        setState(() {
+          _imageBytes = result.files.single.bytes;
+          _imageName = result.files.single.name;
+        });
+      }
+    } else {
+      // Use ImagePicker for native
+      final pickedFile =
+          await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (pickedFile != null) {
+        setState(() {
+          _imageFile = File(pickedFile.path);
+        });
+      }
     }
   }
 
@@ -73,6 +89,8 @@ class _CreatePetInfoPageState extends State<CreatePetInfoPage> {
                   _formKey.currentState?.reset();
                   setState(() {
                     _imageFile = null;
+                    _imageBytes = null;
+                    _imageName = null;
                   });
                 } else if (state is CreatePetError) {
                   ScaffoldMessenger.of(context).showSnackBar(
@@ -135,7 +153,14 @@ class _CreatePetInfoPageState extends State<CreatePetInfoPage> {
                                       Center(
                                         child: Column(
                                           children: [
-                                            if (_imageFile != null)
+                                            if (_imageBytes != null)
+                                              Image.memory(
+                                                _imageBytes!,
+                                                height: 100,
+                                                width: 100,
+                                                fit: BoxFit.cover,
+                                              )
+                                            else if (_imageFile != null)
                                               Image.file(
                                                 _imageFile!,
                                                 height: 100,
@@ -177,8 +202,9 @@ class _CreatePetInfoPageState extends State<CreatePetInfoPage> {
                                                           breed:
                                                               _breedController
                                                                   .text,
-                                                          photo:
-                                                              _imageFile?.path,
+                                                          photo: _imageFile
+                                                                  ?.path ??
+                                                              _imageName,
                                                         ),
                                                         _imageFile,
                                                       ),
@@ -215,16 +241,12 @@ class _CreatePetInfoPageState extends State<CreatePetInfoPage> {
                                           ),
                                         ),
                                       ),
-                                      
                                     ],
                                   ),
                                 ),
                               ),
                             ),
                           ),
-                          const SizedBox(height: 60), // Espacio adicional
-
-                          
                         ],
                       ),
                     ),
@@ -232,18 +254,9 @@ class _CreatePetInfoPageState extends State<CreatePetInfoPage> {
                 );
               },
             ),
-            const Positioned(
-                        bottom: 0,
-                        left: 0,
-                        right: 0,
-                        child: FooterWidget(),
-                      ),
           ],
-          
         ),
-        
       ),
-      
     );
   }
 

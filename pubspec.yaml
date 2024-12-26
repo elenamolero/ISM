@@ -48,6 +48,7 @@ dependencies:
   image_picker: ^1.1.2
   nfc_manager: ^3.5.0
   url_launcher: ^6.1.7
+  file_picker: ^8.1.7
 
 dev_dependencies:
   flutter_test:
