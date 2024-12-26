@@ -9,7 +9,6 @@ import 'package:petuco/presentation/pages/pet_medical_historial_page.dart';
 import 'package:petuco/presentation/pages/users/register_user_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:petuco/presentation/pages/users/edit_user_info_page.dart';
-import 'package:petuco/presentation/pages/update_pet_info_page.dart';
 import 'package:flutter/services.dart';
 import 'package:petuco/presentation/pages/login_page.dart';
 
@@ -65,24 +64,12 @@ class HomePage extends StatelessWidget {
           ),
         ),
         child: Center(
-          child: const Column(
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
+              const Text(
                 'Bienvenido',
                 style: TextStyle(fontSize: 54),
-              ),
-              /** const SizedBox(height: 20),
-             ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const UpdatePetInfoPage(),
-                    ),
-                  );
-                },
-                child: const Text('Go to Update Pet Info'),*/
               ),
               const SizedBox(height: 20),
               ElevatedButton(

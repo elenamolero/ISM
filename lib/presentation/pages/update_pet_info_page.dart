@@ -2,18 +2,18 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:petuco/data/repository/impl/pet_repository_impl.dart';
+import 'package:petuco/data/services/model/pet_response.dart';
 import 'package:petuco/presentation/widgets/background_widget.dart';
 import '../../../domain/usecases/update_pet_info.dart';
 import '../blocs/pets/update_pet_info_bloc.dart';
 import '../../domain/entity/pet.entity.dart';
 import 'dart:ui';
-import '../../data/repository/pet_repository_impl.dart';
-import '../../data/services/pet/pets_service.dart';
 
 class UpdatePetInfoPage extends StatefulWidget {
   final int petId;
 
-  const UpdatePetInfoPage(required petId, {Key? key, required this.petId}) : super(key: key);
+  const UpdatePetInfoPage({Key? key, required this.petId}) : super(key: key);
 
   @override
   _UpdatePetInfoPageState createState() => _UpdatePetInfoPageState();
@@ -55,7 +55,7 @@ class _UpdatePetInfoPageState extends State<UpdatePetInfoPage> {
     _ageController.text = pet.age.toString();
     _typeController.text = pet.type;
     _breedController.text = pet.breed;
-    _currentImageUrl = pet.imageUrl;
+    _currentImageUrl = pet.photo;
   }
 
   @override
@@ -200,7 +200,7 @@ class _UpdatePetInfoPageState extends State<UpdatePetInfoPage> {
                                                           breed:
                                                               _breedController
                                                                   .text,
-                                                          imageUrl:
+                                                          photo:
                                                               _currentImageUrl,
                                                         ),
                                                         _imageFile,
