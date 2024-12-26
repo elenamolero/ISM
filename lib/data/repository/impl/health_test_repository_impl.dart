@@ -42,5 +42,14 @@ class HealthTestRepositoryImpl implements HealthTestRepositoryInterface {
     
     return healthTests;
   }
+
+  Future<void> saveHealthTestInfo(HealthTest healthTest) async {
+    try {
+      await healthTestsService.saveHealthTestInfo(healthTest);
+    } catch (e) {
+      print('Error in repository while saving healthTest info: $e');
+      throw Exception('Failed to save healthTest info: $e');
+    }
+  }
 }
 
