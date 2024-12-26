@@ -93,12 +93,12 @@ class _PetMedicalHistorialPageState extends State<PetMedicalHistorialPage> {
                     },
                   ),
                 ),
-                 const Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: FooterWidget(),
-            ),
+                const Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: FooterWidget(),
+                ),
               ],
               
             ),
