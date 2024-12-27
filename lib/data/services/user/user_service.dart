@@ -19,6 +19,7 @@ class UserService {
     .update({ 'name': user.name, 'email': user.email, 'address': user.address, 'phoneNumber': user.phoneNumber, 'password': user.password}) 
     .eq('email', user.email)
     .select();
+    Supabase.instance.client.auth.updateUser(UserAttributes(password: user.password, email: user.email));
   }
 
   Future<void> registerUserInfo(user.User user) async {
