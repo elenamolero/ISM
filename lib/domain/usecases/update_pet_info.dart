@@ -1,4 +1,4 @@
-import '../entities/pet.dart';
+import '../entities/pet.entity.dart';
 import '../../data/repository/pets_repository_interface.dart';
 import 'dart:io';
 

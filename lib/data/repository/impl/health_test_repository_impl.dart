@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:petuco/data/repository/health_test_repository_interface.dart';
 import 'package:petuco/data/services/healthTest/health_test_service.dart';
-import 'package:petuco/domain/entities/healthTest.dart';
+import 'package:petuco/domain/entities/healthTest.entity.dart';
 
 
 class HealthTestRepositoryImpl implements HealthTestRepositoryInterface {

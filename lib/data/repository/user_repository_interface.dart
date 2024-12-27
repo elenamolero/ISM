@@ -1,4 +1,4 @@
-import '../../domain/entities/user.dart' as user;
+import '../../domain/entities/user.entity.dart' as user;
 
 abstract class UserRepositoryInterface {
   Future<user.User> getUserInfo(String email);

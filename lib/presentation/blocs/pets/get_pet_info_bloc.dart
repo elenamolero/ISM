@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:petuco/domain/entities/pet.dart';
+import 'package:petuco/domain/entities/pet.entity.dart';
 import 'package:petuco/domain/usecases/get_pet_info_use_case_interface.dart';
 
 // Estados

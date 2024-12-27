@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:petuco/domain/usecases/impl/login_user_use_case.dart';
-import '../../../domain/entities/user.dart';
+import '../../../domain/entities/user.entity.dart';
 
 abstract class LoginUserEvent {}
 class UpdateEmailEvent extends LoginUserEvent {

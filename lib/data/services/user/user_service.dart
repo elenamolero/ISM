@@ -1,6 +1,6 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:supabase_auth_ui/supabase_auth_ui.dart';
-import 'package:petuco/domain/entities/user.dart' as user;
+import 'package:petuco/domain/entities/user.entity.dart' as user;
 import 'package:petuco/data/services/model/user_response.dart' as user_response;
 
 class UserService {

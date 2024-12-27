@@ -1,4 +1,4 @@
-import 'package:petuco/domain/entities/pet.dart';
+import 'package:petuco/domain/entities/pet.entity.dart';
 
 abstract class GetPetsHomeUseCaseInterface {
   

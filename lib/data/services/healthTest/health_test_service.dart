@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:petuco/data/services/model/health_test_response.dart';
-import 'package:petuco/domain/entities/healthTest.dart';
+import 'package:petuco/domain/entities/healthTest.entity.dart';
 import 'package:supabase_flutter/supabase_flutter.dart'; 
 
 class HealthTestsService {
