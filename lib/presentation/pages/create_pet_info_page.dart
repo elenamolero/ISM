@@ -1,8 +1,11 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:petuco/data/repository/impl/pet_repository_impl.dart';
 import 'package:petuco/data/services/model/pet_response.dart';
 import 'package:petuco/presentation/widgets/background_widget.dart';
+import 'package:petuco/presentation/widgets/footer_widget.dart';
 import '../../../domain/usecases/save_pet_info.dart';
 import '../blocs/pets/create_pet_info_bloc.dart';
 import '../../domain/entities/pet.dart';
@@ -22,7 +25,7 @@ class _CreatePetInfoPageState extends State<CreatePetInfoPage> {
   final _ageController = TextEditingController();
   final _typeController = TextEditingController();
   final _breedController = TextEditingController();
-  final _photoUrlController = TextEditingController();
+  File? _imageFile;
 
   @override
   void dispose() {
@@ -31,8 +34,17 @@ class _CreatePetInfoPageState extends State<CreatePetInfoPage> {
     _ageController.dispose();
     _typeController.dispose();
     _breedController.dispose();
-    _photoUrlController.dispose();
     super.dispose();
+  }
+
+  Future<void> _pickImage() async {
+    final pickedFile =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      setState(() {
+        _imageFile = File(pickedFile.path);
+      });
+    }
   }
 
   @override
@@ -58,6 +70,9 @@ class _CreatePetInfoPageState extends State<CreatePetInfoPage> {
                     ),
                   );
                   _formKey.currentState?.reset();
+                  setState(() {
+                    _imageFile = null;
+                  });
                 } else if (state is CreatePetError) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text(state.message)),
@@ -97,7 +112,7 @@ class _CreatePetInfoPageState extends State<CreatePetInfoPage> {
                                       _buildTextField(
                                         label: 'Owner Email',
                                         controller: _ownerController,
-                                        icon: Icons.email_outlined,
+                                        icon: Icons.person_outlined,
                                       ),
                                       _buildTextField(
                                         label: 'Age',
@@ -115,10 +130,23 @@ class _CreatePetInfoPageState extends State<CreatePetInfoPage> {
                                         controller: _breedController,
                                         icon: Icons.star_border_outlined,
                                       ),
-                                      _buildTextField(
-                                        label: 'Photo',
-                                        controller: _photoUrlController,
-                                        icon: Icons.image_outlined,
+                                      const SizedBox(height: 20),
+                                      Center(
+                                        child: Column(
+                                          children: [
+                                            if (_imageFile != null)
+                                              Image.file(
+                                                _imageFile!,
+                                                height: 100,
+                                                width: 100,
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ElevatedButton(
+                                              onPressed: _pickImage,
+                                              child: const Text('Pick Image'),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                       const SizedBox(height: 20),
                                       Center(
@@ -149,9 +177,9 @@ class _CreatePetInfoPageState extends State<CreatePetInfoPage> {
                                                               _breedController
                                                                   .text,
                                                           photo:
-                                                              _photoUrlController
-                                                                  .text,
+                                                              _imageFile?.path,
                                                         ),
+                                                        _imageFile,
                                                       ),
                                                     );
                                               }
@@ -192,12 +220,19 @@ class _CreatePetInfoPageState extends State<CreatePetInfoPage> {
                               ),
                             ),
                           ),
+                          const SizedBox(height: 60), // Espacio adicional
                         ],
                       ),
                     ),
                   ),
                 );
               },
+            ),
+            const Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: FooterWidget(),
             ),
           ],
         ),

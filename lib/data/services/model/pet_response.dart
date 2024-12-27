@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:petuco/data/services/pet/pets_service.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:path/path.dart'
+    as path; // Ensure 'path' is added to pubspec.yaml
 
 class PetsService {
   Future<List<PetResponse>> fetchPetsData(String ownerEmail) async {
@@ -11,7 +15,7 @@ class PetsService {
           .eq('ownerEmail', ownerEmail);
       debugPrint('Response from Supabase: $response');
 
-      if (response != null && response.isNotEmpty) {
+      if (response.isNotEmpty) {
         return response.map<PetResponse>((pet) {
           return PetResponse.toDomain(pet);
         }).toList();
@@ -25,16 +29,39 @@ class PetsService {
     }
   }
 
+  Future<String> uploadImage(File photo) async {
+    final fileName =
+        '${DateTime.now().toIso8601String()}_${path.basename(photo.path)}';
+    await Supabase.instance.client.storage
+        .from('petUCOFotos')
+        .upload(fileName, photo);
+
+    final photoUrl = Supabase.instance.client.storage
+        .from('petUCOFotos')
+        .getPublicUrl(fileName);
+
+    return photoUrl;
+  }
+
   Future<void> savePetData(PetResponse pet) async {
     try {
       // Convert the PetResponse object to a Map before inserting
-      final response = await Supabase.instance.client
+      await Supabase.instance.client
           .from('Pet')
           .insert(pet.toMap()); // Call toMap() to serialize the object
-      debugPrint('Save response from Supabase: $response');
+      debugPrint('Save response from Supabase');
     } catch (error) {
       debugPrint('Error saving pet data: $error');
     }
+  }
+
+  Future<void> updatePetData(PetResponse pet) async {
+    // Perform the update operation
+    await Supabase.instance.client
+        .from('Pet')
+        .update(pet.toMap())
+        .eq('id', pet.id)
+        .select();
   }
 
   Future<PetResponse?> fetchPetDataById(int petId) async {
@@ -48,7 +75,7 @@ class PetsService {
 
       debugPrint('Response from Supabase: $response');
 
-      if (response != null) {
+      if (response.isNotEmpty) {
         // Convertir la respuesta al dominio PetResponse
         return PetResponse.toDomain(response);
       } else {

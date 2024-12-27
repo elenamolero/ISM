@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:petuco/data/repository/pets_repository_interface.dart';
 import 'package:petuco/data/services/model/pet_response.dart';
@@ -11,22 +13,55 @@ class PetRepositoryImpl implements PetsRepositoryInterface {
   PetRepositoryImpl({required this.petsService});
 
   @override
-  Future<void> savePetInfo(Pet pet) async {
-    final petResponse = PetResponse(
-      id: pet.id,
-      name: pet.name,
-      ownerEmail: pet.ownerEmail,
-      age: pet.age,
-      type: pet.type,
-      breed: pet.breed,
-      photo: pet.photo,
-    );
-    await petsService.savePetData(petResponse);
+  Future<void> savePetInfo(Pet pet, File? imageFile) async {
+    try {
+      String? photo;
+      if (imageFile != null) {
+        photo = await petsService.uploadImage(imageFile);
+      }
+
+      final petResponse = PetResponse(
+        id: pet.id,
+        name: pet.name,
+        ownerEmail: pet.ownerEmail,
+        age: pet.age,
+        type: pet.type,
+        breed: pet.breed,
+        photo: photo,
+      );
+      await petsService.savePetData(petResponse);
+    } catch (e) {
+      print('Error in repository while saving pet info: $e');
+      throw Exception('Failed to save pet info: $e');
+    }
   }
 
-  Future<void> updatePetInfo(Pet pet) async {
-    // Logic for updating pet information (API, database, etc.)
-    print('Pet updated in repository: ${pet.name}');
+  @override
+  Future<void> updatePetInfo(Pet pet, File? imageFile) async {
+    try {
+      String? imageUrl = pet.photo;
+      if (imageFile != null) {
+        debugPrint('Uploading new image...');
+        imageUrl = await petsService.uploadImage(imageFile);
+      }
+
+      final petResponse = PetResponse(
+        id: pet.id,
+        name: pet.name,
+        ownerEmail: pet.ownerEmail,
+        age: pet.age,
+        type: pet.type,
+        breed: pet.breed,
+        photo: imageUrl,
+      );
+
+      debugPrint('Updating pet data: ${petResponse.toMap()}');
+      await petsService.updatePetData(petResponse);
+      debugPrint('Pet data updated successfully');
+    } catch (e) {
+      debugPrint('Error in repository while updating pet info: $e');
+      throw Exception('Failed to update pet info: $e');
+    }
   }
 
   @override

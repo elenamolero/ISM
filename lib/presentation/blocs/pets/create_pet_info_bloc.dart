@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../domain/entities/pet.dart';
 import '../../../domain/usecases/save_pet_info.dart';
@@ -7,7 +9,8 @@ abstract class CreatePetInfoEvent {}
 
 class SavePetEvent extends CreatePetInfoEvent {
   final Pet pet;
-  SavePetEvent(this.pet);
+  final File? imageFile;
+  SavePetEvent(this.pet, this.imageFile);
 }
 
 // States
@@ -32,7 +35,7 @@ class CreatePetInfoBloc extends Bloc<CreatePetInfoEvent, CreatePetInfoState> {
     on<SavePetEvent>((event, emit) async {
       emit(CreatePetLoading());
       try {
-        await savePetInfo(event.pet);
+        await savePetInfo(event.pet, event.imageFile);
         emit(CreatePetSuccess());
       } catch (e) {
         emit(CreatePetError(e.toString()));

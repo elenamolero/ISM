@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class PetResponse {
@@ -25,6 +27,27 @@ class PetResponse {
         .insert(pet); // Insert the PetResponse objects directly
   }
 
+  Future<void> updatePetData(PetResponse pet) async {
+    try {
+      print('Attempting to update pet with ID: ${pet.id}');
+      print('Update data: ${pet.toMap()}');
+
+      final response = await Supabase.instance.client
+          .from('Pet')
+          .update({'name': 'marujitas', 'age': 5}).eq('id', pet.id);
+
+      if (response.error != null) {
+        print('Supabase update error: ${response.error!.message}');
+        throw Exception('Failed to update pet: ${response.error!.message}');
+      } else {
+        print('Pet updated successfully. Response: ${response.data}');
+      }
+    } catch (error) {
+      print('Error updating pet data: $error');
+      throw Exception('Failed to update pet: $error');
+    }
+  }
+
   // Convert a map to a PetResponse instance
   static PetResponse toDomain(Map<String, dynamic> map) {
     return PetResponse(
@@ -43,10 +66,10 @@ class PetResponse {
     return {
       'id': id,
       'name': name,
-      'ownerEmail': ownerEmail,
       'age': age,
       'type': type,
       'breed': breed,
+      'ownerEmail': ownerEmail,
       'photo': photo,
     };
   }

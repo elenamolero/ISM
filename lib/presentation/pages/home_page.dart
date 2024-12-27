@@ -9,9 +9,12 @@ import 'package:petuco/presentation/blocs/users/get_user_info_bloc.dart';
 import 'package:petuco/presentation/pages/create_pet_info_page.dart';
 import 'package:petuco/presentation/pages/pet_info_page.dart';
 import 'package:petuco/presentation/widgets/background_widget.dart';
+import 'package:petuco/presentation/widgets/footer_widget.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class HomeUserPage extends StatefulWidget {
-  const HomeUserPage({Key? key}) : super(key: key);
+  const HomeUserPage({super.key});
+
 
   @override
   State<HomeUserPage> createState() => _HomeUserPageState();
@@ -24,18 +27,19 @@ class _HomeUserPageState extends State<HomeUserPage> {
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
+    String email = Supabase.instance.client.auth.currentUser!.email!;
 
     return MultiBlocProvider(
       providers: [
         BlocProvider(
           create: (context) => PetBloc(
             getPetsUseCase: appInjector.get<GetPetsHomeUseCase>(),
-          )..add(FetchPets(ownerEmail: 'ele@gmail.com')),
+          )..add(FetchPets(ownerEmail: email)),
         ),
         BlocProvider(
           create: (context) => GetUserInfoBloc(
             getUserInfoUseCase: appInjector.get<GetUserInfoUseCase>(),
-          )..add(GetUserEvent('ele@gmail.com')),
+          )..add(GetUserEvent(email)),
         ),
       ],
       child: Scaffold(
@@ -46,7 +50,7 @@ class _HomeUserPageState extends State<HomeUserPage> {
               top: screenHeight * 0.14,
               left: screenWidth * 0.1,
               right: screenWidth * 0.1,
-              bottom: 0,
+              bottom: screenHeight * 0.1,
               child: BlocBuilder<GetUserInfoBloc, GetUserInfoState>(
                 builder: (context, userState) {
                   return BlocBuilder<PetBloc, PetState>(
@@ -90,6 +94,7 @@ class _HomeUserPageState extends State<HomeUserPage> {
                               const SizedBox(height: 20),
                               _buildPetList(
                                   petState.pets, screenWidth, userName),
+                              const SizedBox(height: 40), // Espacio adicional
                             ],
                           ),
                         );
@@ -120,6 +125,12 @@ class _HomeUserPageState extends State<HomeUserPage> {
                   );
                 },
               ),
+            ),
+            const Positioned(
+              bottom: -2,
+              left: 0,
+              right: 0,
+              child: FooterWidget(),
             ),
           ],
         ),

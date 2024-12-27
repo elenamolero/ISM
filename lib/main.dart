@@ -1,18 +1,20 @@
+import 'package:flutter/foundation.dart'; // For kIsWeb
 import 'package:flutter/material.dart';
-import 'package:petuco/presentation/pages/create_health_view.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:petuco/di/dependency_injection.dart';
-import 'package:petuco/presentation/pages/create_pet_info_page.dart';
-import 'package:petuco/presentation/pages/edit_profile_vet.dart';
-import 'package:petuco/presentation/pages/home_page.dart';
-import 'package:petuco/presentation/pages/pet_info_page.dart';
-import 'package:petuco/presentation/pages/pet_medical_historial_page.dart';
-import 'package:petuco/presentation/pages/users/register_user_page.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:petuco/presentation/pages/users/edit_user_info_page.dart';
-import 'package:petuco/presentation/pages/update_pet_info_page.dart';
 import 'package:flutter/services.dart';
+import 'package:petuco/di/dependency_injection.dart';
+import 'package:petuco/presentation/pages/create_health_view.dart';
+import 'package:petuco/presentation/pages/create_pet_info_page.dart';
+import 'package:petuco/presentation/pages/home_page.dart';
+import 'package:petuco/presentation/pages/nfc_connection_view.dart';
+import 'package:petuco/presentation/pages/pet_medical_historial_page.dart';
+import 'package:petuco/presentation/pages/users/edit_user_info_page.dart';
+import 'package:petuco/presentation/pages/users/register_user_page.dart';
 import 'package:petuco/presentation/pages/login_page.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:petuco/presentation/pages/pet_info_page.dart';
+//import 'package:flutter_web_plugins/flutter_web_plugins.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
@@ -23,6 +25,9 @@ Future<void> main() async {
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
     initInjection();
+    if (kIsWeb) {
+      //setUrlStrategy(PathUrlStrategy());
+    }
     runApp(const MyApp());
   });
 }
@@ -35,11 +40,41 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'petUco',
       debugShowCheckedModeBanner: false,
-       theme: ThemeData(
+      theme: ThemeData(
         scaffoldBackgroundColor: Colors.blue, // Fondo común
         useMaterial3: true,
       ),
-      home: const HomePage(),
+      onGenerateRoute: (settings) {
+        final uri = Uri.parse(settings.name ?? '');
+        print('Navigated to: ${uri.pathSegments}'); // Debugging
+
+        if (kIsWeb) {
+          // Handle deep link for web
+
+          if (uri.pathSegments.length == 2 &&
+              uri.pathSegments[0] == 'infopet') {
+            final id = int.tryParse(uri.pathSegments[1]);
+            if (id != null) {
+              return MaterialPageRoute(
+                builder: (context) => PetInfoPage(petId: id),
+              );
+            }
+          }
+          // Fallback to 404 page for web
+          return MaterialPageRoute(
+            builder: (context) => const Scaffold(
+              body: Center(
+                child: Text("404 Page not found"),
+              ),
+            ),
+          );
+        } else {
+          // Handle for non-web platforms (default)
+          return MaterialPageRoute(
+            builder: (context) => const HomePage(),
+          );
+        }
+      },
     );
   }
 }
@@ -111,10 +146,10 @@ class HomePage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const RegisterUserPage()),
+                        builder: (context) => const RegisterUserPage()),
                   );
                 },
-                child: const Text("Go to register page")
+                child: const Text("Go to register page"),
               ),
               ElevatedButton(
                 onPressed: () {
@@ -128,37 +163,49 @@ class HomePage extends StatelessWidget {
                 child: const Text('Go to Login page'),
               ),
               ElevatedButton(
-                 onPressed: () {
+                onPressed: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const CreateHealthView(),
+                      builder: (context) => const CreateHealthView(
+                        petId: 1,
+                      ),
                     ),
                   );
                 },
-                  child: const Text('Go to Create Health View'),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const EditVetInfoPage(),
-                    ),
-                  );
-                },
-                child: const Text('Go to Edit Vet Info page'),
+                child: const Text('Go to Create Health View'),
               ),
               ElevatedButton(
                 onPressed: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const PetMedicalHistorialPage(),
+                      builder: (context) => const EditUserInfoPage(),
+                    ),
+                  );
+                },
+                child: const Text('Go to Edit user Info page'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          const PetMedicalHistorialPage(petId: 1),
                     ),
                   );
                 },
                 child: const Text('Go to Medical Historial Pet'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const NfcConectionView()));
+                },
+                child: const Text("Go to Nfc conection view"),
               ),
             ],
           ),

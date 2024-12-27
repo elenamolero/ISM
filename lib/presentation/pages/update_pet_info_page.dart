@@ -1,81 +1,113 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:petuco/data/repository/impl/pet_repository_impl.dart';
+import 'package:petuco/data/services/model/pet_response.dart';
 import 'package:petuco/presentation/widgets/background_widget.dart';
 import '../../../domain/usecases/update_pet_info.dart';
 import '../blocs/pets/update_pet_info_bloc.dart';
 import '../../domain/entities/pet.dart';
 import 'dart:ui';
 
-class UpdatePetInfoPage extends StatelessWidget {
-  final int id;
-  final String name;
-  final int age;
-  final String type;
-  final String breed;
-  final String ownerEmail;
-  final String? photo;
+class UpdatePetInfoPage extends StatefulWidget {
+  final int petId;
 
-  UpdatePetInfoPage({
-    Key? key,
-    required this.id,
-    required this.name,
-    required this.age,
-    required this.type,
-    required this.breed,
-    required this.ownerEmail,
-    this.photo,
-  }) : super(key: key);
+  const UpdatePetInfoPage({Key? key, required this.petId}) : super(key: key);
 
-  // Controllers for the input fields
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _ageController = TextEditingController();
-  final TextEditingController _typeController = TextEditingController();
-  final TextEditingController _breedController = TextEditingController();
-  final TextEditingController _ownerEmailController = TextEditingController();
+  @override
+  _UpdatePetInfoPageState createState() => _UpdatePetInfoPageState();
+}
+
+class _UpdatePetInfoPageState extends State<UpdatePetInfoPage> {
+  final _formKey = GlobalKey<FormState>();
+  final _nameController = TextEditingController();
+  final _ownerController = TextEditingController();
+  final _ageController = TextEditingController();
+  final _typeController = TextEditingController();
+  final _breedController = TextEditingController();
+  File? _imageFile;
+  String? _currentImageUrl;
+  bool _isFieldsPopulated = false;
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _ownerController.dispose();
+    _ageController.dispose();
+    _typeController.dispose();
+    _breedController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _pickImage() async {
+    final pickedFile =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      setState(() {
+        _imageFile = File(pickedFile.path);
+      });
+    }
+  }
+
+  void _populateFields(Pet pet) {
+    _nameController.text = pet.name;
+    _ownerController.text = pet.ownerEmail;
+    _ageController.text = pet.age.toString();
+    _typeController.text = pet.type;
+    _breedController.text = pet.breed;
+    _currentImageUrl = pet.photo;
+  }
 
   @override
   Widget build(BuildContext context) {
-    // Initialize controllers with initial values
-    _nameController.text = name;
-    _ageController.text = age.toString();
-    _typeController.text = type;
-    _breedController.text = breed;
-    _ownerEmailController.text = ownerEmail;
-
     return BlocProvider(
-      create: (_) => UpdatePetInfoBloc(UpdatePetInfo()),
+      create: (_) => UpdatePetInfoBloc(
+        updatePetInfo: UpdatePetInfo(
+          PetRepositoryImpl(
+            petsService: PetsService(),
+          ),
+        ),
+        repository: PetRepositoryImpl(
+          petsService: PetsService(),
+        ),
+      )..add(LoadPetEvent(widget.petId)),
       child: Scaffold(
         body: Stack(
           children: [
             const BackGround(title: 'Update Pet Info'),
-            BlocListener<UpdatePetInfoBloc, UpdatePetInfoState>(
+            BlocConsumer<UpdatePetInfoBloc, UpdatePetInfoState>(
               listener: (context, state) {
                 if (state is UpdatePetSuccess) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
-                      content: Text('Pet info saved successfully!'),
+                      content: Text('Pet info updated successfully!'),
                     ),
                   );
-                  Navigator.pop(context); // Return to previous page
+                  Navigator.pop(context);
                 } else if (state is UpdatePetError) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text(state.message)),
+                    SnackBar(
+                      content: Text('Error: ${state.message}'),
+                      backgroundColor: Colors.red,
+                    ),
                   );
                 }
               },
-              child: BlocBuilder<UpdatePetInfoBloc, UpdatePetInfoState>(
-                builder: (context, state) {
-                  if (state is UpdatePetLoading) {
-                    return const Center(child: CircularProgressIndicator());
-                  }
-                  return Padding(
-                    padding: const EdgeInsets.all(40),
-                    child: SingleChildScrollView(
+              builder: (context, state) {
+                if (state is PetLoaded && !_isFieldsPopulated) {
+                  _populateFields(state.pet);
+                  _isFieldsPopulated = true;
+                }
+                return Padding(
+                  padding: const EdgeInsets.all(40),
+                  child: SingleChildScrollView(
+                    child: Form(
+                      key: _formKey,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const SizedBox(height: 80),
-                          // Background Card
                           ClipRRect(
                             borderRadius: BorderRadius.circular(12),
                             child: BackdropFilter(
@@ -91,90 +123,92 @@ class UpdatePetInfoPage extends StatelessWidget {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      // Pet Name Input
-                                      const Text('Name',
-                                          style: TextStyle(
-                                              fontSize: 18,
-                                              color: Colors.white)),
-                                      TextField(
+                                      _buildTextField(
+                                        label: 'Name',
                                         controller: _nameController,
-                                        decoration: _inputDecoration(
-                                            'Enter pet name', Icons.pets),
+                                        icon: Icons.cruelty_free_outlined,
                                       ),
-                                      const SizedBox(height: 8),
-                                      const Text('Owner',
-                                          style: TextStyle(
-                                              fontSize: 18,
-                                              color: Colors.white)),
-                                      TextField(
-                                        controller: _ownerEmailController,
-                                        decoration: _inputDecoration(
-                                            'Enter owner email', Icons.email),
+                                      _buildTextField(
+                                        label: 'Owner',
+                                        controller: _ownerController,
+                                        icon: Icons.person_outlined,
                                       ),
-                                      const SizedBox(height: 8),
-                                      const Text('Age',
-                                          style: TextStyle(
-                                              fontSize: 18,
-                                              color: Colors.white)),
-                                      TextField(
+                                      _buildTextField(
+                                        label: 'Age',
                                         controller: _ageController,
+                                        icon: Icons.calendar_today,
                                         keyboardType: TextInputType.number,
-                                        decoration: _inputDecoration(
-                                            'Enter pet age',
-                                            Icons.calendar_today),
                                       ),
-                                      const SizedBox(height: 8),
-                                      const Text('Type',
-                                          style: TextStyle(
-                                              fontSize: 18,
-                                              color: Colors.white)),
-                                      TextField(
+                                      _buildTextField(
+                                        label: 'Type',
                                         controller: _typeController,
-                                        decoration: _inputDecoration(
-                                            'Enter pet type', Icons.pets),
+                                        icon: Icons.pets,
                                       ),
-                                      const SizedBox(height: 8),
-                                      const Text('Breed',
-                                          style: TextStyle(
-                                              fontSize: 18,
-                                              color: Colors.white)),
-                                      TextField(
+                                      _buildTextField(
+                                        label: 'Breed',
                                         controller: _breedController,
-                                        decoration: _inputDecoration(
-                                            'Enter pet breed',
-                                            Icons.star_border_outlined),
+                                        icon: Icons.star_border_outlined,
                                       ),
-                                      const SizedBox(height: 8),
-                                      // Save Changes Button
+                                      const SizedBox(height: 20),
+                                      Center(
+                                        child: Column(
+                                          children: [
+                                            if (_imageFile != null)
+                                              Image.file(
+                                                _imageFile!,
+                                                height: 100,
+                                                width: 100,
+                                                fit: BoxFit.cover,
+                                              )
+                                            else if (_currentImageUrl != null)
+                                              Image.network(
+                                                _currentImageUrl!,
+                                                height: 100,
+                                                width: 100,
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ElevatedButton(
+                                              onPressed: _pickImage,
+                                              child: const Text('Change Image'),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      const SizedBox(height: 20),
                                       Center(
                                         child: SizedBox(
                                           width: 224,
                                           child: ElevatedButton(
                                             onPressed: () {
-                                              // Collect updated data and send to the BLoC
-                                              context
-                                                  .read<UpdatePetInfoBloc>()
-                                                  .add(
-                                                    UpdatePetEvent(
-                                                      Pet(
-                                                        id: id,
-                                                        name: _nameController
-                                                            .text,
-                                                        ownerEmail:
-                                                            _ownerEmailController
-                                                                .text,
-                                                        age: int.tryParse(
-                                                                _ageController
-                                                                    .text) ??
-                                                            0,
-                                                        type: _typeController
-                                                            .text,
-                                                        breed: _breedController
-                                                            .text,
-                                                        photo: photo,
+                                              if (_formKey.currentState
+                                                      ?.validate() ??
+                                                  false) {
+                                                context
+                                                    .read<UpdatePetInfoBloc>()
+                                                    .add(
+                                                      UpdatePetEvent(
+                                                        Pet(
+                                                          id: widget.petId,
+                                                          name: _nameController
+                                                              .text,
+                                                          ownerEmail:
+                                                              _ownerController
+                                                                  .text,
+                                                          age: int.parse(
+                                                              _ageController
+                                                                  .text),
+                                                          type: _typeController
+                                                              .text,
+                                                          breed:
+                                                              _breedController
+                                                                  .text,
+                                                          photo:
+                                                              _currentImageUrl,
+                                                        ),
+                                                        _imageFile,
                                                       ),
-                                                    ),
-                                                  );
+                                                    );
+                                              }
                                             },
                                             style: ElevatedButton.styleFrom(
                                               backgroundColor:
@@ -192,13 +226,17 @@ class UpdatePetInfoPage extends StatelessWidget {
                                                   const EdgeInsets.symmetric(
                                                       vertical: 16),
                                             ),
-                                            child: const Text(
-                                              'Save Changes',
-                                              style: TextStyle(
-                                                  fontSize: 18,
-                                                  color: Colors.white,
-                                                  height: 2),
-                                            ),
+                                            child: state is UpdatePetLoading
+                                                ? const CircularProgressIndicator(
+                                                    color: Colors.white)
+                                                : const Text(
+                                                    'Update Pet',
+                                                    style: TextStyle(
+                                                      fontSize: 18,
+                                                      color: Colors.white,
+                                                      height: 2,
+                                                    ),
+                                                  ),
                                           ),
                                         ),
                                       ),
@@ -211,9 +249,9 @@ class UpdatePetInfoPage extends StatelessWidget {
                         ],
                       ),
                     ),
-                  );
-                },
-              ),
+                  ),
+                );
+              },
             ),
           ],
         ),
@@ -221,16 +259,55 @@ class UpdatePetInfoPage extends StatelessWidget {
     );
   }
 
-  // Helper method for consistent InputDecoration
-  InputDecoration _inputDecoration(String hintText, IconData icon) {
-    return InputDecoration(
-      hintText: hintText,
-      hintStyle: TextStyle(
-          fontSize: 18, color: Colors.grey[400], fontWeight: FontWeight.bold),
-      border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-      filled: true,
-      fillColor: Colors.white,
-      suffixIcon: Icon(icon, color: Colors.grey),
+  Widget _buildTextField({
+    required String label,
+    required TextEditingController controller,
+    required IconData icon,
+    TextInputType keyboardType = TextInputType.text,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: const TextStyle(
+            fontSize: 18,
+            color: Colors.white,
+          ),
+        ),
+        const SizedBox(height: 8),
+        TextFormField(
+          controller: controller,
+          keyboardType: keyboardType,
+          decoration: InputDecoration(
+            hintText: label,
+            hintStyle: TextStyle(
+              fontSize: 18,
+              color: Colors.grey[400],
+              fontWeight: FontWeight.bold,
+            ),
+            suffixIcon: Icon(
+              icon,
+              color: Colors.grey,
+            ),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+            filled: true,
+            fillColor: Colors.white,
+          ),
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Please enter $label';
+            }
+            if (label == 'Age' && int.tryParse(value) == null) {
+              return 'Please enter a valid age';
+            }
+            return null;
+          },
+        ),
+        const SizedBox(height: 16),
+      ],
     );
   }
 }

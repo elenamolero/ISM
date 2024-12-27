@@ -38,16 +38,16 @@ class BackGround extends StatelessWidget {
         ),
         actions: [
           Padding(
-                    padding: const EdgeInsets.only(right: 16.0),
-                    child: GestureDetector(
-                      onTap: () {},
-                      child: Image.asset(
-                        'assets/images/logo.png',
-                        height: 40,
-                        width: 40,
-                      ),
-                    ),
-                  ),
+            padding: const EdgeInsets.only(right: 16.0),
+            child: GestureDetector(
+              onTap: () {},
+              child: Image.asset(
+                'assets/images/logo.png',
+                height: 40,
+                width: 40,
+              ),
+            ),
+          ),
         ],
       ),
       body: Container(
