@@ -6,6 +6,7 @@ import 'package:petuco/domain/usecases/impl/save_user_info_use_case.dart';
 import 'package:petuco/presentation/blocs/users/get_user_info_bloc.dart';
 import 'package:petuco/presentation/blocs/users/save_user_info_bloc.dart';
 import 'package:petuco/presentation/widgets/background_widget.dart';
+import 'package:petuco/presentation/widgets/text_button_widget.dart';
 import 'package:petuco/presentation/widgets/custom_text_field_widget.dart';
 import 'package:petuco/presentation/widgets/custom_text_widget.dart';
 import 'package:petuco/presentation/widgets/footer_widget.dart';
@@ -215,8 +216,9 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
                       Center(
                         child: SizedBox(
                           width: 224,
-                          child: ElevatedButton(
-                            onPressed: () {
+                          child: TextButtonWidget(
+                            buttonText: 'Save changes',
+                            function: () {
                               if (passwordController.text != confirmPasswordController.text) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(content: Text('Passwords do not match')),
@@ -235,30 +237,6 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
                                   SaveUserEvent(updatedUser),
                             );
                             },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  const Color.fromRGBO(
-                                      97, 187, 255, 1),
-                              shape: RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.circular(50),
-                                side: const BorderSide(
-                                  color: Colors.white,
-                                  width: 2.0,
-                                ),
-                              ),
-                              padding:
-                                  const EdgeInsets.symmetric(
-                                      vertical: 16),
-                            ),
-                            child: const Text(
-                              'Save Changes',
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: Colors.white,
-                                height: 2,
-                              ),
-                            ),
                           )
                         )
                       ),
