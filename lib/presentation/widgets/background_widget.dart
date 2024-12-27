@@ -11,7 +11,6 @@ class BackGround extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back,
@@ -39,16 +38,16 @@ class BackGround extends StatelessWidget {
         ),
         actions: [
           Padding(
-                    padding: const EdgeInsets.only(right: 16.0),
-                    child: GestureDetector(
-                      onTap: () {},
-                      child: Image.asset(
-                        'assets/images/logo.png',
-                        height: 40,
-                        width: 40,
-                      ),
-                    ),
-                  ),
+            padding: const EdgeInsets.only(right: 16.0),
+            child: GestureDetector(
+              onTap: () {},
+              child: Image.asset(
+                'assets/images/logo.png',
+                height: 40,
+                width: 40,
+              ),
+            ),
+          ),
         ],
       ),
       body: Container(

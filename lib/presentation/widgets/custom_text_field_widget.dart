@@ -9,6 +9,7 @@ class CustomTextField extends StatelessWidget {
   final bool obscureText;
   final Widget? suffixIcon;
   final VoidCallback? onTap;
+  final bool enabled;
 
   const CustomTextField({
     super.key,
@@ -20,11 +21,13 @@ class CustomTextField extends StatelessWidget {
     this.obscureText = false,
     this.suffixIcon,
     this.onTap,
+    this.enabled = true
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      enabled: enabled,
       controller: controller,
       keyboardType: keyboardType,
       validator: validator,

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:nfc_manager/nfc_manager.dart';
-import 'package:petuco/presentation/pages/pet_info_page.dart';
 import 'package:petuco/presentation/widgets/background_widget.dart';
 import 'package:petuco/presentation/widgets/footer_widget.dart';
 import 'package:url_launcher/url_launcher.dart';

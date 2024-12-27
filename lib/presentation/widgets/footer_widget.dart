@@ -6,6 +6,7 @@ class FooterWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
     return Stack(
       alignment: Alignment.center,
       clipBehavior: Clip.none,
@@ -27,7 +28,6 @@ class FooterWidget extends StatelessWidget {
             ),
           ),
         ),
-        
         Positioned(
           top: -30,
           child: GestureDetector(

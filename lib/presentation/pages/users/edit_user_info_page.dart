@@ -58,6 +58,8 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
 
   @override
   Widget build(BuildContext context) {
+    final double keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
+    final bool isKeyboardOpen = keyboardHeight > 0;
     return MultiBlocProvider(
       providers: [
         BlocProvider(
@@ -68,7 +70,6 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
         ),
       ],
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
         body:Stack(
         children: [
           const BackGround(title: 'Edit User Info'),
@@ -89,14 +90,13 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
               if (state is GetUserLoading) {
                 return const Center(child: CircularProgressIndicator());
               } else if (state is GetUserSuccess) {
-                final userInfo = state.userInfo;
-                nameController.text = userInfo.name;
-                emailController.text = userInfo.email;
-                addressController.text = userInfo.address;
-                phoneNumberController.text = userInfo.phoneNumber.toString();
-                passwordController.text = userInfo.password;
-                confirmPasswordController.text = userInfo.password;
-                roleController.text = userInfo.role;
+                if (nameController.text.isEmpty) nameController.text = state.userInfo.name;
+                if (emailController.text.isEmpty) emailController.text = state.userInfo.email;
+                if (addressController.text.isEmpty) addressController.text = state.userInfo.address;
+                if (phoneNumberController.text.isEmpty) phoneNumberController.text = state.userInfo.phoneNumber.toString();
+                if (passwordController.text.isEmpty) passwordController.text = state.userInfo.password;
+                if (confirmPasswordController.text.isEmpty) confirmPasswordController.text = state.userInfo.password;
+                if (roleController.text.isEmpty) roleController.text = state.userInfo.role;
               } else if (state is GetUserError) {
                 return Center(child: Text('Error: ${state.message}'));
               }
@@ -106,7 +106,8 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
                   left: 40, 
                   right: 40,
                   top: kToolbarHeight+MediaQuery.of(context).padding.top,
-                  bottom: 50),
+                  bottom: isKeyboardOpen ? 0 : 50
+                ),
                 child: SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -127,17 +128,20 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
                                 const CustomText(
                                   text: 'Name'
                                 ),
-                                const CustomTextField(
+                                CustomTextField(
                                   labelText: 'Name',
-                                  icon: Icons.person,
+                                  controller: nameController,
+                                  icon: Icons.person
                                 ),
                                 const SizedBox(height: 8),
 
                                 const CustomText(
                                   text: 'Email'
                                 ),
-                                const CustomTextField(
+                                CustomTextField(
+                                  enabled: false,
                                   labelText: 'Email',
+                                  controller: emailController,
                                   icon: Icons.email,
                                 ),
                                 const SizedBox(height: 8),
@@ -145,7 +149,8 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
                                 const CustomText(
                                   text: 'Address'
                                 ),
-                                const CustomTextField(
+                                CustomTextField(
+                                  controller: addressController,
                                   labelText: 'Address',
                                   icon: Icons.home,
                                 ),
@@ -154,8 +159,9 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
                                 const CustomText(
                                   text: 'Phone Number'
                                 ),
-                                const CustomTextField(
+                                CustomTextField(
                                   labelText: 'Phone Number',
+                                  controller: phoneNumberController,
                                   icon: Icons.email,
                                 ),
 
@@ -165,6 +171,7 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
                                 ),
                                 CustomTextField(
                                   obscureText: _isObscure,
+                                  controller: passwordController,
                                   labelText: 'Password',
                                   icon: Icons.email,
                                   suffixIcon: IconButton(
@@ -185,6 +192,7 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
                                 ),
                                 CustomTextField(
                                   obscureText: _isObscureConfirm,
+                                  controller: confirmPasswordController,
                                   labelText: 'Password',
                                   icon: Icons.email,
                                   suffixIcon: IconButton(
@@ -203,9 +211,7 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
                             )
                         )
                       ),
-                      
-                      const SizedBox(height: 16),
-                      
+                      const SizedBox(height: 20),
                       Center(
                         child: SizedBox(
                           width: 224,
@@ -227,7 +233,7 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
                             );
                             context.read<SaveUserInfoBloc>().add(
                                   SaveUserEvent(updatedUser),
-                                );
+                            );
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor:
@@ -256,7 +262,7 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
                           )
                         )
                       ),
-                      const SizedBox(height: 50),
+                      SizedBox(height: isKeyboardOpen ? 20 : 50),
                     ],
                   ),
                 ),
@@ -264,11 +270,11 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
             },
           ),
         ),
-          const Positioned(
-            bottom: 0,
+          Positioned(
+            top: MediaQuery.of(context).size.height-60,
             left: 0,
             right: 0,
-            child: FooterWidget(),
+            child: const FooterWidget(),
           ),
         ],
       ),
