@@ -52,7 +52,6 @@ class UserService {
  
   Future<void> loginUser(user.User user) async {
     await Supabase.instance.client.auth.signInWithPassword(password: user.password, email: user.email);
-    Supabase.instance.client.auth.setInitialSession(user.email);
   }
 
   
