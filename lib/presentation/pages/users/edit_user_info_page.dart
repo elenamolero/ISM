@@ -225,6 +225,24 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
                                 );
                                 return;
                               }
+                              if(passwordController.text.isEmpty && confirmPasswordController.text.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(content: Text('Password cannot be empty')),
+                                );
+                                return;
+                              }
+                              if(nameController.text.isEmpty || emailController.text.isEmpty || addressController.text.isEmpty || phoneNumberController.text.isEmpty || roleController.text.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(content: Text('All fields are required')),
+                                );
+                                return;
+                              }
+                              if(passwordController.text.length < 8 && confirmPasswordController.text.length < 8) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(content: Text('Password must be at least 8 characters')),
+                                );
+                                return;
+                              }
                               final updatedUser = user.User(
                               name: nameController.text,
                               email: emailController.text,
