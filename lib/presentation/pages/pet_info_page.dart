@@ -38,17 +38,12 @@ class _PetInfoPageState extends State<PetInfoPage> {
         body: Stack(
           children: [
             const BackGround(title: 'Pet Info'),
-
-            // Main content
             SingleChildScrollView(
               child: Column(
                 children: [
                   SizedBox(height: screenHeight * 0.1),
-
-                  // Header Text
                   Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: screenWidth * 0.1),
+                    padding: EdgeInsets.only(top: screenHeight*0.03),
                     child: BlocBuilder<PetBloc, PetState>(
                       builder: (context, petState) {
                         String titleText = "Fetching pet's data...";
@@ -73,8 +68,7 @@ class _PetInfoPageState extends State<PetInfoPage> {
                       },
                     ),
                   ),
-                  SizedBox(height: screenHeight * 0.03),
-
+                  SizedBox(height: screenHeight * 0.02),
                   // Main Content Container
                   Padding(
                     padding:
@@ -105,8 +99,8 @@ class _PetInfoPageState extends State<PetInfoPage> {
                                       // Centering the pet image
                                       Center(
                                         child: Container(
-                                          width: screenWidth * 0.1,
-                                          height: screenWidth * 0.1,
+                                          width: screenWidth * 0.3,
+                                          height: screenWidth * 0.3,
                                           decoration: BoxDecoration(
                                             border: Border.all(
                                                 color: Colors.white, width: 2),
@@ -173,7 +167,6 @@ class _PetInfoPageState extends State<PetInfoPage> {
                                         ),
                                       ),
                                       const SizedBox(height: 20),
-
                                       SizedBox(
                                         width: 220,
                                         child: ElevatedButton(
