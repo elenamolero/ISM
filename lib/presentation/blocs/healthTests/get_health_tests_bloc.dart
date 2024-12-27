@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:petuco/domain/entities/healthTest.dart';
+import 'package:petuco/domain/entities/healthTest.entity.dart';
 import 'package:petuco/domain/usecases/get_health_tests_use_case_interface.dart';
 
 

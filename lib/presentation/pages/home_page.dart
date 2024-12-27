@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:petuco/di/dependency_injection.dart';
-import 'package:petuco/domain/entity/pet.entity.dart';
+import 'package:petuco/domain/entities/pet.entity.dart';
 import 'package:petuco/domain/usecases/impl/get_pets_home_use_case.dart';
 import 'package:petuco/domain/usecases/impl/get_user_info_use_case.dart';
 import 'package:petuco/presentation/blocs/pets/get_pets_home.dart';

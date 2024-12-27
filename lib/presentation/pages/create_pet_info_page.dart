@@ -8,7 +8,7 @@ import 'package:petuco/presentation/widgets/background_widget.dart';
 import 'package:petuco/presentation/widgets/footer_widget.dart';
 import '../../../domain/usecases/save_pet_info.dart';
 import '../blocs/pets/create_pet_info_bloc.dart';
-import '../../domain/entity/pet.entity.dart';
+import '../../domain/entities/pet.entity.dart';
 import 'dart:ui';
 
 class CreatePetInfoPage extends StatefulWidget {

@@ -1,6 +1,6 @@
 import 'package:petuco/domain/usecases/register_user_use_case_interface.dart';
 import '../../../data/repository/impl/user_repository.dart';
-import '../../entities/user.dart';
+import '../../entities/user.entity.dart';
 
 class RegisterUserInfoUseCase extends RegisterUserUseCaseInterface {
 

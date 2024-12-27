@@ -1,7 +1,7 @@
 import 'package:petuco/data/repository/user_repository_interface.dart';
 import 'package:petuco/data/services/model/user_response.dart';
 import 'package:petuco/data/services/user/user_service.dart';
-import 'package:petuco/domain/entities/user.dart' as user;
+import 'package:petuco/domain/entities/user.entity.dart' as user;
 
 class UserRepository implements UserRepositoryInterface {
     UserService userService = UserService();

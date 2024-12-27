@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:petuco/data/repository/impl/health_test_repository_impl.dart';
-import 'package:petuco/domain/entities/healthTest.dart';
+import 'package:petuco/domain/entities/healthTest.entity.dart';
 import 'package:petuco/domain/usecases/get_health_tests_use_case_interface.dart';
 class GetHealthTestsUseCase implements GetHealthTestsUseCaseInterface {
   HealthTestRepositoryImpl healthTestsRepository;

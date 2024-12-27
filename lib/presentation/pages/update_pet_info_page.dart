@@ -7,7 +7,7 @@ import 'package:petuco/data/services/model/pet_response.dart';
 import 'package:petuco/presentation/widgets/background_widget.dart';
 import '../../../domain/usecases/update_pet_info.dart';
 import '../blocs/pets/update_pet_info_bloc.dart';
-import '../../domain/entity/pet.entity.dart';
+import '../../domain/entities/pet.entity.dart';
 import 'dart:ui';
 
 class UpdatePetInfoPage extends StatefulWidget {

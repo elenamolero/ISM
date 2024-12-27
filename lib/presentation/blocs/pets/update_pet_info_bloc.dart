@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:petuco/data/repository/pets_repository_interface.dart';
-import '../../../domain/entity/pet.entity.dart';
+import 'package:petuco/domain/entities/pet.entity.dart';
 import '../../../domain/usecases/update_pet_info.dart';
 
 // Events

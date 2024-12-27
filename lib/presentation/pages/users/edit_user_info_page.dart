@@ -11,7 +11,7 @@ import 'package:petuco/presentation/widgets/custom_text_field_widget.dart';
 import 'package:petuco/presentation/widgets/custom_text_widget.dart';
 import 'package:petuco/presentation/widgets/footer_widget.dart';
 import 'package:supabase_auth_ui/supabase_auth_ui.dart';
-import '../../../domain/entities/user.dart' as user;
+import '../../../domain/entities/user.entity.dart' as user;
 
 class EditUserInfoPage extends StatefulWidget {
   const EditUserInfoPage({super.key});

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:petuco/data/repository/impl/pet_repository_impl.dart';
-import 'package:petuco/domain/entity/pet.entity.dart';
+import 'package:petuco/domain/entities/pet.entity.dart';
 import 'package:petuco/domain/usecases/get_pet_info_use_case_interface.dart';
 
 class GetPetInfoUseCase implements GetPetInfoUseCaseInterface {

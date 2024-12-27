@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:petuco/domain/entity/pet.entity.dart';
+import 'package:petuco/domain/entities/pet.entity.dart';
 
 abstract class PetsRepositoryInterface {
   Future<void> savePetInfo(Pet pet, File? imageFile);
