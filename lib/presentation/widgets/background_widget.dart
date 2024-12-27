@@ -2,20 +2,18 @@ import 'package:flutter/material.dart';
 
 class BackGround extends StatelessWidget {
   final String title;
-  final bool ?home;
+  final bool? home;
 
   const BackGround({
     super.key,
     required this.title,
-     this.home,
-    
+    this.home,
   });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-
         leading: (home ?? true)
             ? IconButton(
                 icon: const Icon(Icons.arrow_back,
@@ -24,11 +22,13 @@ class BackGround extends StatelessWidget {
                   Navigator.pop(context);
                 },
               )
-            : IconButton(icon: const Icon(Icons.login_outlined,
+            : IconButton(
+                icon: const Icon(Icons.login_outlined,
                     color: Color.fromARGB(255, 255, 255, 255), size: 48),
                 onPressed: () {
                   Navigator.pop(context);
-                },),
+                },
+              ),
         title: Text(
           title,
           style: const TextStyle(
@@ -48,20 +48,24 @@ class BackGround extends StatelessWidget {
         ),
         actions: [
           Padding(
-                    padding: const EdgeInsets.only(right: 16.0),
-                    child: GestureDetector(
-                      onTap: () {},
-                      child: Image.asset(
-                        'assets/images/logo.png',
-                        height: 40,
-                        width: 40,
-                      ),
-                    ),
-                  ),
+            padding: const EdgeInsets.only(right: 16.0),
+            child: GestureDetector(
+              onTap: () {},
+              child: Image.asset(
+                'assets/images/logo.png',
+                height: 40,
+                width: 40,
+              ),
+            ),
+          ),
         ],
       ),
       body: Container(
         decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/footPrint.png'),
+            fit: BoxFit.cover,
+          ),
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
