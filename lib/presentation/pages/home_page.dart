@@ -45,7 +45,7 @@ class _HomeUserPageState extends State<HomeUserPage> {
       child: Scaffold(
         body: Stack(
           children: [
-            const BackGround(title: 'Home'),
+            const BackGround(title: 'Home',home: false),
             Positioned(
               top: screenHeight * 0.14,
               left: screenWidth * 0.1,
