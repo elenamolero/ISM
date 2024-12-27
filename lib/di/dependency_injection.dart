@@ -67,7 +67,7 @@ void initInjection() {
       ));
 
   appInjector.registerSingleton<SaveUserInfoUseCase>(() => SaveUserInfoUseCase(
-        userRepository: appInjector.get<UserRepository>(),
+        userRepositoryInterface: appInjector.get<UserRepository>(),
       ));
 
   appInjector.registerSingleton<RegisterUserInfoUseCase>(() => RegisterUserInfoUseCase(

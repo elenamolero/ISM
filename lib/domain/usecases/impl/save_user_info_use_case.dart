@@ -1,16 +1,16 @@
+import 'package:petuco/data/repository/user_repository_interface.dart';
 import 'package:petuco/domain/usecases/save_user_info_use_case_inteface.dart';
-import '../../../data/repository/impl/user_repository.dart';
 import '../../entities/user.entity.dart';
 
 class SaveUserInfoUseCase extends SaveUserInfoUseCaseInterface {
 
-  UserRepository userRepository;
+  UserRepositoryInterface userRepositoryInterface;
 
-  SaveUserInfoUseCase({required this.userRepository});
+  SaveUserInfoUseCase({required this.userRepositoryInterface});
   
   @override
   Future<void> saveUserInfo(User user) async {
-    await userRepository.saveUserInfo(user);
+    await userRepositoryInterface.saveUserInfo(user);
   }
   
 }
