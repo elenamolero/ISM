@@ -71,7 +71,7 @@ class MyApp extends StatelessWidget {
         } else {
           // Handle for non-web platforms (default)
           return MaterialPageRoute(
-            builder: (context) => const HomePage(),
+            builder: (context) => const LoginPage(),
           );
         }
       },
