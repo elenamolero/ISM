@@ -162,7 +162,7 @@ class _CreatePetInfoPageState extends State<CreatePetInfoPage> {
                                                     .add(
                                                       SavePetEvent(
                                                         Pet(
-                                                          id: 0,
+                                                          id: DateTime.now().millisecondsSinceEpoch,
                                                           name: _nameController
                                                               .text,
                                                           ownerEmail:
