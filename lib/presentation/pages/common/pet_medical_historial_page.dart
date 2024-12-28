@@ -8,6 +8,7 @@ import 'package:petuco/domain/entities/healthTest.entity.dart';
 import 'package:petuco/domain/usecases/impl/get_health_tests_use_case.dart';
 import 'package:petuco/presentation/blocs/healthTests/get_health_tests_bloc.dart';
 import 'package:petuco/presentation/widgets/footer_widget.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 const String _petname = "Fentanyl Jr.";
 
@@ -31,7 +32,8 @@ class _PetMedicalHistorialPageState extends State<PetMedicalHistorialPage> {
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
-
+    String role = Supabase.instance.client.auth.currentUser!.userMetadata!['role'] as String;
+    print('Role: $role');
     return BlocProvider(
       create: (context) => HealthTestBloc(
         getHealthTestsUseCase: appInjector.get<GetHealthTestsUseCase>(),
