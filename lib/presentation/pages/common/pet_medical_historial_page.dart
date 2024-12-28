@@ -13,13 +13,10 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 const String _petname = "Fentanyl Jr.";
 
 class PetMedicalHistorialPage extends StatefulWidget {
- 
   static const String route = 'petHistory';
- 
   final int petId;
 
   const PetMedicalHistorialPage({Key? key, required this.petId}) : super(key: key);
-
 
   @override
   State<PetMedicalHistorialPage> createState() => _PetMedicalHistorialPageState();
@@ -27,99 +24,122 @@ class PetMedicalHistorialPage extends StatefulWidget {
 
 class _PetMedicalHistorialPageState extends State<PetMedicalHistorialPage> {
   int? _selectedIndex;
+  Future<String?>? _roleFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _roleFuture = _getUserRole();
+  }
+
+  Future<String?> _getUserRole() async {
+    final user = Supabase.instance.client.auth.currentUser;
+    if (user != null) {
+      return user.userMetadata!['role'] as String?;
+    }
+    return null;
+  }
 
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
-    String role = Supabase.instance.client.auth.currentUser!.userMetadata!['role'] as String;
-    print('Role: $role');
-    return BlocProvider(
-      create: (context) => HealthTestBloc(
-        getHealthTestsUseCase: appInjector.get<GetHealthTestsUseCase>(),
-      )..add(FetchHealthTests(petId: widget.petId)),
-      child: Scaffold(
-        body: Stack(
-          children: [
-            const BackGround(title: 'History',isUserLoggedIn: true,),
-            Column(
-              children: [
-                Container(
-                  padding: EdgeInsets.only(top: screenHeight * 0.13),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 15),
-                  child: Opacity(
-                    opacity: 0.69,
-                    child: Text(
-                      "Informes médicos de $_petname",
-                      style: TextStyle(
-                        fontSize: 22,
-                        color: Colors.white.withOpacity(0.53),
-                        fontWeight: FontWeight.bold,
-                        fontFamily: const String.fromEnvironment('InriaSans'),
+
+    return FutureBuilder<String?>(
+      future: _roleFuture,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+        } else {
+          String? role = snapshot.data;
+          print('Role: $role');
+          return BlocProvider(
+            create: (context) => HealthTestBloc(
+              getHealthTestsUseCase: appInjector.get<GetHealthTestsUseCase>(),
+            )..add(FetchHealthTests(petId: widget.petId)),
+            child: Scaffold(
+              body: Stack(
+                children: [
+                  const BackGround(title: 'History', isUserLoggedIn: true),
+                  Column(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.only(top: screenHeight * 0.13),
                       ),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: BlocBuilder<HealthTestBloc, HealthTestState>(
-                    builder: (context, healthTestState) {
-                      if (healthTestState is HealthTestLoading) {
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      } else if (healthTestState is HealthTestLoaded) {
-                        return SingleChildScrollView(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              const SizedBox(height: 40),
-                              _buildHealthTestsList(healthTestState.healthTests, screenWidth),
-                              
-                            ],
-                          ),
-                        );
-                      } else if (healthTestState is HealthTestError) {
-                        return Center(
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 15),
+                        child: Opacity(
+                          opacity: 0.69,
                           child: Text(
-                            healthTestState.message,
-                            style: const TextStyle(color: Colors.red, fontSize: 16),
+                            "Informes médicos de $_petname",
+                            style: TextStyle(
+                              fontSize: 22,
+                              color: Colors.white.withOpacity(0.53),
+                              fontWeight: FontWeight.bold,
+                              fontFamily: const String.fromEnvironment('InriaSans'),
+                            ),
                           ),
-                        );
-                      } else {
-                        return const Center(
-                          child: Text('Error'),
-                        );
-                      }
-                    },
+                        ),
+                      ),
+                      Expanded(
+                        child: BlocBuilder<HealthTestBloc, HealthTestState>(
+                          builder: (context, healthTestState) {
+                            if (healthTestState is HealthTestLoading) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            } else if (healthTestState is HealthTestLoaded) {
+                              return SingleChildScrollView(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    const SizedBox(height: 40),
+                                    _buildHealthTestsList(healthTestState.healthTests, screenWidth, role),
+                                  ],
+                                ),
+                              );
+                            } else if (healthTestState is HealthTestError) {
+                              return Center(
+                                child: Text(
+                                  healthTestState.message,
+                                  style: const TextStyle(color: Colors.red, fontSize: 16),
+                                ),
+                              );
+                            } else {
+                              return const Center(
+                                child: Text('Error'),
+                              );
+                            }
+                          },
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                const Positioned(
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  child: FooterWidget(),
-                ),
-              ],
-              
+                  const Positioned(
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    child: FooterWidget(),
+                  ),
+                ],
+              ),
             ),
-          ],
-        ),
-        
-      ),
-      
+          );
+        }
+      },
     );
   }
 
-  Widget _buildHealthTestsList(List<HealthTest> healthTests, double screenWidth) {
+  Widget _buildHealthTestsList(List<HealthTest> healthTests, double screenWidth, String? role) {
     return Column(
       children: List.generate(healthTests.length + 1, (index) {
         bool isSelected = _selectedIndex == index;
         double scale = isSelected ? 0.9 : 1.0;
 
-        // Caso especial para "New Health Test"
-        if (index == 0) {
+        // "New Health Test"
+        if (index == 0 && role == 'vet') {
           return GestureDetector(
             onTap: () {
               setState(() {
@@ -151,42 +171,45 @@ class _PetMedicalHistorialPageState extends State<PetMedicalHistorialPage> {
           );
         }
 
-        // Renderizar los healthTests
-        final healthTest = healthTests[index - 1];
-        return GestureDetector(
-          onTap: () {
-            setState(() {
-              _selectedIndex = index;
-            });
-          },
-          child: AnimatedScale(
-            duration: const Duration(milliseconds: 200),
-            scale: scale,
-            child: Container(
-              margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(40),
-                color: Colors.white.withOpacity(0.53),
-                boxShadow: isSelected
-                    ? [
-                        const BoxShadow(
-                          color: Colors.black26,
-                          blurRadius: 10,
-                          spreadRadius: 1,
-                        ),
-                      ]
-                    : [],
+        if (index > 0 && index <= healthTests.length) {
+          final healthTest = healthTests[index - 1];
+          return GestureDetector(
+            onTap: () {
+              setState(() {
+                _selectedIndex = index;
+              });
+            },
+            child: AnimatedScale(
+              duration: const Duration(milliseconds: 200),
+              scale: scale,
+              child: Container(
+                margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(40),
+                  color: Colors.white.withOpacity(0.53),
+                  boxShadow: isSelected
+                      ? [
+                          const BoxShadow(
+                            color: Colors.black26,
+                            blurRadius: 10,
+                            spreadRadius: 1,
+                          ),
+                        ]
+                      : [],
+                ),
+                padding: const EdgeInsets.all(16.0),
+                child: _buildHealthTestContainer(healthTest, screenWidth),
               ),
-              padding: const EdgeInsets.all(16.0),
-              child: _buildHealthTestContainer(healthTest, screenWidth),
             ),
-          ),
-        );
+          );
+        }
+
+        return const SizedBox.shrink();
       }),
     );
   }
 
-   Widget _buildNewHealthTestContainer(double screenWidth) {
+  Widget _buildNewHealthTestContainer(double screenWidth) {
     return GestureDetector(
       onTap: _onNewHealthTestPressed,
       child: Row(
@@ -217,16 +240,15 @@ class _PetMedicalHistorialPageState extends State<PetMedicalHistorialPage> {
       ),
     );
   }
+
   void _onNewHealthTestPressed() {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => CreateHealthView(petId: widget.petId,),
+        builder: (context) => CreateHealthView(petId: widget.petId),
       ),
     );
   }
-
- 
 
   Widget _buildHealthTestContainer(HealthTest healthTest, double screenWidth) {
     return ListTile(
