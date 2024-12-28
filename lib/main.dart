@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter/services.dart';
 import 'package:petuco/di/dependency_injection.dart';
+import 'package:petuco/presentation/pages/common/home_page.dart';
 import 'package:petuco/presentation/pages/common/login_page.dart';
 import 'package:petuco/presentation/pages/common/pet_info_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -38,6 +39,9 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.blue, // Fondo común
         useMaterial3: true,
       ),
+      routes: {
+            '/homeUser': (context) => const HomeUserPage(),
+      },
       onGenerateRoute: (settings) {
         final uri = Uri.parse(settings.name ?? '');
         print('Navigated to: ${uri.pathSegments}'); // Debugging

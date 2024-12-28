@@ -15,7 +15,6 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class HomeUserPage extends StatefulWidget {
   const HomeUserPage({super.key});
 
-
   @override
   State<HomeUserPage> createState() => _HomeUserPageState();
 }

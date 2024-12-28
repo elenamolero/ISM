@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:petuco/data/repository/impl/pet_repository_impl.dart';
 import 'package:petuco/data/services/pet/pets_service.dart';
+import 'package:petuco/presentation/pages/common/pet_info_page.dart';
 import 'package:petuco/presentation/widgets/background_widget.dart';
 import 'package:petuco/presentation/widgets/footer_widget.dart';
 import '../../../../domain/usecases/update_pet_info.dart';
@@ -93,7 +94,10 @@ class _UpdatePetInfoPageState extends State<UpdatePetInfoPage> {
                       content: Text('Pet info updated successfully!'),
                     ),
                   );
-                  Navigator.pop(context);
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => PetInfoPage(petId: widget.petId))
+                  );
+                  
                 } else if (state is UpdatePetError) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(

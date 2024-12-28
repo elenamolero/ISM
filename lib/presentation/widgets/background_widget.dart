@@ -5,13 +5,15 @@ import 'package:petuco/presentation/pages/common/login_page.dart';
 class BackGround extends StatelessWidget {
   final String title;
   final bool? home;
-  final bool isUserLoggedIn; // Nueva propiedad
+  final Widget? page;
+  final bool isUserLoggedIn;
 
   const BackGround({
     super.key,
     required this.title,
     this.home,
-    required this.isUserLoggedIn, // Requerido para determinar el estado de inicio de sesión
+    this.page,
+    required this.isUserLoggedIn,
   });
 
   @override
@@ -24,7 +26,12 @@ class BackGround extends StatelessWidget {
                 icon: const Icon(Icons.arrow_back,
                     color: Color.fromARGB(255, 255, 255, 255), size: 48),
                 onPressed: () {
-                  Navigator.pop(context);
+                  if(page != null) {
+                    Navigator.push(context, MaterialPageRoute(
+                    builder: (context) => page ?? Container()));
+                  } else {
+                    Navigator.pop(context);
+                  }
                 },
               )
             : IconButton(

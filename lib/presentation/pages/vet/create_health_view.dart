@@ -13,8 +13,9 @@ import 'package:petuco/presentation/widgets/footer_widget.dart';
 import 'package:supabase_auth_ui/supabase_auth_ui.dart';
 class CreateHealthView extends StatefulWidget {
   final int petId;
+  final String petName;
 
-  const CreateHealthView({Key? key, required this.petId}) : super(key: key);
+  const CreateHealthView({Key? key, required this.petId, required this.petName}) : super(key: key);
 
   @override
   State<CreateHealthView> createState() => _CreateHealthViewState();
@@ -67,6 +68,16 @@ class _CreateHealthViewState extends State<CreateHealthView> {
                 if (state is CreateHealthTestSuccess) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text("Health Test saved")),
+                  );
+                  Navigator.push(
+                    context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                          PetMedicalHistorialPage(
+                        petId: widget.petId,
+                        petName: widget.petName,
+                      ),
+                    ),
                   );
                 } else if (state is CreateHealthTestError) {
                   ScaffoldMessenger.of(context).showSnackBar(
@@ -192,15 +203,6 @@ class _CreateHealthViewState extends State<CreateHealthView> {
           date: date,
         );
         context.read<CreateHealthTestInfoBloc>().add(CreateHealthTestEvent(newHealthTest));
-        Navigator.push(
-          context,
-            MaterialPageRoute(
-              builder: (context) =>
-                PetMedicalHistorialPage(
-              petId: widget.petId,
-            ),
-          ),
-        );
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Failed to save health test: $e')));

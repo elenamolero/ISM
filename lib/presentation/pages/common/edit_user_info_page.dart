@@ -5,6 +5,7 @@ import 'package:petuco/domain/usecases/impl/get_user_info_use_case.dart';
 import 'package:petuco/domain/usecases/impl/save_user_info_use_case.dart';
 import 'package:petuco/presentation/blocs/users/get_user_info_bloc.dart';
 import 'package:petuco/presentation/blocs/users/save_user_info_bloc.dart';
+import 'package:petuco/presentation/pages/common/home_page.dart';
 import 'package:petuco/presentation/widgets/background_widget.dart';
 import 'package:petuco/presentation/widgets/text_button_widget.dart';
 import 'package:petuco/presentation/widgets/custom_text_field_widget.dart';
@@ -79,6 +80,10 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
             if (state is SaveUserSuccess) {
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(content: Text('User info saved successfully!')),
+              );
+              Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(builder: (context) => const HomeUserPage()),
+                (route) => false,
               );
             } else if (state is SaveUserError) {
               ScaffoldMessenger.of(context).showSnackBar(
@@ -254,6 +259,7 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
                             context.read<SaveUserInfoBloc>().add(
                                   SaveUserEvent(updatedUser),
                             );
+                            
                             },
                           )
                         )

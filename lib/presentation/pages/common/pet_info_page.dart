@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:petuco/presentation/pages/common/home_page.dart';
 import 'package:petuco/presentation/pages/owner/nfc_connection_view.dart';
 import 'package:petuco/presentation/pages/common/pet_medical_historial_page.dart';
 import 'package:petuco/presentation/widgets/background_widget.dart';
@@ -38,7 +39,7 @@ class _PetInfoPageState extends State<PetInfoPage> {
       child: Scaffold(
         body: Stack(
           children: [
-            const BackGround(title: 'Pet Info',isUserLoggedIn: true,),
+            const BackGround(title: 'Pet Info',isUserLoggedIn: true, page: HomeUserPage()),
             Padding(
               padding: EdgeInsets.only(
                 top: kToolbarHeight + MediaQuery.of(context).padding.top,
@@ -239,7 +240,8 @@ class _PetInfoPageState extends State<PetInfoPage> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => PetMedicalHistorialPage(
-                                        petId: petState.pet.id),
+                                        petId: petState.pet.id,
+                                        petName: petState.pet.name),
                                   ),
                                 );
                               }

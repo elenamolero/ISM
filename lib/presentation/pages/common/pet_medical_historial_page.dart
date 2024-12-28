@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:petuco/presentation/pages/common/pet_info_page.dart';
 import 'package:petuco/presentation/pages/vet/create_health_view.dart';
 import 'package:petuco/presentation/widgets/background_widget.dart';
 import 'package:petuco/di/dependency_injection.dart';
@@ -10,13 +11,13 @@ import 'package:petuco/presentation/blocs/healthTests/get_health_tests_bloc.dart
 import 'package:petuco/presentation/widgets/footer_widget.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-const String _petname = "Fentanyl Jr.";
-
 class PetMedicalHistorialPage extends StatefulWidget {
   static const String route = 'petHistory';
   final int petId;
 
-  const PetMedicalHistorialPage({Key? key, required this.petId}) : super(key: key);
+  final String petName;
+
+  const PetMedicalHistorialPage({Key? key, required this.petId, required this.petName}) : super(key: key);
 
   @override
   State<PetMedicalHistorialPage> createState() => _PetMedicalHistorialPageState();
@@ -44,6 +45,7 @@ class _PetMedicalHistorialPageState extends State<PetMedicalHistorialPage> {
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
+    String petname = widget.petName;
 
     return FutureBuilder<String?>(
       future: _roleFuture,
@@ -62,7 +64,7 @@ class _PetMedicalHistorialPageState extends State<PetMedicalHistorialPage> {
             child: Scaffold(
               body: Stack(
                 children: [
-                  const BackGround(title: 'History', isUserLoggedIn: true),
+                  BackGround(title: 'History',isUserLoggedIn: true, page: PetInfoPage(petId: widget.petId)),
                   Column(
                     children: [
                       Container(
@@ -73,7 +75,7 @@ class _PetMedicalHistorialPageState extends State<PetMedicalHistorialPage> {
                         child: Opacity(
                           opacity: 0.69,
                           child: Text(
-                            "Informes médicos de $_petname",
+                            "Informes médicos de $petname",
                             style: TextStyle(
                               fontSize: 22,
                               color: Colors.white.withOpacity(0.53),
@@ -245,7 +247,7 @@ class _PetMedicalHistorialPageState extends State<PetMedicalHistorialPage> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => CreateHealthView(petId: widget.petId),
+        builder: (context) => CreateHealthView(petId: widget.petId, petName: widget.petName),
       ),
     );
   }
