@@ -15,6 +15,8 @@ class PetInfoPage extends StatefulWidget {
   final int petId;
   const PetInfoPage({super.key, required this.petId});
 
+  static const String route = 'infopet';
+
   @override
   State<PetInfoPage> createState() => _PetInfoPageState();
 }

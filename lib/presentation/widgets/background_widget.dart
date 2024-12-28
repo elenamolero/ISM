@@ -24,7 +24,9 @@ class BackGround extends StatelessWidget {
                 icon: const Icon(Icons.arrow_back,
                     color: Color.fromARGB(255, 255, 255, 255), size: 48),
                 onPressed: () {
-                  Navigator.pop(context);
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => const HomeUserPage()),
+                  );
                 },
               )
             : IconButton(

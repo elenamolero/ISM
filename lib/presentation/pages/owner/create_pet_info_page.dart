@@ -3,10 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:petuco/data/repository/impl/pet_repository_impl.dart';
-import 'package:petuco/data/services/model/pet_response.dart';
 import 'package:petuco/data/services/pet/pets_service.dart';
-import 'package:petuco/presentation/pages/home_page.dart';
-import 'package:petuco/presentation/pages/pet_info_page.dart';
+import 'package:petuco/presentation/pages/common/home_page.dart';
+import 'package:petuco/presentation/pages/common/pet_info_page.dart';
 import 'package:petuco/presentation/widgets/background_widget.dart';
 import 'package:petuco/presentation/widgets/footer_widget.dart';
 import '../../../../domain/usecases/save_pet_info.dart';
@@ -79,9 +78,8 @@ class _CreatePetInfoPageState extends State<CreatePetInfoPage> {
                   setState(() {
                     _imageFile = null;
                   });
-                  Navigator.of(context).pushAndRemoveUntil(
+                  Navigator.of(context).push(
                     MaterialPageRoute(builder: (context) => PetInfoPage(petId: createdPet.id)),
-                    (route) => false,
                   );
                   
                 } else if (state is CreatePetError) {
