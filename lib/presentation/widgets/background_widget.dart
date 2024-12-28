@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:petuco/presentation/pages/home_page.dart';
 
 class BackGround extends StatelessWidget {
   final String title;
   final bool? home;
+  final bool isUserLoggedIn; // Nueva propiedad
 
   const BackGround({
     super.key,
     required this.title,
     this.home,
+    required this.isUserLoggedIn, // Requerido para determinar el estado de inicio de sesión
   });
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         leading: (home ?? true)
@@ -49,9 +53,26 @@ class BackGround extends StatelessWidget {
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 16.0),
-            child: GestureDetector(
-              onTap: () {},
-              child: Image.asset(
+            child: IconButton(
+              onPressed: () {
+                if (isUserLoggedIn) {
+                  // Si el usuario está registrado, redirigir a HomeUserPage
+                 Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const HomeUserPage(),
+                    ),
+                  );
+                } else {
+                  // Mostrar un mensaje o redirigir a otra página (opcional)
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Debes iniciar sesión primero'),
+                    ),
+                  );
+                }
+              },
+              icon: Image.asset(
                 'assets/images/logo.png',
                 height: 40,
                 width: 40,

@@ -39,7 +39,7 @@ class _PetMedicalHistorialPageState extends State<PetMedicalHistorialPage> {
       child: Scaffold(
         body: Stack(
           children: [
-            const BackGround(title: 'History'),
+            const BackGround(title: 'History',isUserLoggedIn: true,),
             Column(
               children: [
                 Container(

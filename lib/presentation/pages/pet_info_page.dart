@@ -38,7 +38,7 @@ class _PetInfoPageState extends State<PetInfoPage> {
       child: Scaffold(
         body: Stack(
           children: [
-            const BackGround(title: 'Pet Info'),
+            const BackGround(title: 'Pet Info',isUserLoggedIn: true,),
             Padding(
               padding: EdgeInsets.only(
                 top: kToolbarHeight + MediaQuery.of(context).padding.top,

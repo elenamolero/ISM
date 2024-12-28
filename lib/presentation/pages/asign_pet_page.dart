@@ -14,7 +14,7 @@ class _AsignPetPageState extends State<AsignPetPage> {
     return Scaffold(
         body: Stack(
       children: [
-        const BackGround(title: "Asign a pet"),
+        const BackGround(title: "Asign a pet",isUserLoggedIn: true,),
         Positioned(
           top: 100,
           left: 0,

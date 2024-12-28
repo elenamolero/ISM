@@ -63,7 +63,7 @@ class _CreatePetInfoPageState extends State<CreatePetInfoPage> {
       child: Scaffold(
         body: Stack(
           children: [
-            const BackGround(title: 'Create Pet Info'),
+            const BackGround(title: 'Create Pet Info',isUserLoggedIn: true,),
             BlocConsumer<CreatePetInfoBloc, CreatePetInfoState>(
               listener: (context, state) {
                 if (state is CreatePetSuccess) {

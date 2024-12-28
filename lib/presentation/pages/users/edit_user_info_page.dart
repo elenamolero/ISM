@@ -73,7 +73,7 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
       child: Scaffold(
         body:Stack(
         children: [
-          const BackGround(title: 'Edit User Info'),
+          const BackGround(title: 'Edit User Info',isUserLoggedIn: true,),
           BlocListener<SaveUserInfoBloc, SaveUserInfoState>(
           listener: (context, state) {
             if (state is SaveUserSuccess) {

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:petuco/data/repository/impl/pet_repository_impl.dart';
-import 'package:petuco/data/services/model/pet_response.dart';
 import 'package:petuco/data/services/pet/pets_service.dart';
 import 'package:petuco/presentation/widgets/background_widget.dart';
 import 'package:petuco/presentation/widgets/footer_widget.dart';
@@ -80,7 +79,7 @@ class _UpdatePetInfoPageState extends State<UpdatePetInfoPage> {
       child: Scaffold(
         body: Stack(
           children: [
-            const BackGround(title: 'Update Pet Info'),
+            const BackGround(title: 'Update Pet Info',isUserLoggedIn: true,),
             BlocConsumer<UpdatePetInfoBloc, UpdatePetInfoState>(
               listener: (context, state) {
                 if (state is UpdatePetSuccess) {

@@ -61,7 +61,7 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
       child: Scaffold(
         body: Stack(
           children: [
-            const BackGround(title: 'User register'),
+            const BackGround(title: 'User register',isUserLoggedIn: false,),
             BlocListener<RegisterUserInfoBloc, RegisterUserInfoState>(
               listener: (context, state) {
                 if (state is RegisterUserSuccess) {

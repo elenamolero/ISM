@@ -73,7 +73,7 @@ class _NfcConnectionViewState extends State<NfcConnectionView> {
       child: Scaffold(
         body: Stack(
           children: [
-            const BackGround(title: "NFC connection"),
+            const BackGround(title: "NFC connection",isUserLoggedIn: true,),
             BlocConsumer<UpdatePetInfoBloc, UpdatePetInfoState>(
               listener: (context, state) {
                 if (state is UpdatePetSuccess) {

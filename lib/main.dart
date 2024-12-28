@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter/services.dart';
 import 'package:petuco/di/dependency_injection.dart';
-import 'package:petuco/presentation/pages/asign_pet_page.dart';
 import 'package:petuco/presentation/pages/create_health_view.dart';
 import 'package:petuco/presentation/pages/create_pet_info_page.dart';
 import 'package:petuco/presentation/pages/home_page.dart';

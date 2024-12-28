@@ -28,7 +28,7 @@ class LoginUserPageState extends State<LoginUserPage> {
       child: Scaffold(
         body: Stack(
           children: [
-            const BackGround(title: 'Login'),
+            const BackGround(title: 'Login',isUserLoggedIn: false,),
             Positioned(
               top: screenHeight * 0.14,
               left: screenWidth * 0.1,
