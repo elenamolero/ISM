@@ -28,6 +28,7 @@ class PetRepositoryImpl implements PetsRepositoryInterface {
         type: pet.type,
         breed: pet.breed,
         photo: photo,
+        nfcConnection: false,
       );
       await petsService.savePetData(petResponse);
     } catch (e) {
@@ -53,6 +54,7 @@ class PetRepositoryImpl implements PetsRepositoryInterface {
         type: pet.type,
         breed: pet.breed,
         photo: imageUrl,
+        nfcConnection: pet.nfcConnection,
       );
 
       debugPrint('Updating pet data: ${petResponse.toMap()}');
@@ -82,6 +84,7 @@ class PetRepositoryImpl implements PetsRepositoryInterface {
         type: petResponse.type,
         breed: petResponse.breed,
         photo: petResponse.photo,
+        nfcConnection: petResponse.nfcConnection,
       );
     }).toList();
 
@@ -101,11 +104,11 @@ class PetRepositoryImpl implements PetsRepositoryInterface {
     // Fetch the pet data from the service
     final petResponse = await petsService.fetchPetDataById(petId);
 
-    // Verificar si `petResponse` tiene datos
+    
     if (petResponse != null) {
       debugPrint('Fetched pet data: $petResponse');
 
-      // Convertir el PetResponse al dominio Pet
+      
       final pet = Pet(
         id: petResponse.id,
         name: petResponse.name,
@@ -114,6 +117,7 @@ class PetRepositoryImpl implements PetsRepositoryInterface {
         type: petResponse.type,
         breed: petResponse.breed,
         photo: petResponse.photo,
+        nfcConnection: petResponse.nfcConnection,
       );
 
       debugPrint(

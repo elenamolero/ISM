@@ -13,8 +13,7 @@ import 'package:petuco/presentation/widgets/footer_widget.dart';
 
 class PetInfoPage extends StatefulWidget {
   final int petId;
-
-  const PetInfoPage({Key? key, required this.petId}) : super(key: key);
+  const PetInfoPage({super.key, required this.petId});
 
   @override
   State<PetInfoPage> createState() => _PetInfoPageState();
@@ -42,8 +41,8 @@ class _PetInfoPageState extends State<PetInfoPage> {
             const BackGround(title: 'Pet Info',isUserLoggedIn: true,),
             Padding(
               padding: EdgeInsets.only(
-                top: kToolbarHeight+MediaQuery.of(context).padding.top,
-                bottom: isKeyboardOpen ? 0 : 50
+                top: kToolbarHeight + MediaQuery.of(context).padding.top,
+                bottom: isKeyboardOpen ? 0 : 50,
               ),
               child: SingleChildScrollView(
                 child: Column(
@@ -75,8 +74,7 @@ class _PetInfoPageState extends State<PetInfoPage> {
                     SizedBox(height: screenHeight * 0.02),
                     // Main Content Container
                     Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: screenWidth * 0.1),
+                      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.1),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(12),
                         child: BackdropFilter(
@@ -97,8 +95,7 @@ class _PetInfoPageState extends State<PetInfoPage> {
                                   } else if (petState is PetLoaded) {
                                     final pet = petState.pet;
                                     return Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
                                       children: [
                                         // Centering the pet image
                                         Center(
@@ -108,12 +105,10 @@ class _PetInfoPageState extends State<PetInfoPage> {
                                             decoration: BoxDecoration(
                                               border: Border.all(
                                                   color: Colors.white, width: 2),
-                                              borderRadius:
-                                                  BorderRadius.circular(15),
+                                              borderRadius: BorderRadius.circular(15),
                                             ),
                                             child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(15),
+                                              borderRadius: BorderRadius.circular(15),
                                               child: pet.photo != null
                                                   ? Image.network(
                                                       pet.photo!,
@@ -127,45 +122,37 @@ class _PetInfoPageState extends State<PetInfoPage> {
                                             ),
                                           ),
                                         ),
-              
                                         const SizedBox(height: 20),
-              
                                         // Text inside a box aligned to the left but centered on screen
                                         Container(
                                           alignment: Alignment.center,
                                           width: screenWidth * 0.8,
                                           child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
                                               Text(
                                                 'Name: ${pet.name}',
-                                                style:
-                                                    const TextStyle(fontSize: 15),
+                                                style: const TextStyle(fontSize: 15),
                                               ),
                                               const SizedBox(height: 10),
                                               Text(
                                                 'Age: ${pet.age}',
-                                                style:
-                                                    const TextStyle(fontSize: 15),
+                                                style: const TextStyle(fontSize: 15),
                                               ),
                                               const SizedBox(height: 10),
                                               Text(
                                                 'Type: ${pet.type}',
-                                                style:
-                                                    const TextStyle(fontSize: 15),
+                                                style: const TextStyle(fontSize: 15),
                                               ),
                                               const SizedBox(height: 10),
                                               Text(
                                                 'Breed: ${pet.breed}',
-                                                style:
-                                                    const TextStyle(fontSize: 15),
+                                                style: const TextStyle(fontSize: 15),
                                               ),
                                               const SizedBox(height: 10),
                                               Text(
                                                 'Owner email: ${pet.ownerEmail}',
-                                                style:
-                                                    const TextStyle(fontSize: 15),
+                                                style: const TextStyle(fontSize: 15),
                                               ),
                                             ],
                                           ),
@@ -178,8 +165,7 @@ class _PetInfoPageState extends State<PetInfoPage> {
                                               Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      UpdatePetInfoPage(
+                                                  builder: (context) => UpdatePetInfoPage(
                                                     petId: pet.id,
                                                   ),
                                                 ),
@@ -187,18 +173,15 @@ class _PetInfoPageState extends State<PetInfoPage> {
                                             },
                                             style: ElevatedButton.styleFrom(
                                               backgroundColor:
-                                                  const Color.fromRGBO(
-                                                      97, 187, 255, 1),
+                                                  const Color.fromRGBO(97, 187, 255, 1),
                                               shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(50),
+                                                borderRadius: BorderRadius.circular(50),
                                                 side: const BorderSide(
                                                   color: Colors.white,
                                                   width: 2.0,
                                                 ),
                                               ),
-                                              padding: const EdgeInsets.symmetric(
-                                                  vertical: 16),
+                                              padding: const EdgeInsets.symmetric(vertical: 16),
                                             ),
                                             child: const Text(
                                               'Edit data',
@@ -239,20 +222,16 @@ class _PetInfoPageState extends State<PetInfoPage> {
                         ),
                       ),
                     ),
-              
                     SizedBox(height: screenHeight * 0.03),
-              
                     // History Button
                     SizedBox(
                       width: 220,
                       child: BlocBuilder<PetBloc, PetState>(
                         builder: (context, petState) {
                           String buttonText = "History";
-              
                           if (petState is PetLoaded) {
                             buttonText = "${petState.pet.name}'s history";
                           }
-              
                           return ElevatedButton(
                             onPressed: () {
                               if (petState is PetLoaded) {
@@ -266,8 +245,7 @@ class _PetInfoPageState extends State<PetInfoPage> {
                               }
                             },
                             style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  const Color.fromRGBO(97, 187, 255, 1),
+                              backgroundColor: const Color.fromRGBO(97, 187, 255, 1),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(50),
                                 side: const BorderSide(
@@ -289,42 +267,48 @@ class _PetInfoPageState extends State<PetInfoPage> {
                         },
                       ),
                     ),
-              
                     SizedBox(height: screenHeight * 0.02),
-              
                     // NFC Button
                     SizedBox(
                       width: 220,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const NfcConectionView(),
+                      child: BlocBuilder<PetBloc, PetState>(
+                        builder: (context, petState) {
+                          String buttonText = "NFC management";
+                          return ElevatedButton(
+                            onPressed: () {
+                              if (petState is PetLoaded) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => NfcConnectionView(petId: petState.pet.id),
+                                  ),
+                                );
+                              }
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color.fromARGB(166, 23, 219, 99),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(50),
+                                side: const BorderSide(
+                                  color: Colors.white,
+                                  width: 2.0,
+                                ),
+                              ),
+                              padding: const EdgeInsets.symmetric(vertical: 16),
+                            ),
+                            child: Text(
+                              buttonText,
+                              style: const TextStyle(
+                                fontSize: 16,
+                                color: Colors.white,
+                                height: 2,
+                              ),
                             ),
                           );
                         },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color.fromARGB(166, 23, 219, 99),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(50),
-                            side: const BorderSide(
-                              color: Colors.white,
-                              width: 2.0,
-                            ),
-                          ),
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                        ),
-                        child: const Text(
-                          'NFC management',
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.white,
-                            height: 2,
-                          ),
-                        ),
                       ),
                     ),
+                    SizedBox(height: screenHeight * 0.15),
                   ],
                 ),
               ),
