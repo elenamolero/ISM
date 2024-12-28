@@ -8,6 +8,7 @@ class PetResponse {
   final String type;
   final String breed;
   final String? photo;
+  final bool? nfcConnection;
 
   PetResponse({
     required this.id,
@@ -17,6 +18,7 @@ class PetResponse {
     required this.type,
     required this.breed,
     this.photo,
+    this.nfcConnection,
   });
 
   Future<void> savePetData(PetResponse pet) async {
@@ -56,6 +58,7 @@ class PetResponse {
       type: map['type'] ?? '',
       breed: map['breed'] ?? '',
       photo: map['photo'],
+      nfcConnection: map['nfcConnection'],
     );
   }
 
@@ -69,6 +72,7 @@ class PetResponse {
       'breed': breed,
       'ownerEmail': ownerEmail,
       'photo': photo,
+      'nfcConnection': nfcConnection,
     };
   }
 }
