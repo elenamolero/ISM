@@ -183,19 +183,19 @@ class _NfcConnectionViewState extends State<NfcConnectionView> {
                                   await NfcManager.instance.startSession(
                                     onDiscovered: (NfcTag tag) async {
                                       final ndef = Ndef.from(tag);
-
+                                      String petId = widget.petId.toString();
+                                      final url = 'https://bucolic-fox-5c474a.netlify.app/infopet/$petId';
                                       if (ndef != null) {
                                         try {
                                           if (isWritingInProgress) {
-                                            String petId = widget.petId.toString();
+                                            
 
                                             // Write in the NFC tag
-                                            NdefMessage message = NdefMessage([NdefRecord.createText(petId)]);
+                                            NdefMessage message = NdefMessage([
+                                              NdefRecord.createUri(Uri.parse(url)),
+                                            ]);
                                             await ndef.write(message);
-                                            debugPrint("Data written to NFC: $petId");
-                                            setState(() {
-                                              isWritingInProgress = false;
-                                            });
+                                            debugPrint("URL escrita en NFC: $url");
                                             if (mounted) {
                                               context.read<UpdatePetInfoBloc>().add(
                                                 UpdatePetEvent(

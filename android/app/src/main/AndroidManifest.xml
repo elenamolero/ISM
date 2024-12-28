@@ -30,8 +30,8 @@
                 <data android:mimeType="text/plain" />
                 <!-- put the other if we have to put the uri-->
                 <data android:scheme="https"
-                android:host="www.youtube.com"
-                android:pathPrefix="/results" />
+                android:host="bucolic-fox-5c474a.netlify.app"
+                android:pathPrefix="/infopet" />
             </intent-filter>
         </activity>
         <!-- Don't delete the meta-data below.
