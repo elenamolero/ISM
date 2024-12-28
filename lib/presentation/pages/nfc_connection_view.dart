@@ -24,7 +24,7 @@ class _NfcConectionViewState extends State<NfcConectionView> {
     return Scaffold(
       body: Stack(
         children: [
-          const BackGround(title: "NFC connection"),
+          const BackGround(title: "NFC connection",isUserLoggedIn: true,),
           Positioned(
             top: screenHeight * 0.15,
             left: 0,

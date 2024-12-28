@@ -61,7 +61,7 @@ class _CreateHealthViewState extends State<CreateHealthView> {
         resizeToAvoidBottomInset: false,
         body: Stack(
           children: [
-            const BackGround(title: "Health Test"),
+            const BackGround(title: "Health Test",isUserLoggedIn: true,),
             BlocListener<CreateHealthTestInfoBloc, CreateHealthTestInfoState>(
               listener: (context, state) {
                 if (state is CreateHealthTestSuccess) {
