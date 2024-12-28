@@ -201,7 +201,7 @@ class _HomeUserPageState extends State<HomeUserPage> {
                       : [],
                 ),
                 padding: const EdgeInsets.all(16.0),
-                child: _buildPetContainer(pet, screenWidth, userName),
+                child: _buildPetContainer(pet, screenWidth, userName,context),
               ),
             ),
           );
@@ -257,7 +257,7 @@ class _HomeUserPageState extends State<HomeUserPage> {
     );
   }
 
-  Widget _buildPetContainer(Pet pet, double screenWidth, String userName) {
+  Widget _buildPetContainer(Pet pet, double screenWidth, String userName,context) {
     return ListTile(
       title: Row(
         children: [
