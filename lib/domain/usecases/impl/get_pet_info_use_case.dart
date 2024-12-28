@@ -16,7 +16,7 @@ class GetPetInfoUseCase implements GetPetInfoUseCaseInterface {
     debugPrint('Fetched pet:');
 
     debugPrint(
-        'Pet: ${pet.name}, ${pet.ownerEmail}, ${pet.age}, ${pet.type}, ${pet.breed}, ${pet.photo}');
+        'Pet: ${pet.name}, ${pet.ownerEmail}, ${pet.age}, ${pet.type}, ${pet.breed}, ${pet.photo}, ${pet.nfcConnection}');
     return pet;
   }
 }

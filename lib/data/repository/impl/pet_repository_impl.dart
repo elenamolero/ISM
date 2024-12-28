@@ -53,6 +53,7 @@ class PetRepositoryImpl implements PetsRepositoryInterface {
         type: pet.type,
         breed: pet.breed,
         photo: imageUrl,
+        nfcConnection: pet.nfcConnection,
       );
 
       debugPrint('Updating pet data: ${petResponse.toMap()}');
