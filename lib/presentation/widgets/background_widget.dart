@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:petuco/presentation/pages/common/home_page.dart';
+import 'package:petuco/presentation/pages/common/login_page.dart';
 
 class BackGround extends StatelessWidget {
   final String title;
@@ -27,11 +28,38 @@ class BackGround extends StatelessWidget {
                 },
               )
             : IconButton(
-                icon: const Icon(Icons.login_outlined,
-                    color: Color.fromARGB(255, 255, 255, 255), size: 48),
-                onPressed: () {
-                  Navigator.pop(context);
+              icon: const Icon(Icons.login_outlined,
+                color: Color.fromARGB(255, 255, 255, 255), size: 48),
+              onPressed: () {
+                showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                    return AlertDialog(
+                    title: const Text('Logout Confirmation'),
+                    content: const Text('Are you sure you want to log out?'),
+                    actions: <Widget>[
+                    TextButton(
+                    child: const Text('No'),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    ),
+                    TextButton(
+                    child: const Text('Yes'),
+                    onPressed: () {
+                      Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const LoginPage(),
+                    ),
+                      );
+                    },
+                    ),
+                  ],
+                  );
                 },
+                );
+              },
               ),
         title: Text(
           title,

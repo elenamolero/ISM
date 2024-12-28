@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:petuco/presentation/pages/users/edit_user_info_page.dart';
+import 'package:petuco/presentation/pages/common/edit_user_info_page.dart';
 
 class FooterWidget extends StatelessWidget {
   const FooterWidget({super.key});
