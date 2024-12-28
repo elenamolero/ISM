@@ -7,6 +7,7 @@ class Pet {
   final String type;
   final String breed;
   final String? photo;
+  final bool? nfcConnection;
 
 //All required fields from class Pet
   Pet(
@@ -16,5 +17,7 @@ class Pet {
       required this.age,
       required this.type,
       required this.breed,
-      this.photo});
+      this.photo,
+      this.nfcConnection});
+      
 }

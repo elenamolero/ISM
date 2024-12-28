@@ -291,34 +291,46 @@ class _PetInfoPageState extends State<PetInfoPage> {
                   // NFC Button
                   SizedBox(
                     width: 220,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const NfcConectionView(),
+                    child: BlocBuilder<PetBloc, PetState>(
+                      builder: (context, petState) {
+                        String buttonText = "NFC management";
+
+                        if (petState is PetLoaded) {
+                          buttonText = "Manage ${petState.pet.name}'s NFC";
+                        }
+
+                        return ElevatedButton(
+                          onPressed: () {
+                            if (petState is PetLoaded) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => NfcConnectionView(petId: petState.pet.id),
+                                ),
+                              );
+                            }
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color.fromARGB(166, 23, 219, 99),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50),
+                              side: const BorderSide(
+                                color: Colors.white,
+                                width: 2.0,
+                              ),
+                            ),
+                            padding: const EdgeInsets.symmetric(vertical: 16),
+                          ),
+                          child: Text(
+                            buttonText,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              color: Colors.white,
+                              height: 2,
+                            ),
                           ),
                         );
                       },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color.fromARGB(166, 23, 219, 99),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50),
-                          side: const BorderSide(
-                            color: Colors.white,
-                            width: 2.0,
-                          ),
-                        ),
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                      ),
-                      child: const Text(
-                        'NFC management',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.white,
-                          height: 2,
-                        ),
-                      ),
                     ),
                   ),
 
