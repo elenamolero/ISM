@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:petuco/presentation/pages/home_page.dart';
-import 'package:petuco/presentation/pages/login_page.dart';
+import 'package:petuco/presentation/pages/common/Login_page.dart';
+import 'package:petuco/presentation/pages/common/home_page.dart';
 
 class BackGround extends StatelessWidget {
   final String title;
