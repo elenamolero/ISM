@@ -49,7 +49,7 @@ class _EditVeterinarianInfoPageState extends State<EditVetInfoPage> {
     return Scaffold(
       body: Stack(
         children: [
-          const BackGround(title: 'Edit Vet Info'),
+          const BackGround(title: 'Edit Vet Info',isUserLoggedIn: true,),
           Padding(
             padding: const EdgeInsets.all(40),
             child: SingleChildScrollView(

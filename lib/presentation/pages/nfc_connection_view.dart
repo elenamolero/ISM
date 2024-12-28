@@ -13,7 +13,6 @@ import 'package:petuco/presentation/widgets/background_widget.dart';
 import 'package:petuco/presentation/widgets/footer_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-
 class NfcConnectionView extends StatefulWidget {
   final int petId;
   const NfcConnectionView({super.key, required this.petId});
@@ -188,8 +187,7 @@ class _NfcConnectionViewState extends State<NfcConnectionView> {
                                       if (ndef != null) {
                                         try {
                                           if (isWritingInProgress) {
-                                            //This will be get from the pet info view when we have the button
-                                            String petId = "1"; // this is temporal!!!!
+                                            String petId = widget.petId.toString();
 
                                             // Write in the NFC tag
                                             NdefMessage message = NdefMessage([NdefRecord.createText(petId)]);
@@ -215,6 +213,7 @@ class _NfcConnectionViewState extends State<NfcConnectionView> {
                                                 ),
                                               );
                                               ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Data written to NFC')));
+                                              Navigator.pop(context); // Volver a la pantalla anterior
                                             }
                                           } else {
                                             // Read from the NFC tag
