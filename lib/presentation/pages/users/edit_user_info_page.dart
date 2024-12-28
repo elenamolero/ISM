@@ -101,7 +101,7 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
               } else if (state is GetUserError) {
                 return Center(child: Text('Error: ${state.message}'));
               }
-
+              
               return Padding(
                 padding: EdgeInsets.only(
                   left: 40, 
@@ -266,12 +266,12 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
             },
           ),
         ),
-          Positioned(
-            top: MediaQuery.of(context).size.height-60,
-            left: 0,
-            right: 0,
-            child: const FooterWidget(),
-          ),
+        Positioned(
+          top: MediaQuery.of(context).size.height-60,
+          left: 0,
+          right: 0,
+          child: const FooterWidget(),
+        ),
         ],
       ),
       ),

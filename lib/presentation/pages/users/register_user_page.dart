@@ -79,16 +79,19 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
                   if (state is RegisterUserLoading) {
                     return const Center(child: CircularProgressIndicator());
                   }
-
                   return Padding(
-                    padding: const EdgeInsets.all(40),
+                    padding: EdgeInsets.only(
+                      left: 40, 
+                      right: 40,
+                      top: kToolbarHeight+MediaQuery.of(context).padding.top,
+                    ),
                     child: SingleChildScrollView(
                       child: Form(
                         key: _formKey,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const SizedBox(height: 80),
+                            const SizedBox(height: 40),
                             ClipRRect(
                               borderRadius: BorderRadius.circular(12),
                               child: Container(
@@ -298,6 +301,7 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
                                 ),
                               ),
                             ),
+                            const SizedBox(height: 40)
                           ],
                         ),
                       ),
