@@ -13,20 +13,21 @@ import 'package:petuco/presentation/pages/users/register_user_page.dart';
 import 'package:petuco/presentation/pages/login_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:petuco/presentation/pages/pet_info_page.dart';
-//import 'package:flutter_web_plugins/flutter_web_plugins.dart';
+import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await dotenv.load(fileName: ".env");
+  //await dotenv.load(fileName: ".env");
   await Supabase.initialize(
-    url: dotenv.env['SUPABASE_URL']!,
-    anonKey: dotenv.env['SUPABASE_ANON_KEY']!,
+    url: 'https://fpvsoeeaulbzdedmqyrp.supabase.co',
+    anonKey:
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZwdnNvZWVhdWxiemRlZG1xeXJwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzMyNDkxMTcsImV4cCI6MjA0ODgyNTExN30.TCjZ-N5r9cAb4qttuBe9Db_cVDVWCLipBUwfSoGLwdM',
   );
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
     initInjection();
     if (kIsWeb) {
-      //setUrlStrategy(PathUrlStrategy());
+      setUrlStrategy(PathUrlStrategy());
     }
     runApp(const MyApp());
   });
@@ -71,7 +72,7 @@ class MyApp extends StatelessWidget {
         } else {
           // Handle for non-web platforms (default)
           return MaterialPageRoute(
-            builder: (context) =>  const LoginPage(),
+            builder: (context) => const LoginPage(),
           );
         }
       },
