@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:petuco/presentation/pages/users/register_user_page.dart';
-import 'login_user_page.dart';
+import 'package:petuco/presentation/pages/common/login_user_page.dart';
+import 'package:petuco/presentation/pages/common/register_user_page.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -70,7 +70,6 @@ class LoginPage extends StatelessWidget {
                     opacity: 0.9,
                     child: ElevatedButton(
                       onPressed: () {
-                        // Acción del botón Login
                          Navigator.push(
                           context,
                           MaterialPageRoute(builder:  (context) => const LoginUserPage(),),
