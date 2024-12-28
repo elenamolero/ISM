@@ -1,3 +1,4 @@
+import 'dart:ffi';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,6 +28,7 @@ class _UpdatePetInfoPageState extends State<UpdatePetInfoPage> {
   final _ageController = TextEditingController();
   final _typeController = TextEditingController();
   final _breedController = TextEditingController();
+  bool _nfcController = false;
   File? _imageFile;
   String? _currentImageUrl;
   bool _isFieldsPopulated = false;
@@ -58,6 +60,7 @@ class _UpdatePetInfoPageState extends State<UpdatePetInfoPage> {
     _typeController.text = pet.type;
     _breedController.text = pet.breed;
     _currentImageUrl = pet.photo;
+    _nfcController = pet.nfcConnection!;
   }
 
   @override
@@ -79,7 +82,10 @@ class _UpdatePetInfoPageState extends State<UpdatePetInfoPage> {
       child: Scaffold(
         body: Stack(
           children: [
-            const BackGround(title: 'Update Pet Info',isUserLoggedIn: true,),
+            const BackGround(
+              title: 'Update Pet Info',
+              isUserLoggedIn: true,
+            ),
             BlocConsumer<UpdatePetInfoBloc, UpdatePetInfoState>(
               listener: (context, state) {
                 if (state is UpdatePetSuccess) {
@@ -105,11 +111,10 @@ class _UpdatePetInfoPageState extends State<UpdatePetInfoPage> {
                 }
                 return Padding(
                   padding: EdgeInsets.only(
-                    left: 40, 
-                    right: 40,
-                    top: kToolbarHeight+MediaQuery.of(context).padding.top,
-                    bottom: isKeyboardOpen ? 0 : 50
-                  ),
+                      left: 40,
+                      right: 40,
+                      top: kToolbarHeight + MediaQuery.of(context).padding.top,
+                      bottom: isKeyboardOpen ? 0 : 50),
                   child: SingleChildScrollView(
                     child: Form(
                       key: _formKey,
@@ -213,6 +218,8 @@ class _UpdatePetInfoPageState extends State<UpdatePetInfoPage> {
                                                                   .text,
                                                           photo:
                                                               _currentImageUrl,
+                                                          nfcConnection:
+                                                              _nfcController,
                                                         ),
                                                         _imageFile,
                                                       ),
@@ -264,7 +271,7 @@ class _UpdatePetInfoPageState extends State<UpdatePetInfoPage> {
               },
             ),
             Positioned(
-              top: MediaQuery.of(context).size.height-60,
+              top: MediaQuery.of(context).size.height - 60,
               left: 0,
               right: 0,
               child: const FooterWidget(),

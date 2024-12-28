@@ -19,5 +19,4 @@ class Pet {
       required this.breed,
       this.photo,
       this.nfcConnection});
-      
 }
