@@ -28,7 +28,7 @@ class PetRepositoryImpl implements PetsRepositoryInterface {
         type: pet.type,
         breed: pet.breed,
         photo: photo,
-        nfcConnection: pet.nfcConnection,
+        nfcConnection: false,
       );
       await petsService.savePetData(petResponse);
     } catch (e) {

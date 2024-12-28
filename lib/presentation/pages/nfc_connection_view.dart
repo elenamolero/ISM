@@ -15,16 +15,14 @@ import 'package:url_launcher/url_launcher.dart';
 
 
 class NfcConnectionView extends StatefulWidget {
-
   final int petId;
   const NfcConnectionView({super.key, required this.petId});
 
   @override
-  State<NfcConnectionView> createState() => _NfcConectionViewState();
+  State<NfcConnectionView> createState() => _NfcConnectionViewState();
 }
 
-class _NfcConectionViewState extends State<NfcConnectionView> {
-  final _formKey = GlobalKey<FormState>();
+class _NfcConnectionViewState extends State<NfcConnectionView> {
   final _nameController = TextEditingController();
   final _ownerController = TextEditingController();
   final _ageController = TextEditingController();
@@ -36,7 +34,7 @@ class _NfcConectionViewState extends State<NfcConnectionView> {
   bool isNfcConnected = false; // Track the NFC connection state
   bool isWritingInProgress = false; // Track if NFC writing is in progress
 
-@override
+  @override
   void dispose() {
     _nameController.dispose();
     _ownerController.dispose();
@@ -46,15 +44,15 @@ class _NfcConectionViewState extends State<NfcConnectionView> {
     super.dispose();
   }
 
-void _populateFields(Pet pet) {
+  void _populateFields(Pet pet) {
     _nameController.text = pet.name;
     _ownerController.text = pet.ownerEmail;
     _ageController.text = pet.age.toString();
     _typeController.text = pet.type;
     _breedController.text = pet.breed;
     _currentImageUrl = pet.photo;
+    isNfcConnected = pet.nfcConnection!; // Set the NFC connection state
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -178,8 +176,79 @@ void _populateFields(Pet pet) {
                         opacity: 0.9,
                         child: ElevatedButton(
                           onPressed: !isWritingInProgress && !isNfcConnected
-                              ? () {
-                                  _startNfcSession();
+                              ? () async {
+                                  setState(() {
+                                    isWritingInProgress = true;
+                                  });
+
+                                  await NfcManager.instance.startSession(
+                                    onDiscovered: (NfcTag tag) async {
+                                      final ndef = Ndef.from(tag);
+
+                                      if (ndef != null) {
+                                        try {
+                                          if (isWritingInProgress) {
+                                            //This will be get from the pet info view when we have the button
+                                            String petId = "1"; // this is temporal!!!!
+
+                                            // Write in the NFC tag
+                                            NdefMessage message = NdefMessage([NdefRecord.createText(petId)]);
+                                            await ndef.write(message);
+                                            debugPrint("Data written to NFC: $petId");
+                                            setState(() {
+                                              isWritingInProgress = false;
+                                            });
+                                            if (mounted) {
+                                              context.read<UpdatePetInfoBloc>().add(
+                                                UpdatePetEvent(
+                                                  Pet(
+                                                    id: widget.petId,
+                                                    name: _nameController.text,
+                                                    ownerEmail: _ownerController.text,
+                                                    age: int.parse(_ageController.text),
+                                                    type: _typeController.text,
+                                                    breed: _breedController.text,
+                                                    photo: _currentImageUrl,
+                                                    nfcConnection: true,
+                                                  ),
+                                                  _imageFile,
+                                                ),
+                                              );
+                                              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Data written to NFC')));
+                                            }
+                                          } else {
+                                            // Read from the NFC tag
+                                            NdefMessage message = await ndef.read();
+                                            String nfcData = message.records.first.payload.toString();
+
+                                            // get id from payload
+                                            String petIdString = nfcData.trim();
+                                            int petId = int.parse(petIdString);
+                                            setState(() {
+                                              isNfcConnected = true;
+                                              isWritingInProgress = false;
+                                            });
+                                            if (mounted) {
+                                              Navigator.of(context).push(
+                                                MaterialPageRoute(
+                                                  builder: (context) => PetInfoPage(petId: petId),
+                                                ),
+                                              );
+                                            }
+                                          }
+                                        } catch (e) {
+                                          debugPrint("Error reading or writing NFC data: $e");
+                                          setState(() {
+                                            isWritingInProgress = false;
+                                          });
+                                        }
+                                      } else {
+                                        setState(() {
+                                          isWritingInProgress = false;
+                                        });
+                                      }
+                                    },
+                                  );
                                 }
                               : null, // Disable if NFC is connected or writing is in progress
                           style: ElevatedButton.styleFrom(
@@ -215,93 +284,6 @@ void _populateFields(Pet pet) {
           ],
         ),
       ),
-    );
-  }
-
-  void _startNfcSession() async {
-    setState(() {
-      isWritingInProgress = true;
-    });
-
-    await NfcManager.instance.startSession(
-      onDiscovered: (NfcTag tag) async {
-        final ndef = Ndef.from(tag);
-
-        if (ndef != null) {
-          try {
-            if (isWritingInProgress) {
-              //This will be get from the pet info view when we have the button
-              String petId = "1"; // this is temporal!!!!
-
-              // Write in the NFC tag
-              NdefMessage message = NdefMessage([NdefRecord.createText(petId)]);
-              await ndef.write(message);
-              debugPrint("Data written to NFC: $petId");
-              setState(() {
-                isWritingInProgress = false;
-              });
-              if (mounted) {
-        context
-                                                    .read<UpdatePetInfoBloc>()
-                                                    .add(
-                                                      UpdatePetEvent(
-                                                        Pet(
-                                                          id: widget.petId,
-                                                          name: _nameController
-                                                              .text,
-                                                          ownerEmail:
-                                                              _ownerController
-                                                                  .text,
-                                                          age: int.parse(
-                                                              _ageController
-                                                                  .text),
-                                                          type: _typeController
-                                                              .text,
-                                                          breed:
-                                                              _breedController
-                                                                  .text,
-                                                          photo:
-                                                              _currentImageUrl,
-                                                          nfcConnection: true,
-                                                        ),
-                                                        _imageFile,
-                                                      ),
-                                                    );
-                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Data written to NFC')));
-              }
-
-            } else {
-              // Read from the NFC tag
-              NdefMessage message = await ndef.read();
-              String nfcData = message.records.first.payload.toString();
-
-              // get id from payload
-              String petIdString = nfcData.trim();
-              int petId = int.parse(petIdString);
-              setState(() {
-                isNfcConnected = true;
-                isWritingInProgress = false;
-              });
-              if (mounted) {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => PetInfoPage(petId: petId),
-                  ),
-                );
-              }
-            }
-          } catch (e) {
-            debugPrint("Error reading or writing NFC data: $e");
-            setState(() {
-              isWritingInProgress = false;
-            });
-          }
-        } else {
-          setState(() {
-            isWritingInProgress = false;
-          });
-        }
-      },
     );
   }
 }
