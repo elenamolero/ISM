@@ -4,8 +4,7 @@ import 'package:petuco/di/dependency_injection.dart';
 import 'package:petuco/domain/entities/user.entity.dart' as user;
 import 'package:petuco/domain/usecases/impl/register_user_use_case.dart';
 import 'package:petuco/presentation/blocs/users/register_user_bloc.dart';
-import 'package:petuco/presentation/pages/Login_page.dart';
-
+import 'package:petuco/presentation/pages/common/login_page.dart';
 import 'package:petuco/presentation/widgets/background_widget.dart';
 import 'package:petuco/presentation/widgets/custom_text_field_widget.dart';
 

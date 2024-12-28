@@ -3,7 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter/services.dart';
 import 'package:petuco/di/dependency_injection.dart';
+<<<<<<< HEAD
+import 'package:petuco/presentation/pages/Login_page.dart';
+import 'package:petuco/presentation/pages/create_health_view.dart';
+import 'package:petuco/presentation/pages/create_pet_info_page.dart';
+import 'package:petuco/presentation/pages/home_page.dart';
+import 'package:petuco/presentation/pages/pet_medical_historial_page.dart';
+import 'package:petuco/presentation/pages/users/edit_user_info_page.dart';
+import 'package:petuco/presentation/pages/users/register_user_page.dart';
+import 'package:petuco/presentation/pages/login_page.dart';
+=======
 import 'package:petuco/presentation/pages/common/Login_page.dart';
+>>>>>>> a87c391e3a920f9e5a94426bc6d1df7b5d92eadc
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:petuco/presentation/pages/common/pet_info_page.dart';
 //import 'package:flutter_web_plugins/flutter_web_plugins.dart';
