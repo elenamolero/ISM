@@ -13,7 +13,7 @@ import '../../domain/entities/pet.entity.dart';
 import 'dart:ui';
 
 class CreatePetInfoPage extends StatefulWidget {
-  const CreatePetInfoPage({Key? key}) : super(key: key);
+  const CreatePetInfoPage({super.key});
 
   @override
   _CreatePetInfoPageState createState() => _CreatePetInfoPageState();
@@ -50,6 +50,8 @@ class _CreatePetInfoPageState extends State<CreatePetInfoPage> {
 
   @override
   Widget build(BuildContext context) {
+    final double keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
+    final bool isKeyboardOpen = keyboardHeight > 0;
     return BlocProvider(
       create: (_) => CreatePetInfoBloc(
         SavePetInfo(
@@ -82,146 +84,148 @@ class _CreatePetInfoPageState extends State<CreatePetInfoPage> {
               },
               builder: (context, state) {
                 return Padding(
-                  padding: const EdgeInsets.all(40),
+                  padding: EdgeInsets.only(
+                    left: 40, 
+                    right: 40,
+                    top: kToolbarHeight+MediaQuery.of(context).padding.top,
+                    bottom: isKeyboardOpen ? 0 : 50
+                  ),
                   child: SingleChildScrollView(
                     child: Form(
                       key: _formKey,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const SizedBox(height: 80),
+                          const SizedBox(height: 30),
                           ClipRRect(
                             borderRadius: BorderRadius.circular(12),
-                            child: BackdropFilter(
-                              filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.white.withOpacity(0.53),
-                                  borderRadius: BorderRadius.circular(40),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(50.0),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      _buildTextField(
-                                        label: 'Name',
-                                        controller: _nameController,
-                                        icon: Icons.cruelty_free_outlined,
-                                      ),
-                                      _buildTextField(
-                                        label: 'Owner Email',
-                                        controller: _ownerController,
-                                        icon: Icons.person_outlined,
-                                      ),
-                                      _buildTextField(
-                                        label: 'Age',
-                                        controller: _ageController,
-                                        icon: Icons.calendar_today,
-                                        keyboardType: TextInputType.number,
-                                      ),
-                                      _buildTextField(
-                                        label: 'Type',
-                                        controller: _typeController,
-                                        icon: Icons.pets,
-                                      ),
-                                      _buildTextField(
-                                        label: 'Breed',
-                                        controller: _breedController,
-                                        icon: Icons.star_border_outlined,
-                                      ),
-                                      const SizedBox(height: 20),
-                                      Center(
-                                        child: Column(
-                                          children: [
-                                            if (_imageFile != null)
-                                              Image.file(
-                                                _imageFile!,
-                                                height: 100,
-                                                width: 100,
-                                                fit: BoxFit.cover,
-                                              ),
-                                            ElevatedButton(
-                                              onPressed: _pickImage,
-                                              child: const Text('Pick Image'),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white.withOpacity(0.53),
+                                borderRadius: BorderRadius.circular(40),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(40),
+                                child: Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                  children: [
+                                    _buildTextField(
+                                      label: 'Name',
+                                      controller: _nameController,
+                                      icon: Icons.cruelty_free_outlined,
+                                    ),
+                                    _buildTextField(
+                                      label: 'Owner Email',
+                                      controller: _ownerController,
+                                      icon: Icons.person_outlined,
+                                    ),
+                                    _buildTextField(
+                                      label: 'Age',
+                                      controller: _ageController,
+                                      icon: Icons.calendar_today,
+                                      keyboardType: TextInputType.number,
+                                    ),
+                                    _buildTextField(
+                                      label: 'Type',
+                                      controller: _typeController,
+                                      icon: Icons.pets,
+                                    ),
+                                    _buildTextField(
+                                      label: 'Breed',
+                                      controller: _breedController,
+                                      icon: Icons.star_border_outlined,
+                                    ),
+                                    const SizedBox(height: 20),
+                                    Center(
+                                      child: Column(
+                                        children: [
+                                          if (_imageFile != null)
+                                            Image.file(
+                                              _imageFile!,
+                                              height: 100,
+                                              width: 100,
+                                              fit: BoxFit.cover,
                                             ),
-                                          ],
-                                        ),
-                                      ),
-                                      const SizedBox(height: 20),
-                                      Center(
-                                        child: SizedBox(
-                                          width: 224,
-                                          child: ElevatedButton(
-                                            onPressed: () {
-                                              if (_formKey.currentState
-                                                      ?.validate() ??
-                                                  false) {
-                                                context
-                                                    .read<CreatePetInfoBloc>()
-                                                    .add(
-                                                      SavePetEvent(
-                                                        Pet(
-                                                          id: DateTime.now().millisecondsSinceEpoch,
-                                                          name: _nameController
-                                                              .text,
-                                                          ownerEmail:
-                                                              _ownerController
-                                                                  .text,
-                                                          age: int.parse(
-                                                              _ageController
-                                                                  .text),
-                                                          type: _typeController
-                                                              .text,
-                                                          breed:
-                                                              _breedController
-                                                                  .text,
-                                                          photo:
-                                                              _imageFile?.path,
-                                                        ),
-                                                        _imageFile,
-                                                      ),
-                                                    );
-                                              }
-                                            },
-                                            style: ElevatedButton.styleFrom(
-                                              backgroundColor:
-                                                  const Color.fromRGBO(
-                                                      97, 187, 255, 1),
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(50),
-                                                side: const BorderSide(
-                                                  color: Colors.white,
-                                                  width: 2.0,
-                                                ),
-                                              ),
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      vertical: 16),
-                                            ),
-                                            child: state is CreatePetLoading
-                                                ? const CircularProgressIndicator(
-                                                    color: Colors.white)
-                                                : const Text(
-                                                    'Save Changes',
-                                                    style: TextStyle(
-                                                      fontSize: 18,
-                                                      color: Colors.white,
-                                                      height: 2,
-                                                    ),
-                                                  ),
+                                          ElevatedButton(
+                                            onPressed: _pickImage,
+                                            child: const Text('Pick Image'),
                                           ),
+                                        ],
+                                      ),
+                                    ),
+                                    const SizedBox(height: 20),
+                                    Center(
+                                      child: SizedBox(
+                                        width: 224,
+                                        child: ElevatedButton(
+                                          onPressed: () {
+                                            if (_formKey.currentState
+                                                    ?.validate() ??
+                                                false) {
+                                              context
+                                                  .read<CreatePetInfoBloc>()
+                                                  .add(
+                                                    SavePetEvent(
+                                                      Pet(
+                                                        id: DateTime.now().millisecondsSinceEpoch,
+                                                        name: _nameController
+                                                            .text,
+                                                        ownerEmail:
+                                                            _ownerController
+                                                                .text,
+                                                        age: int.parse(
+                                                            _ageController
+                                                                .text),
+                                                        type: _typeController
+                                                            .text,
+                                                        breed:
+                                                            _breedController
+                                                                .text,
+                                                        photo:
+                                                            _imageFile?.path,
+                                                      ),
+                                                      _imageFile,
+                                                    ),
+                                                  );
+                                            }
+                                          },
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor:
+                                                const Color.fromRGBO(
+                                                    97, 187, 255, 1),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(50),
+                                              side: const BorderSide(
+                                                color: Colors.white,
+                                                width: 2.0,
+                                              ),
+                                            ),
+                                            padding:
+                                                const EdgeInsets.symmetric(
+                                                    vertical: 16),
+                                          ),
+                                          child: state is CreatePetLoading
+                                              ? const CircularProgressIndicator(
+                                                  color: Colors.white)
+                                              : const Text(
+                                                  'Save Changes',
+                                                  style: TextStyle(
+                                                    fontSize: 18,
+                                                    color: Colors.white,
+                                                    height: 2,
+                                                  ),
+                                                ),
                                         ),
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
                           ),
-                          const SizedBox(height: 60), // Espacio adicional
+                          SizedBox(height: isKeyboardOpen ? 30 : 50)
                         ],
                       ),
                     ),
@@ -229,11 +233,11 @@ class _CreatePetInfoPageState extends State<CreatePetInfoPage> {
                 );
               },
             ),
-            const Positioned(
-              bottom: 0,
+            Positioned(
+              top: MediaQuery.of(context).size.height-60,
               left: 0,
               right: 0,
-              child: FooterWidget(),
+              child: const FooterWidget(),
             ),
           ],
         ),

@@ -6,6 +6,7 @@ import 'package:petuco/data/repository/impl/pet_repository_impl.dart';
 import 'package:petuco/data/services/model/pet_response.dart';
 import 'package:petuco/data/services/pet/pets_service.dart';
 import 'package:petuco/presentation/widgets/background_widget.dart';
+import 'package:petuco/presentation/widgets/footer_widget.dart';
 import '../../../domain/usecases/update_pet_info.dart';
 import '../blocs/pets/update_pet_info_bloc.dart';
 import '../../domain/entities/pet.entity.dart';
@@ -14,7 +15,7 @@ import 'dart:ui';
 class UpdatePetInfoPage extends StatefulWidget {
   final int petId;
 
-  const UpdatePetInfoPage({Key? key, required this.petId}) : super(key: key);
+  const UpdatePetInfoPage({super.key, required this.petId});
 
   @override
   _UpdatePetInfoPageState createState() => _UpdatePetInfoPageState();
@@ -62,6 +63,9 @@ class _UpdatePetInfoPageState extends State<UpdatePetInfoPage> {
 
   @override
   Widget build(BuildContext context) {
+    final double keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
+    final bool isKeyboardOpen = keyboardHeight > 0;
+
     return BlocProvider(
       create: (_) => UpdatePetInfoBloc(
         updatePetInfo: UpdatePetInfo(
@@ -101,14 +105,19 @@ class _UpdatePetInfoPageState extends State<UpdatePetInfoPage> {
                   _isFieldsPopulated = true;
                 }
                 return Padding(
-                  padding: const EdgeInsets.all(40),
+                  padding: EdgeInsets.only(
+                    left: 40, 
+                    right: 40,
+                    top: kToolbarHeight+MediaQuery.of(context).padding.top,
+                    bottom: isKeyboardOpen ? 0 : 50
+                  ),
                   child: SingleChildScrollView(
                     child: Form(
                       key: _formKey,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const SizedBox(height: 80),
+                          const SizedBox(height: 30),
                           ClipRRect(
                             borderRadius: BorderRadius.circular(12),
                             child: BackdropFilter(
@@ -119,7 +128,7 @@ class _UpdatePetInfoPageState extends State<UpdatePetInfoPage> {
                                   borderRadius: BorderRadius.circular(40),
                                 ),
                                 child: Padding(
-                                  padding: const EdgeInsets.all(50.0),
+                                  padding: const EdgeInsets.all(40.0),
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -247,12 +256,19 @@ class _UpdatePetInfoPageState extends State<UpdatePetInfoPage> {
                               ),
                             ),
                           ),
+                          SizedBox(height: isKeyboardOpen ? 30 : 50)
                         ],
                       ),
                     ),
                   ),
                 );
               },
+            ),
+            Positioned(
+              top: MediaQuery.of(context).size.height-60,
+              left: 0,
+              right: 0,
+              child: const FooterWidget(),
             ),
           ],
         ),
