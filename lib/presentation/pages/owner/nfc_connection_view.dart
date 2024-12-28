@@ -11,7 +11,6 @@ import 'package:petuco/presentation/blocs/pets/update_pet_info_bloc.dart';
 import 'package:petuco/presentation/pages/common/pet_info_page.dart';
 import 'package:petuco/presentation/widgets/background_widget.dart';
 import 'package:petuco/presentation/widgets/footer_widget.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class NfcConnectionView extends StatefulWidget {
   final int petId;

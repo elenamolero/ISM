@@ -28,6 +28,7 @@ class UserService {
       final AuthResponse res = await Supabase.instance.client.auth.signUp(
         email: user.email,
         password: user.password,
+        data: {'role': user.role},
       );
 
       if (res.user != null) {
