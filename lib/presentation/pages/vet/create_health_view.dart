@@ -5,7 +5,7 @@ import 'package:petuco/di/dependency_injection.dart';
 import 'package:petuco/domain/entities/healthTest.entity.dart' as healthTest;
 import 'package:petuco/domain/usecases/impl/save_health_test_info_use_case.dart';
 import 'package:petuco/presentation/blocs/healthTests/create_health_test_bloc.dart';
-import 'package:petuco/presentation/pages/pet_medical_historial_page.dart';
+import 'package:petuco/presentation/pages/common/pet_medical_historial_page.dart';
 import 'package:petuco/presentation/widgets/background_widget.dart';
 import 'package:petuco/presentation/widgets/custom_text_widget.dart';
 import 'package:petuco/presentation/widgets/custom_text_field_widget.dart';

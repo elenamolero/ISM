@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:petuco/presentation/pages/create_health_view.dart';
+import 'package:petuco/presentation/pages/vet/create_health_view.dart';
 import 'package:petuco/presentation/widgets/background_widget.dart';
 import 'package:petuco/di/dependency_injection.dart';
 import 'package:petuco/domain/entities/healthTest.entity.dart';

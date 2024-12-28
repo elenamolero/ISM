@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:petuco/presentation/pages/nfc_connection_view.dart';
-import 'package:petuco/presentation/pages/pet_medical_historial_page.dart';
+import 'package:petuco/presentation/pages/owner/nfc_connection_view.dart';
+import 'package:petuco/presentation/pages/common/pet_medical_historial_page.dart';
 import 'package:petuco/presentation/widgets/background_widget.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'dart:ui';
 import 'package:petuco/di/dependency_injection.dart';
-import 'package:petuco/presentation/pages/update_pet_info_page.dart';
+import 'package:petuco/presentation/pages/owner/update_pet_info_page.dart';
 import 'package:petuco/domain/usecases/impl/get_pet_info_use_case.dart';
 import 'package:petuco/presentation/blocs/pets/get_pet_info_bloc.dart';
 import 'package:petuco/presentation/widgets/footer_widget.dart';

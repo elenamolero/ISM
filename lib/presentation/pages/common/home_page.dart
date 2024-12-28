@@ -6,8 +6,8 @@ import 'package:petuco/domain/usecases/impl/get_pets_home_use_case.dart';
 import 'package:petuco/domain/usecases/impl/get_user_info_use_case.dart';
 import 'package:petuco/presentation/blocs/pets/get_pets_home.dart';
 import 'package:petuco/presentation/blocs/users/get_user_info_bloc.dart';
-import 'package:petuco/presentation/pages/create_pet_info_page.dart';
-import 'package:petuco/presentation/pages/pet_info_page.dart';
+import 'package:petuco/presentation/pages/owner/create_pet_info_page.dart';
+import 'package:petuco/presentation/pages/common/pet_info_page.dart';
 import 'package:petuco/presentation/widgets/background_widget.dart';
 import 'package:petuco/presentation/widgets/footer_widget.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -201,7 +201,7 @@ class _HomeUserPageState extends State<HomeUserPage> {
                       : [],
                 ),
                 padding: const EdgeInsets.all(16.0),
-                child: _buildPetContainer(pet, screenWidth, userName),
+                child: _buildPetContainer(pet, screenWidth, userName,context),
               ),
             ),
           );
@@ -257,7 +257,7 @@ class _HomeUserPageState extends State<HomeUserPage> {
     );
   }
 
-  Widget _buildPetContainer(Pet pet, double screenWidth, String userName) {
+  Widget _buildPetContainer(Pet pet, double screenWidth, String userName,context) {
     return ListTile(
       title: Row(
         children: [
