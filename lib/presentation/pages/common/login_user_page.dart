@@ -6,7 +6,6 @@ import 'package:petuco/presentation/pages/common/home_page.dart';
 import '../../../../presentation/blocs/users/login_user_bloc.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:petuco/presentation/widgets/background_widget.dart';
-import 'dart:ui';
 
 class LoginUserPage extends StatefulWidget {
   const LoginUserPage({super.key});
