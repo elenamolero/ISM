@@ -241,7 +241,7 @@ class _UpdatePetInfoPageState extends State<UpdatePetInfoPage> {
                                         child: SizedBox(
                                           child: ElevatedButton(
                                             onPressed: _pickImage,
-                                            child: const Text('Change Image'),
+                                            child: const Text('Change Image', style: TextStyle(color: Color(0xFF1B96F4))),
                                           ),
                                         ),
                                       ),

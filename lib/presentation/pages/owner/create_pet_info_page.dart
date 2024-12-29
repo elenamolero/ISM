@@ -174,7 +174,7 @@ class _CreatePetInfoPageState extends State<CreatePetInfoPage> {
                                             ),
                                           ElevatedButton(
                                             onPressed: _pickImage,
-                                            child: const Text('Pick Image'),
+                                            child: const Text('Pick Image', style: TextStyle(color: Color(0xFF1B96F4))),
                                           ),
                                         ],
                                       ),
