@@ -129,11 +129,6 @@ class _CreatePetInfoPageState extends State<CreatePetInfoPage> {
                                       icon: Icons.cruelty_free_outlined,
                                     ),
                                     _buildTextField(
-                                      label: 'Owner Email',
-                                      controller: _ownerController,
-                                      icon: Icons.person_outlined,
-                                    ),
-                                    _buildTextField(
                                       label: 'Age',
                                       controller: _ageController,
                                       icon: Icons.calendar_today,
