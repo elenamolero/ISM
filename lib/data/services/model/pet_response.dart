@@ -4,6 +4,7 @@ class PetResponse {
   final int id;
   final String name;
   final String ownerEmail;
+  final String sex;
   final int age;
   final String type;
   final String breed;
@@ -14,6 +15,7 @@ class PetResponse {
     required this.id,
     required this.name,
     required this.ownerEmail,
+    required this.sex,
     required this.age,
     required this.type,
     required this.breed,
@@ -54,6 +56,7 @@ class PetResponse {
       id: map['id'] ?? '',
       name: map['name'] ?? '',
       ownerEmail: map['ownerEmail'] ?? '',
+      sex: map['sex'] ?? '',
       age: map['age'] ?? 0,
       type: map['type'] ?? '',
       breed: map['breed'] ?? '',
@@ -71,6 +74,7 @@ class PetResponse {
       'type': type,
       'breed': breed,
       'ownerEmail': ownerEmail,
+      'sex' : sex,
       'photo': photo,
       'nfcConnection': nfcConnection,
     };

@@ -3,6 +3,7 @@ class Pet {
   final int id;
   final String name;
   final String ownerEmail;
+  final String sex;
   final int age;
   final String type;
   final String breed;
@@ -14,6 +15,7 @@ class Pet {
       {required this.id,
       required this.name,
       required this.ownerEmail,
+      required this.sex,
       required this.age,
       required this.type,
       required this.breed,
