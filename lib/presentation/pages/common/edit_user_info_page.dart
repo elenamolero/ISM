@@ -72,7 +72,9 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
         ),
       ],
       child: Scaffold(
+      resizeToAvoidBottomInset: false,
         body:Stack(
+      
         children: [
           const BackGround(title: 'Edit User Info',isUserLoggedIn: true,),
           BlocListener<SaveUserInfoBloc, SaveUserInfoState>(

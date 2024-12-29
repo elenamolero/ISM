@@ -80,6 +80,7 @@ class _UpdatePetInfoPageState extends State<UpdatePetInfoPage> {
         ),
       )..add(LoadPetEvent(widget.petId)),
       child: Scaffold(
+      resizeToAvoidBottomInset: false,
         body: Stack(
           children: [
             const BackGround(

@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:petuco/data/repository/impl/pet_repository_impl.dart';
 import 'package:petuco/data/services/pet/pets_service.dart';
-import 'package:petuco/presentation/pages/common/home_page.dart';
 import 'package:petuco/presentation/pages/common/pet_info_page.dart';
 import 'package:petuco/presentation/widgets/background_widget.dart';
 import 'package:petuco/presentation/widgets/footer_widget.dart';
@@ -63,6 +62,7 @@ class _CreatePetInfoPageState extends State<CreatePetInfoPage> {
         ),
       ),
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         body: Stack(
           children: [
             const BackGround(title: 'Create Pet Info',isUserLoggedIn: true,),
