@@ -8,6 +8,7 @@ import 'package:petuco/presentation/blocs/pets/get_pets_home.dart';
 import 'package:petuco/presentation/blocs/users/get_user_info_bloc.dart';
 import 'package:petuco/presentation/pages/owner/create_pet_info_page.dart';
 import 'package:petuco/presentation/pages/common/pet_info_page.dart';
+import 'package:petuco/presentation/pages/vet/asign_pet_page.dart';
 import 'package:petuco/presentation/widgets/background_widget.dart';
 import 'package:petuco/presentation/widgets/footer_widget.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -27,6 +28,7 @@ class _HomeUserPageState extends State<HomeUserPage> {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
     String email = Supabase.instance.client.auth.currentUser!.email!;
+    String role = Supabase.instance.client.auth.currentUser?.userMetadata!['role'] as String;
 
     return MultiBlocProvider(
       providers: [
@@ -94,7 +96,7 @@ class _HomeUserPageState extends State<HomeUserPage> {
                               ),
                               const SizedBox(height: 20),
                               _buildPetList(
-                                  petState.pets, screenWidth, userName),
+                                  petState.pets, screenWidth, userName, role),
                               const SizedBox(height: 40), // Espacio adicional
                             ],
                           ),
@@ -139,7 +141,7 @@ class _HomeUserPageState extends State<HomeUserPage> {
     );
   }
 
-  Widget _buildPetList(List<Pet> pets, double screenWidth, String userName) {
+  Widget _buildPetList(List<Pet> pets, double screenWidth, String userName, String? role) {
     return Column(
       children: List.generate(pets.length + 1, (index) {
         bool isSelected = _selectedIndex == index;
@@ -171,7 +173,7 @@ class _HomeUserPageState extends State<HomeUserPage> {
                       : [],
                 ),
                 padding: const EdgeInsets.all(16.0),
-                child: _buildNewPetContainer(screenWidth),
+                child: _buildNewPetContainer(screenWidth, role),
               ),
             ),
           );
@@ -211,52 +213,63 @@ class _HomeUserPageState extends State<HomeUserPage> {
     );
   }
 
-  Widget _buildNewPetContainer(double screenWidth) {
-    return ListTile(
-      title: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            width: screenWidth * 0.2,
-            height: screenWidth * 0.2,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-            ),
-            child: FittedBox(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const Icon(
-                    Icons.add,
-                    color: Color(0xFF4B8DAF),
-                    size: 50.0,
-                  ),
-                  const SizedBox(height: 2),
-                  Text(
-                    'New Pet',
-                    style: TextStyle(
-                      color: const Color(0xFF4B8DAF),
-                      fontSize: screenWidth * 0.04,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-            ),
+Widget _buildNewPetContainer(double screenWidth, String? role) {
+  return ListTile(
+    title: Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          width: screenWidth * 0.2, // Aumenta el tamaño del contenedor
+          height: screenWidth * 0.2, // Aumenta el tamaño del contenedor
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15),
           ),
-        ],
-      ),
-      onTap: () {
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Icon(
+                Icons.add,
+                color: Color(0xFF4B8DAF),
+                size: 40.0, // Aumenta el tamaño del icono
+              ),
+              const SizedBox(height: 7), // Aumenta el espacio entre el icono y el texto
+              FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  role == 'vet' ? 'Associate Pet' : 'New Pet',
+                  style: TextStyle(
+                    color: const Color(0xFF4B8DAF),
+                    fontSize: role == 'vet' ? screenWidth * 0.05 : screenWidth * 0.04, // Ajusta el tamaño del texto según el rol
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center, // Centra el texto
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    ),
+    onTap: () {
+      if (role == 'vet') {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => AsignPetPage(),
+          ),
+        );
+      } else {
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => const CreatePetInfoPage(),
           ),
         );
-      },
-    );
-  }
+      }
+    },
+  );
+}
 
   Widget _buildPetContainer(Pet pet, double screenWidth, String userName,context) {
     String role = Supabase.instance.client.auth.currentUser?.userMetadata!['role'] as String;
