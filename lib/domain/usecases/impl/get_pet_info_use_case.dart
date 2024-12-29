@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:petuco/data/repository/impl/pet_repository_impl.dart';
+import 'package:petuco/data/repository/pets_repository_interface.dart';
 import 'package:petuco/domain/entities/pet.entity.dart';
 import 'package:petuco/domain/usecases/get_pet_info_use_case_interface.dart';
 
 class GetPetInfoUseCase implements GetPetInfoUseCaseInterface {
-  PetRepositoryImpl petRepository;
+  PetsRepositoryInterface petRepositoryInterface;
 
-  GetPetInfoUseCase({required this.petRepository});
+  GetPetInfoUseCase({required this.petRepositoryInterface});
 
   @override
   Future<Pet> getPetById(int petId) async {
     debugPrint('Fetching pet in use case for id: $petId');
 
-    final pet = await petRepository.getPetById(petId);
+    final pet = await petRepositoryInterface.getPetById(petId);
     debugPrint('Fetched pet:');
 
     debugPrint(

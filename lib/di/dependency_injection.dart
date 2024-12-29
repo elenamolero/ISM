@@ -28,12 +28,12 @@ void initInjection() {
 
   // Use case injection
   appInjector.registerSingleton<GetPetsHomeUseCase>(() => GetPetsHomeUseCase(
-        petsRepository: appInjector.get<PetRepositoryImpl>(),
+        petsRepositoryInterface: appInjector.get<PetRepositoryImpl>(),
               ));
 
   // Use case injection
   appInjector.registerSingleton<GetPetInfoUseCase>(() => GetPetInfoUseCase(
-        petRepository: appInjector.get<PetRepositoryImpl>(),
+        petRepositoryInterface: appInjector.get<PetRepositoryImpl>(),
               ));
 
 
@@ -47,11 +47,11 @@ void initInjection() {
 
   // Use case injection
   appInjector.registerSingleton<GetHealthTestsUseCase>(() => GetHealthTestsUseCase(
-        healthTestsRepository: appInjector.get<HealthTestRepositoryImpl>(),
+        healthTestRepositoryInterface: appInjector.get<HealthTestRepositoryImpl>(),
               ));
 
   appInjector.registerSingleton<LoginUserUseCase>(() => LoginUserUseCase(
-        userRepository: appInjector.get<UserRepository>(),
+        userRepositoryInterface: appInjector.get<UserRepository>(),
       ));
 
   // Data sources injection
@@ -72,9 +72,9 @@ void initInjection() {
       ));
 
   appInjector.registerSingleton<RegisterUserInfoUseCase>(() => RegisterUserInfoUseCase(
-        userRepository: appInjector.get<UserRepository>(),
+        userRepositoryInterface: appInjector.get<UserRepository>(),
       ));
   appInjector.registerSingleton<SaveHealthTestInfoUseCase>(() => SaveHealthTestInfoUseCase(
-        healthTestRepository: appInjector.get<HealthTestRepositoryImpl>(),
+        healthTestRepositoryInterface: appInjector.get<HealthTestRepositoryImpl>(),
       ));
 }
