@@ -279,7 +279,10 @@ class _HomeUserPageState extends State<HomeUserPage> {
               ),
             )
           else
-            const Icon(Icons.pets, color: Color(0xFF065591), size: 40),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 18),
+              child: Icon(Icons.pets, color: Color(0xFF065591), size: 40),
+            ),
           const SizedBox(width: 10),
           Expanded(
             child: Column(
@@ -291,17 +294,18 @@ class _HomeUserPageState extends State<HomeUserPage> {
                     color: const Color(0xFF065591),
                     fontSize: screenWidth * 0.04,
                     fontWeight: FontWeight.bold,
+                    
                   ),
                 ),
                 Text(
-                  'Age: ${pet.age}',
+                  '• Age: ${pet.age}',
                   style: TextStyle(
                     color: const Color(0xFF065591),
                     fontSize: screenWidth * 0.035,
                   ),
                 ),
                 Text(
-                  'Owner: $userName',
+                  '• Owner: $userName',
                   style: TextStyle(
                     color: const Color(0xFF065591),
                     fontSize: screenWidth * 0.035,
