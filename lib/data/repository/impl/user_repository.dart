@@ -19,6 +19,8 @@ class UserRepository implements UserRepositoryInterface {
         phoneNumber: userResponse.phoneNumber,
         password: userResponse.password,
         role: userResponse.role,
+        company: userResponse.company,
+        cif: userResponse.cif,
       );
     } else {
       return user.User(
@@ -28,6 +30,8 @@ class UserRepository implements UserRepositoryInterface {
         phoneNumber: 0,
         password: '',
         role: '',
+        company: '',
+        cif: '',
       );
     }
   }
