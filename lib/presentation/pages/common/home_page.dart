@@ -257,6 +257,8 @@ class _HomeUserPageState extends State<HomeUserPage> {
   }
 
   Widget _buildPetContainer(Pet pet, double screenWidth, String userName,context) {
+    String role = Supabase.instance.client.auth.currentUser?.userMetadata!['role'] as String;
+
     return ListTile(
       title: Row(
         children: [
@@ -314,7 +316,7 @@ class _HomeUserPageState extends State<HomeUserPage> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => PetInfoPage(petId: pet.id),
+            builder: (context) => PetInfoPage(petId: pet.id, userRole: role),
           ),
         );
       },

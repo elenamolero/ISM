@@ -9,6 +9,7 @@ import 'package:petuco/presentation/pages/common/register_user_page.dart';
 import 'package:petuco/presentation/widgets/background_widget.dart';
 import 'package:petuco/presentation/widgets/custom_text_widget.dart';
 import 'package:petuco/presentation/widgets/footer_widget.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../../domain/usecases/update_pet_info.dart';
 import '../../blocs/pets/update_pet_info_bloc.dart';
 import '../../../domain/entities/pet.entity.dart';
@@ -74,6 +75,7 @@ class _UpdatePetInfoPageState extends State<UpdatePetInfoPage> {
   Widget build(BuildContext context) {
     final double keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
     final bool isKeyboardOpen = keyboardHeight > 0;
+    String role = Supabase.instance.client.auth.currentUser?.userMetadata!['role'] as String;
 
     return BlocProvider(
       create: (_) => UpdatePetInfoBloc(
@@ -103,7 +105,7 @@ class _UpdatePetInfoPageState extends State<UpdatePetInfoPage> {
                     ),
                   );
                   Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => PetInfoPage(petId: widget.petId))
+                    MaterialPageRoute(builder: (context) => PetInfoPage(petId: widget.petId, userRole: role))
                   );
                   
                 } else if (state is UpdatePetError) {

@@ -19,7 +19,7 @@ class BackGround extends StatelessWidget {
  @override
 Widget build(BuildContext context) {
   return Scaffold(
-    resizeToAvoidBottomInset: false, // Evita que el fondo se mueva con el teclado
+    resizeToAvoidBottomInset: false,
     appBar: AppBar(
       leading: (home ?? true)
           ? IconButton(

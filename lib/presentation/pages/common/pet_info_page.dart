@@ -5,7 +5,6 @@ import 'package:petuco/presentation/pages/owner/nfc_connection_view.dart';
 import 'package:petuco/presentation/pages/common/pet_medical_historial_page.dart';
 import 'package:petuco/presentation/widgets/background_widget.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'dart:ui';
 import 'package:petuco/di/dependency_injection.dart';
 import 'package:petuco/presentation/pages/owner/update_pet_info_page.dart';
 import 'package:petuco/domain/usecases/impl/get_pet_info_use_case.dart';
@@ -14,7 +13,8 @@ import 'package:petuco/presentation/widgets/footer_widget.dart';
 
 class PetInfoPage extends StatefulWidget {
   final int petId;
-  const PetInfoPage({super.key, required this.petId});
+  final String? userRole;
+  const PetInfoPage({super.key, required this.petId, required this.userRole});
 
   @override
   State<PetInfoPage> createState() => _PetInfoPageState();
@@ -156,42 +156,43 @@ class _PetInfoPageState extends State<PetInfoPage> {
                                             ],
                                           ),
                                         ),
-                                        const SizedBox(height: 20),
-                                        SizedBox(
-                                          width: 220,
-                                          child: ElevatedButton(
-                                            onPressed: () {
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) => UpdatePetInfoPage(
-                                                    petId: pet.id,
+                                        if (widget.userRole == 'owner') ...[
+                                          const SizedBox(height: 20),
+                                          SizedBox(
+                                            width: 220,
+                                            child: ElevatedButton(
+                                              onPressed: () {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) => UpdatePetInfoPage(
+                                                      petId: pet.id,
+                                                    ),
+                                                  ),
+                                                );
+                                              },
+                                              style: ElevatedButton.styleFrom(
+                                                backgroundColor: const Color.fromRGBO(97, 187, 255, 1),
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.circular(50),
+                                                  side: const BorderSide(
+                                                    color: Colors.white,
+                                                    width: 2.0,
                                                   ),
                                                 ),
-                                              );
-                                            },
-                                            style: ElevatedButton.styleFrom(
-                                              backgroundColor:
-                                                  const Color.fromRGBO(97, 187, 255, 1),
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.circular(50),
-                                                side: const BorderSide(
-                                                  color: Colors.white,
-                                                  width: 2.0,
-                                                ),
+                                                padding: const EdgeInsets.symmetric(vertical: 16),
                                               ),
-                                              padding: const EdgeInsets.symmetric(vertical: 16),
-                                            ),
-                                            child: const Text(
-                                              'Edit data',
-                                              style: TextStyle(
-                                                fontSize: 16,
-                                                color: Colors.white,
-                                                height: 1.5,
+                                              child: const Text(
+                                                'Edit data',
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  color: Colors.white,
+                                                  height: 1.5,
+                                                ),
                                               ),
                                             ),
                                           ),
-                                        ),
+                                        ],
                                       ],
                                     );
                                   } else if (petState is PetError) {
@@ -220,93 +221,95 @@ class _PetInfoPageState extends State<PetInfoPage> {
                           ),
                       ),
                     ),
-                    SizedBox(height: screenHeight * 0.03),
-                    // History Button
-                    SizedBox(
-                      width: 220,
-                      child: BlocBuilder<PetBloc, PetState>(
-                        builder: (context, petState) {
-                          String buttonText = "History";
-                          if (petState is PetLoaded) {
-                            buttonText = "${petState.pet.name}'s history";
-                          }
-                          return ElevatedButton(
-                            onPressed: () {
-                              if (petState is PetLoaded) {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => PetMedicalHistorialPage(
-                                        petId: petState.pet.id,
-                                        petName: petState.pet.name),
+                    if (widget.userRole == 'vet' || widget.userRole == 'owner') ...[
+                      SizedBox(height: screenHeight * 0.03),
+                      SizedBox(
+                        width: 220,
+                        child: BlocBuilder<PetBloc, PetState>(
+                          builder: (context, petState) {
+                            String buttonText = "History";
+                            if (petState is PetLoaded) {
+                              buttonText = "${petState.pet.name}'s history";
+                            }
+                            return ElevatedButton(
+                              onPressed: () {
+                                if (petState is PetLoaded) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => PetMedicalHistorialPage(
+                                          petId: petState.pet.id,
+                                          petName: petState.pet.name),
+                                    ),
+                                  );
+                                }
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color.fromRGBO(97, 187, 255, 1),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(50),
+                                  side: const BorderSide(
+                                    color: Colors.white,
+                                    width: 2.0,
                                   ),
-                                );
-                              }
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color.fromRGBO(97, 187, 255, 1),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(50),
-                                side: const BorderSide(
+                                ),
+                                padding: const EdgeInsets.symmetric(vertical: 16),
+                              ),
+                              child: Text(
+                                buttonText,
+                                style: const TextStyle(
+                                  fontSize: 16,
                                   color: Colors.white,
-                                  width: 2.0,
+                                  height: 2,
                                 ),
                               ),
-                              padding: const EdgeInsets.symmetric(vertical: 16),
-                            ),
-                            child: Text(
-                              buttonText,
-                              style: const TextStyle(
-                                fontSize: 16,
-                                color: Colors.white,
-                                height: 2,
-                              ),
-                            ),
-                          );
-                        },
+                            );
+                          },
+                        ),
                       ),
-                    ),
+                    ],
                     SizedBox(height: screenHeight * 0.02),
-                    // NFC Button
-                    SizedBox(
-                      width: 220,
-                      child: BlocBuilder<PetBloc, PetState>(
-                        builder: (context, petState) {
-                          String buttonText = "NFC management";
-                          return ElevatedButton(
-                            onPressed: () {
-                              if (petState is PetLoaded) {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => NfcConnectionView(petId: petState.pet.id),
+                    if (widget.userRole == 'owner') ...[
+                      SizedBox(
+                        width: 220,
+                        child: BlocBuilder<PetBloc, PetState>(
+                          builder: (context, petState) {
+                            String buttonText = "NFC management";
+                            return ElevatedButton(
+                              onPressed: () {
+                                if (petState is PetLoaded) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => NfcConnectionView(petId: petState.pet.id),
+                                    ),
+                                  );
+                                }
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color.fromARGB(166, 23, 219, 99),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(50),
+                                  side: const BorderSide(
+                                    color: Colors.white,
+                                    width: 2.0,
                                   ),
-                                );
-                              }
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color.fromARGB(166, 23, 219, 99),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(50),
-                                side: const BorderSide(
+                                ),
+                                padding: const EdgeInsets.symmetric(vertical: 16),
+                              ),
+                              child: Text(
+                                buttonText,
+                                style: const TextStyle(
+                                  fontSize: 16,
                                   color: Colors.white,
-                                  width: 2.0,
+                                  height: 2,
                                 ),
                               ),
-                              padding: const EdgeInsets.symmetric(vertical: 16),
-                            ),
-                            child: Text(
-                              buttonText,
-                              style: const TextStyle(
-                                fontSize: 16,
-                                color: Colors.white,
-                                height: 2,
-                              ),
-                            ),
-                          );
-                        },
+                            );
+                          },
+                        ),
                       ),
-                    ),
+                    ],
                     SizedBox(height: screenHeight * 0.15),
                   ],
                 ),

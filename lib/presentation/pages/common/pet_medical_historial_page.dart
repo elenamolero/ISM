@@ -19,7 +19,7 @@ class PetMedicalHistorialPage extends StatefulWidget {
   final int petId;
   final String petName;
 
-  const PetMedicalHistorialPage({Key? key, required this.petId, required this.petName}) : super(key: key);
+  const PetMedicalHistorialPage({super.key, required this.petId, required this.petName});
 
   @override
   State<PetMedicalHistorialPage> createState() => _PetMedicalHistorialPageState();
@@ -38,7 +38,7 @@ class _PetMedicalHistorialPageState extends State<PetMedicalHistorialPage> {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
     String petname = widget.petName;
-    String? role = Supabase.instance.client.auth.currentUser?.userMetadata!['role'] as String?;
+    String role = Supabase.instance.client.auth.currentUser?.userMetadata!['role'] as String;
 
     return BlocProvider(
       create: (context) => HealthTestBloc(
@@ -47,7 +47,7 @@ class _PetMedicalHistorialPageState extends State<PetMedicalHistorialPage> {
       child: Scaffold(
         body: Stack(
           children: [
-            BackGround(title: 'History', isUserLoggedIn: true, page: PetInfoPage(petId: widget.petId)),
+            BackGround(title: 'History', isUserLoggedIn: true, page: PetInfoPage(petId: widget.petId, userRole: role)),
             Column(
               children: [
                 Container(

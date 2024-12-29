@@ -11,6 +11,7 @@ import 'package:petuco/presentation/blocs/pets/update_pet_info_bloc.dart';
 import 'package:petuco/presentation/pages/common/pet_info_page.dart';
 import 'package:petuco/presentation/widgets/background_widget.dart';
 import 'package:petuco/presentation/widgets/footer_widget.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class NfcConnectionView extends StatefulWidget {
   final int petId;
@@ -59,6 +60,7 @@ class _NfcConnectionViewState extends State<NfcConnectionView> {
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
+    String role = Supabase.instance.client.auth.currentUser?.userMetadata!['role'] as String;
 
     return BlocProvider(
       create: (_) => UpdatePetInfoBloc(
@@ -233,7 +235,7 @@ class _NfcConnectionViewState extends State<NfcConnectionView> {
                                             if (mounted) {
                                               Navigator.of(context).push(
                                                 MaterialPageRoute(
-                                                  builder: (context) => PetInfoPage(petId: petId),
+                                                  builder: (context) => PetInfoPage(petId: petId, userRole: role),
                                                 ),
                                               );
                                             }

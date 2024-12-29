@@ -13,7 +13,6 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../../domain/usecases/save_pet_info.dart';
 import '../../blocs/pets/create_pet_info_bloc.dart';
 import '../../../domain/entities/pet.entity.dart';
-import 'dart:ui';
 
 class CreatePetInfoPage extends StatefulWidget {
   const CreatePetInfoPage({super.key});
@@ -56,6 +55,8 @@ class _CreatePetInfoPageState extends State<CreatePetInfoPage> {
   Widget build(BuildContext context) {
     final double keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
     final bool isKeyboardOpen = keyboardHeight > 0;
+    String role = Supabase.instance.client.auth.currentUser?.userMetadata!['role'] as String;
+    
     return BlocProvider(
       create: (_) => CreatePetInfoBloc(
         SavePetInfo(
@@ -82,7 +83,7 @@ class _CreatePetInfoPageState extends State<CreatePetInfoPage> {
                     _imageFile = null;
                   });
                   Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => PetInfoPage(petId: createdPet.id)),
+                    MaterialPageRoute(builder: (context) => PetInfoPage(petId: createdPet.id, userRole: role)),
                   );
                   
                 } else if (state is CreatePetError) {

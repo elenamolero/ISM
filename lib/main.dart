@@ -54,7 +54,7 @@ class MyApp extends StatelessWidget {
             final id = int.tryParse(uri.pathSegments[1]);
             if (id != null) {
               return MaterialPageRoute(
-                builder: (context) => PetInfoPage(petId: id),
+                builder: (context) => PetInfoPage(petId: id, userRole: '',),
               );
             }
           }
