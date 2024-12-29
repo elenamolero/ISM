@@ -58,6 +58,7 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
         registerUserInfoUseCase: appInjector.get<RegisterUserInfoUseCase>(),
       ),
       child: Scaffold(
+      resizeToAvoidBottomInset: false,
         body: Stack(
           children: [
             const BackGround(title: 'User register',isUserLoggedIn: false,),

@@ -26,6 +26,7 @@ class LoginUserPageState extends State<LoginUserPage> {
     return BlocProvider(
       create: (context) => LoginUserBloc(loginUserUseCase: appInjector.get<LoginUserUseCase>()),
       child: Scaffold(
+      resizeToAvoidBottomInset: false,
         body: Stack(
           children: [
             const BackGround(title: 'Login',isUserLoggedIn: false,),
