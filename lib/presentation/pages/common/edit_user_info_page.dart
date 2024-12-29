@@ -29,6 +29,8 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
   late TextEditingController passwordController;
   late TextEditingController confirmPasswordController;
   late TextEditingController roleController;
+  TextEditingController? companyController;
+  TextEditingController? cifController;
 
   @override
   void initState() {
@@ -40,6 +42,8 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
     passwordController = TextEditingController();
     roleController = TextEditingController();
     confirmPasswordController = TextEditingController();
+    companyController = TextEditingController();
+    cifController = TextEditingController();
   }
 
   @override
@@ -52,6 +56,8 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
     passwordController.dispose();
     roleController.dispose();
     confirmPasswordController.dispose();
+    companyController?.dispose();
+    cifController?.dispose();
     super.dispose();
   }
 
@@ -62,6 +68,7 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
   Widget build(BuildContext context) {
     final double keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
     final bool isKeyboardOpen = keyboardHeight > 0;
+    String? role = Supabase.instance.client.auth.currentUser?.userMetadata!['role'] as String?;
     return MultiBlocProvider(
       providers: [
         BlocProvider(
@@ -105,7 +112,13 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
                 if (passwordController.text.isEmpty) passwordController.text = state.userInfo.password;
                 if (confirmPasswordController.text.isEmpty) confirmPasswordController.text = state.userInfo.password;
                 if (roleController.text.isEmpty) roleController.text = state.userInfo.role;
-              } else if (state is GetUserError) {
+                if (role == 'vet') {
+                      companyController ??= TextEditingController();
+                      cifController ??= TextEditingController();
+                      if (companyController!.text.isEmpty) companyController!.text = state.userInfo.company ?? '';
+                      if (cifController!.text.isEmpty) cifController!.text = state.userInfo.cif ?? '';
+                    }
+                } else if (state is GetUserError) {
                 return Center(child: Text('Error: ${state.message}'));
               }
               
@@ -193,7 +206,7 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
                                       },
                                     ),
                                 ),
-
+                                
                                 const SizedBox(height: 8),
                                 const CustomText(
                                   text: 'Confirm Password'
@@ -213,7 +226,23 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
                                         });
                                       },
                                     ),
-                                )
+                                ),
+                                if (role == 'vet') ...[
+                                      const SizedBox(height: 8),
+                                      const CustomText(text: 'Company'),
+                                      CustomTextField(
+                                        controller: companyController,
+                                        labelText: 'Company',
+                                        icon: Icons.business,
+                                      ),
+                                      const SizedBox(height: 8),
+                                      const CustomText(text: 'CIF'),
+                                      CustomTextField(
+                                        controller: cifController,
+                                        labelText: 'CIF',
+                                        icon: Icons.badge,
+                                      ),
+                                    ],
                               ],
                             )
                             )
@@ -257,6 +286,9 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
                               phoneNumber: int.tryParse(phoneNumberController.text) ?? 0,
                               password: passwordController.text,
                               role: roleController.text,
+                              company: role == 'vet' ? companyController?.text : null,
+                              cif: role == 'vet' ? cifController?.text : null,
+
                             );
                             context.read<SaveUserInfoBloc>().add(
                                   SaveUserEvent(updatedUser),
