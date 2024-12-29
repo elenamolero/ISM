@@ -9,5 +9,4 @@ abstract class UserRepositoryInterface {
 
   Future<void> loginUser(user.User user);
 
-  Future<void> logoutUser();
 }

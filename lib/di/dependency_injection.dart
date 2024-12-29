@@ -10,7 +10,6 @@ import 'package:petuco/data/repository/impl/user_repository.dart';
 import 'package:petuco/data/services/user/user_service.dart';
 import 'package:petuco/domain/usecases/impl/get_user_info_use_case.dart';
 import 'package:petuco/domain/usecases/impl/login_user_use_case.dart';
-import 'package:petuco/domain/usecases/impl/logout_user_use_case.dart';
 import 'package:petuco/domain/usecases/impl/register_user_use_case.dart';
 import 'package:petuco/domain/usecases/impl/save_health_test_info_use_case.dart';
 import 'package:petuco/domain/usecases/impl/save_user_info_use_case.dart';
@@ -51,10 +50,6 @@ void initInjection() {
               ));
 
   appInjector.registerSingleton<LoginUserUseCase>(() => LoginUserUseCase(
-        userRepositoryInterface: appInjector.get<UserRepository>(),
-      ));
-
-  appInjector.registerSingleton<LogoutUserUseCase>(() =>  LogoutUserUseCase(
         userRepositoryInterface: appInjector.get<UserRepository>(),
       ));
 

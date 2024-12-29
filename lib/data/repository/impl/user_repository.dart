@@ -59,9 +59,4 @@ Future<void> registerUserInfo(user.User user) async {
   Future<void> loginUser(user.User loginUser) async{
     await userService.loginUser(loginUser);
   }
-  
-  @override
-  Future<void> logoutUser() {
-    return userService.logoutUser();
-  }
 }

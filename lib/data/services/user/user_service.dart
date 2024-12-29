@@ -56,10 +56,4 @@ class UserService {
     await Supabase.instance.client.auth.signInWithPassword(password: user.password, email: user.email);
   }
 
-  Future<void> logoutUser() async {
-    await Supabase.instance.client.auth.signOut();
-    print('User logged out');
-    print(Supabase.instance.client.auth.currentUser ?? 'User logged out');
-  }
-  
 }

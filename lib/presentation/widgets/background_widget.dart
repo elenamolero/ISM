@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:petuco/presentation/blocs/users/logout_user_bloc.dart';
 import 'package:petuco/presentation/pages/common/home_page.dart';
 import 'package:petuco/presentation/pages/common/login_page.dart';
 import 'package:supabase_auth_ui/supabase_auth_ui.dart';
