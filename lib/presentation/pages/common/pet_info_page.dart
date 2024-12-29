@@ -135,6 +135,11 @@ class _PetInfoPageState extends State<PetInfoPage> {
                                               ),
                                               const SizedBox(height: 10),
                                               Text(
+                                                '• Sex: ${pet.sex}',
+                                                style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Color(0xFF065591)),
+                                              ),
+                                              const SizedBox(height: 10),
+                                              Text(
                                                 '• Age: ${pet.age}',
                                                 style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Color(0xFF065591)),
                                               ),

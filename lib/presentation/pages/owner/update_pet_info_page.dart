@@ -2,8 +2,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:petuco/data/repository/impl/pet_repository_impl.dart';
-import 'package:petuco/data/services/pet/pets_service.dart';
+import 'package:petuco/di/dependency_injection.dart';
+import 'package:petuco/domain/usecases/impl/get_pet_info_use_case.dart';
 import 'package:petuco/presentation/pages/common/pet_info_page.dart';
 import 'package:petuco/presentation/pages/common/register_user_page.dart';
 import 'package:petuco/presentation/widgets/background_widget.dart';
@@ -12,7 +12,7 @@ import 'package:petuco/presentation/widgets/custom_text_widget.dart';
 import 'package:petuco/presentation/widgets/footer_widget.dart';
 import 'package:petuco/presentation/widgets/text_button_widget.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../../../../domain/usecases/update_pet_info.dart';
+import '../../../domain/usecases/impl/update_pet_info_use_case.dart';
 import '../../blocs/pets/update_pet_info_bloc.dart';
 import '../../../domain/entities/pet.entity.dart';
 
@@ -80,14 +80,8 @@ class _UpdatePetInfoPageState extends State<UpdatePetInfoPage> {
 
     return BlocProvider(
       create: (_) => UpdatePetInfoBloc(
-        updatePetInfo: UpdatePetInfo(
-          PetRepositoryImpl(
-            petsService: PetsService(),
-          ),
-        ),
-        repository: PetRepositoryImpl(
-          petsService: PetsService(),
-        ),
+        updatePetInfo: appInjector.get<UpdatePetInfoUseCase>(),
+        getPetInfoUseCase: appInjector.get<GetPetInfoUseCase>(),
       )..add(LoadPetEvent(widget.petId)),
       child: Scaffold(
       resizeToAvoidBottomInset: false,
@@ -161,18 +155,7 @@ class _UpdatePetInfoPageState extends State<UpdatePetInfoPage> {
                                       ),
                                       const SizedBox(height: 8),
                                       const CustomText(
-                                        text: 'Owner',
-                                        fontSize: 18,
-                                        color: Colors.white,
-                                      ),
-                                      CustomTextField(
-                                        labelText: 'Owner',
-                                        controller: _ownerController,
-                                        icon: Icons.person_outlined,
-                                      ),
-                                      const SizedBox(height: 8),
-                                      const CustomText(
-                                        text: 'Role',
+                                        text: 'Sex',
                                         fontSize: 18,
                                         color: Colors.white,
                                       ),
@@ -202,7 +185,7 @@ class _UpdatePetInfoPageState extends State<UpdatePetInfoPage> {
                                       CustomTextField(
                                         labelText: 'Age',
                                         controller: _ageController,
-                                        icon: Icons.calendar_today,
+                                        icon: Icons.cake,
                                       ),
                                       const SizedBox(height: 8),
                                       const CustomText(

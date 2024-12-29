@@ -131,7 +131,7 @@ class _CreatePetInfoPageState extends State<CreatePetInfoPage> {
                                     _buildTextField(
                                       label: 'Age',
                                       controller: _ageController,
-                                      icon: Icons.calendar_today,
+                                      icon: Icons.cake,
                                       keyboardType: TextInputType.number,
                                     ),
                                     const SizedBox(height: 8),

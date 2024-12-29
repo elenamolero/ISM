@@ -3,10 +3,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nfc_manager/nfc_manager.dart';
-import 'package:petuco/data/repository/impl/pet_repository_impl.dart';
-import 'package:petuco/data/services/pet/pets_service.dart';
+import 'package:petuco/di/dependency_injection.dart';
 import 'package:petuco/domain/entities/pet.entity.dart';
-import 'package:petuco/domain/usecases/update_pet_info.dart';
+import 'package:petuco/domain/usecases/impl/get_pet_info_use_case.dart';
+import 'package:petuco/domain/usecases/impl/update_pet_info_use_case.dart';
 import 'package:petuco/presentation/blocs/pets/update_pet_info_bloc.dart';
 import 'package:petuco/presentation/pages/common/pet_info_page.dart';
 import 'package:petuco/presentation/widgets/background_widget.dart';
@@ -64,14 +64,8 @@ class _NfcConnectionViewState extends State<NfcConnectionView> {
 
     return BlocProvider(
       create: (_) => UpdatePetInfoBloc(
-        updatePetInfo: UpdatePetInfo(
-          PetRepositoryImpl(
-            petsService: PetsService(),
-          ),
-        ),
-        repository: PetRepositoryImpl(
-          petsService: PetsService(),
-        ),
+          updatePetInfo: appInjector.get<UpdatePetInfoUseCase>(),
+          getPetInfoUseCase: appInjector.get<GetPetInfoUseCase>(),
       )..add(LoadPetEvent(widget.petId)),
       child: Scaffold(
         body: Stack(
