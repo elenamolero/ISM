@@ -115,11 +115,13 @@ class _NfcConnectionViewState extends State<NfcConnectionView> {
                       bottom: screenHeight * 0.45,
                       left: (screenWidth - screenWidth * 0.8) / 2,
                       child: Image.asset(
-                        'assets/images/nfcConection.png',
-                        width: screenWidth * 0.8,
-                        height: screenHeight * 0.3,
-                        fit: BoxFit.contain,
-                      ),
+                      isNfcConnected
+                        ? 'assets/images/nfcConnected.png' // Imagen cuando NFC está conectado
+                        : 'assets/images/nfcConection.png', // Imagen cuando NFC no está conectado
+                      width: screenWidth * 0.8,
+                      height: screenHeight * 0.3,
+                      fit: BoxFit.contain,
+                    ),
                     ),
                     Positioned(
                       bottom: screenHeight * 0.40,
