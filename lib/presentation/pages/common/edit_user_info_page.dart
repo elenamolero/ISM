@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:keyboard_avoider/keyboard_avoider.dart';
 import 'package:petuco/di/dependency_injection.dart';
 import 'package:petuco/domain/usecases/impl/get_user_info_use_case.dart';
 import 'package:petuco/domain/usecases/impl/save_user_info_use_case.dart';
@@ -129,6 +130,7 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
                   top: kToolbarHeight+MediaQuery.of(context).padding.top,
                   bottom: isKeyboardOpen ? 0 : 50
                 ),
+                child:KeyboardAvoider(
                 child: SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -302,6 +304,7 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
                     ],
                   ),
                 ),
+                )
               );
             },
           ),

@@ -8,13 +8,13 @@ class CustomCard extends StatelessWidget {
   final VoidCallback onTap;
 
   const CustomCard({
-    Key? key,
+    super.key,
     required this.screenWidth,
     required this.isSelected,
     required this.scale,
     required this.child,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -45,22 +45,24 @@ class _HomeUserPageState extends State<HomeUserPage> {
         body: Stack(
           children: [
             const BackGround(title: 'Home',home: false, isUserLoggedIn: true,),
-            Positioned(
-              top: screenHeight * 0.14,
-              left: screenWidth * 0.1,
-              right: screenWidth * 0.1,
-              bottom: screenHeight * 0.1,
-              child: BlocBuilder<GetUserInfoBloc, GetUserInfoState>(
-                builder: (context, userState) {
-                  return BlocBuilder<PetBloc, PetState>(
-                    builder: (context, petState) {
-                      if (petState is PetLoading ||
-                          userState is GetUserLoading) {
-                        return const Center(child: CircularProgressIndicator());
-                      } else if (petState is PetLoaded &&
-                          userState is GetUserSuccess) {
-                        final userName = userState.userInfo.name;
-                        return SingleChildScrollView(
+            BlocBuilder<GetUserInfoBloc, GetUserInfoState>(
+              builder: (context, userState) {
+                return BlocBuilder<PetBloc, PetState>(
+                  builder: (context, petState) {
+                    if (petState is PetLoading ||
+                        userState is GetUserLoading) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else if (petState is PetLoaded &&
+                        userState is GetUserSuccess) {
+                      final userName = userState.userInfo.name;
+                      return Padding(
+                        padding:EdgeInsets.only(
+                          left: 40, 
+                          right: 40,
+                          top: kToolbarHeight+MediaQuery.of(context).padding.top,
+                          bottom: 60
+                        ),
+                        child: SingleChildScrollView(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
@@ -96,37 +98,37 @@ class _HomeUserPageState extends State<HomeUserPage> {
                               const SizedBox(height: 40), // Espacio adicional
                             ],
                           ),
-                        );
-                      } else if (petState is PetError) {
-                        return Center(
-                          child: Text(
-                            petState.message,
-                            style: const TextStyle(
-                                color: Colors.red, fontSize: 16),
-                          ),
-                        );
-                      } else if (userState is GetUserError) {
-                        return Center(
-                          child: Text(
-                            userState.message,
-                            style: const TextStyle(
-                                color: Colors.red, fontSize: 16),
-                          ),
-                        );
-                      }
-                      return const Center(
-                        child: Text(
-                          'Welcome! Fetching your pets...',
-                          style: TextStyle(color: Colors.white, fontSize: 18),
                         ),
                       );
-                    },
-                  );
-                },
-              ),
+                    } else if (petState is PetError) {
+                      return Center(
+                        child: Text(
+                          petState.message,
+                          style: const TextStyle(
+                              color: Colors.red, fontSize: 16),
+                        ),
+                      );
+                    } else if (userState is GetUserError) {
+                      return Center(
+                        child: Text(
+                          userState.message,
+                          style: const TextStyle(
+                              color: Colors.red, fontSize: 16),
+                        ),
+                      );
+                    }
+                    return const Center(
+                      child: Text(
+                        'Welcome! Fetching your pets...',
+                        style: TextStyle(color: Colors.white, fontSize: 18),
+                      ),
+                    );
+                  },
+                );
+              },
             ),
             const Positioned(
-              bottom: -2,
+              bottom: 0,
               left: 0,
               right: 0,
               child: FooterWidget(),
@@ -279,7 +281,10 @@ class _HomeUserPageState extends State<HomeUserPage> {
               ),
             )
           else
-            const Icon(Icons.pets, color: Color(0xFF065591), size: 40),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 18),
+              child: Icon(Icons.pets, color: Color(0xFF065591), size: 40),
+            ),
           const SizedBox(width: 10),
           Expanded(
             child: Column(
@@ -291,17 +296,18 @@ class _HomeUserPageState extends State<HomeUserPage> {
                     color: const Color(0xFF065591),
                     fontSize: screenWidth * 0.04,
                     fontWeight: FontWeight.bold,
+                    
                   ),
                 ),
                 Text(
-                  'Age: ${pet.age}',
+                  '• Age: ${pet.age}',
                   style: TextStyle(
                     color: const Color(0xFF065591),
                     fontSize: screenWidth * 0.035,
                   ),
                 ),
                 Text(
-                  'Owner: $userName',
+                  '• Owner: $userName',
                   style: TextStyle(
                     color: const Color(0xFF065591),
                     fontSize: screenWidth * 0.035,

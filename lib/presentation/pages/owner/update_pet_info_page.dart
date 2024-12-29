@@ -7,13 +7,14 @@ import 'package:petuco/data/services/pet/pets_service.dart';
 import 'package:petuco/presentation/pages/common/pet_info_page.dart';
 import 'package:petuco/presentation/pages/common/register_user_page.dart';
 import 'package:petuco/presentation/widgets/background_widget.dart';
+import 'package:petuco/presentation/widgets/custom_text_field_widget.dart';
 import 'package:petuco/presentation/widgets/custom_text_widget.dart';
 import 'package:petuco/presentation/widgets/footer_widget.dart';
+import 'package:petuco/presentation/widgets/text_button_widget.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../../domain/usecases/update_pet_info.dart';
 import '../../blocs/pets/update_pet_info_bloc.dart';
 import '../../../domain/entities/pet.entity.dart';
-import 'dart:ui';
 
 class UpdatePetInfoPage extends StatefulWidget {
   final int petId;
@@ -148,13 +149,24 @@ class _UpdatePetInfoPageState extends State<UpdatePetInfoPage> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      _buildTextField(
-                                        label: 'Name',
+                                      const CustomText(
+                                        text: 'Name',
+                                        fontSize: 18,
+                                        color: Colors.white,
+                                      ),
+                                      CustomTextField(
+                                        labelText: 'Name',
                                         controller: _nameController,
                                         icon: Icons.cruelty_free_outlined,
                                       ),
-                                      _buildTextField(
-                                        label: 'Owner',
+                                      const SizedBox(height: 8),
+                                      const CustomText(
+                                        text: 'Owner',
+                                        fontSize: 18,
+                                        color: Colors.white,
+                                      ),
+                                      CustomTextField(
+                                        labelText: 'Owner',
                                         controller: _ownerController,
                                         icon: Icons.person_outlined,
                                       ),
@@ -164,7 +176,7 @@ class _UpdatePetInfoPageState extends State<UpdatePetInfoPage> {
                                         fontSize: 18,
                                         color: Colors.white,
                                       ),
-                                     DropdownButtonFormField<String>(
+                                      DropdownButtonFormField<String>(
                                         value: _selectedValue, 
                                         decoration: InputDecoration(
                                           filled: true,
@@ -182,21 +194,43 @@ class _UpdatePetInfoPageState extends State<UpdatePetInfoPage> {
                                         },
                                       ),
                                       const SizedBox(height: 8),
-                                      _buildTextField(
-                                        label: 'Age',
+                                      const CustomText(
+                                        text: 'Age',
+                                        fontSize: 18,
+                                        color: Colors.white,
+                                      ),
+                                      CustomTextField(
+                                        labelText: 'Age',
                                         controller: _ageController,
                                         icon: Icons.calendar_today,
-                                        keyboardType: TextInputType.number,
                                       ),
-                                      _buildTextField(
-                                        label: 'Type',
+                                      const SizedBox(height: 8),
+                                      const CustomText(
+                                        text: 'Type',
+                                        fontSize: 18,
+                                        color: Colors.white,
+                                      ),
+                                      CustomTextField(
+                                        labelText: 'Type',
                                         controller: _typeController,
                                         icon: Icons.pets,
                                       ),
-                                      _buildTextField(
-                                        label: 'Breed',
+                                      const SizedBox(height: 8),
+                                      const CustomText(
+                                        text: 'Breed',
+                                        fontSize: 18,
+                                        color: Colors.white,
+                                      ),
+                                      CustomTextField(
+                                        labelText: 'Breed',
                                         controller: _breedController,
                                         icon: Icons.star_border_outlined,
+                                      ),
+                                      const SizedBox(height: 8),
+                                      const CustomText(
+                                        text: 'Photo',
+                                        fontSize: 18,
+                                        color: Colors.white,
                                       ),
                                       const SizedBox(height: 20),
                                       Center(
@@ -208,17 +242,13 @@ class _UpdatePetInfoPageState extends State<UpdatePetInfoPage> {
                                                 height: 100,
                                                 width: 100,
                                                 fit: BoxFit.cover,
-                                              )
+                                            )
                                             else if (_currentImageUrl != null)
                                               Image.network(
                                                 _currentImageUrl!,
                                                 height: 100,
                                                 width: 100,
                                                 fit: BoxFit.cover,
-                                              ),
-                                            ElevatedButton(
-                                              onPressed: _pickImage,
-                                              child: const Text('Change Image'),
                                             ),
                                           ],
                                         ),
@@ -227,69 +257,51 @@ class _UpdatePetInfoPageState extends State<UpdatePetInfoPage> {
                                       Center(
                                         child: SizedBox(
                                           width: 224,
-                                          child: ElevatedButton(
-                                            onPressed: () {
-                                              if (_formKey.currentState
-                                                      ?.validate() ??
-                                                  false) {
+                                          child: TextButtonWidget(
+                                            function: _pickImage,
+                                            buttonText:  'Change Image',
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(height: 20),
+                                      Center(
+                                        child: SizedBox(
+                                          width: 224,
+                                          child: TextButtonWidget(
+                                            function: () {
+                                              if (_formKey.currentState ?.validate() ?? false) {
                                                 context
-                                                    .read<UpdatePetInfoBloc>()
-                                                    .add(
-                                                      UpdatePetEvent(
-                                                        Pet(
-                                                          id: widget.petId,
-                                                          name: _nameController
+                                                .read<UpdatePetInfoBloc>()
+                                                .add(
+                                                  UpdatePetEvent(
+                                                    Pet(
+                                                      id: widget.petId,
+                                                      name: _nameController
+                                                          .text,
+                                                      ownerEmail:
+                                                          _ownerController
                                                               .text,
-                                                          ownerEmail:
-                                                              _ownerController
-                                                                  .text,
-                                                          sex: _sexController
+                                                      sex: _sexController
+                                                          .text,
+                                                      age: int.parse(
+                                                          _ageController
+                                                              .text),
+                                                      type: _typeController
+                                                          .text,
+                                                      breed:
+                                                          _breedController
                                                               .text,
-                                                          age: int.parse(
-                                                              _ageController
-                                                                  .text),
-                                                          type: _typeController
-                                                              .text,
-                                                          breed:
-                                                              _breedController
-                                                                  .text,
-                                                          photo:
-                                                              _currentImageUrl,
-                                                          nfcConnection:
-                                                              _nfcController,
-                                                        ),
-                                                        _imageFile,
-                                                      ),
-                                                    );
+                                                      photo:
+                                                          _currentImageUrl,
+                                                      nfcConnection:
+                                                          _nfcController,
+                                                    ),
+                                                    _imageFile,
+                                                  ),
+                                                );
                                               }
                                             },
-                                            style: ElevatedButton.styleFrom(
-                                              backgroundColor:
-                                                  const Color.fromRGBO(
-                                                      97, 187, 255, 1),
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(50),
-                                                side: const BorderSide(
-                                                  color: Colors.white,
-                                                  width: 2.0,
-                                                ),
-                                              ),
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      vertical: 16),
-                                            ),
-                                            child: state is UpdatePetLoading
-                                                ? const CircularProgressIndicator(
-                                                    color: Colors.white)
-                                                : const Text(
-                                                    'Update Pet',
-                                                    style: TextStyle(
-                                                      fontSize: 18,
-                                                      color: Colors.white,
-                                                      height: 2,
-                                                    ),
-                                                  ),
+                                            buttonText: 'Update Pet'
                                           ),
                                         ),
                                       ),
@@ -315,58 +327,6 @@ class _UpdatePetInfoPageState extends State<UpdatePetInfoPage> {
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildTextField({
-    required String label,
-    required TextEditingController controller,
-    required IconData icon,
-    TextInputType keyboardType = TextInputType.text,
-  }) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: const TextStyle(
-            fontSize: 18,
-            color: Colors.white,
-          ),
-        ),
-        const SizedBox(height: 8),
-        TextFormField(
-          controller: controller,
-          keyboardType: keyboardType,
-          decoration: InputDecoration(
-            hintText: label,
-            hintStyle: TextStyle(
-              fontSize: 18,
-              color: Colors.grey[400],
-              fontWeight: FontWeight.bold,
-            ),
-            suffixIcon: Icon(
-              icon,
-              color: Colors.grey,
-            ),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-            filled: true,
-            fillColor: Colors.white,
-          ),
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              return 'Please enter $label';
-            }
-            if (label == 'Age' && int.tryParse(value) == null) {
-              return 'Please enter a valid age';
-            }
-            return null;
-          },
-        ),
-        const SizedBox(height: 16),
-      ],
     );
   }
 }
