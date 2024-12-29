@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:keyboard_avoider/keyboard_avoider.dart';
 import 'package:petuco/data/repository/impl/pet_repository_impl.dart';
 import 'package:petuco/data/services/pet/pets_service.dart';
 import 'package:petuco/presentation/pages/common/pet_info_page.dart';
@@ -100,6 +101,8 @@ class _CreatePetInfoPageState extends State<CreatePetInfoPage> {
                     top: kToolbarHeight+MediaQuery.of(context).padding.top,
                     bottom: isKeyboardOpen ? 0 : 50
                   ),
+                  child:KeyboardAvoider(
+                  autoScroll: true,
                   child: SingleChildScrollView(
                     child: Form(
                       key: _formKey,
@@ -260,6 +263,7 @@ class _CreatePetInfoPageState extends State<CreatePetInfoPage> {
                       ),
                     ),
                   ),
+                  )
                 );
               },
             ),
