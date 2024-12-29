@@ -5,7 +5,9 @@ import 'package:image_picker/image_picker.dart';
 import 'package:petuco/data/repository/impl/pet_repository_impl.dart';
 import 'package:petuco/data/services/pet/pets_service.dart';
 import 'package:petuco/presentation/pages/common/pet_info_page.dart';
+import 'package:petuco/presentation/pages/common/register_user_page.dart';
 import 'package:petuco/presentation/widgets/background_widget.dart';
+import 'package:petuco/presentation/widgets/custom_text_widget.dart';
 import 'package:petuco/presentation/widgets/footer_widget.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../../domain/usecases/save_pet_info.dart';
@@ -28,7 +30,7 @@ class _CreatePetInfoPageState extends State<CreatePetInfoPage> {
   final _breedController = TextEditingController();
   var createdPet;
   File? _imageFile;
-
+  String? _selectedValue = 'female'; 
   @override
   void dispose() {
     _nameController.dispose();
@@ -134,6 +136,30 @@ class _CreatePetInfoPageState extends State<CreatePetInfoPage> {
                                       icon: Icons.calendar_today,
                                       keyboardType: TextInputType.number,
                                     ),
+                                    const SizedBox(height: 8),
+                                      const CustomText(
+                                        text: 'Role',
+                                        fontSize: 18,
+                                        color: Colors.white,
+                                      ),
+                                     DropdownButtonFormField<String>(
+                                        value: _selectedValue, 
+                                        decoration: InputDecoration(
+                                          filled: true,
+                                          fillColor: Colors.white,
+                                          enabledBorder: outlineInputBorder,
+                                          focusedBorder: outlineInputBorder,
+                                        ),
+                                        items: ["female", "male"].map((name) {
+                                          return DropdownMenuItem(value: name, child: Text(name));
+                                        }).toList(),
+                                        onChanged: (value) {
+                                          setState(() {
+                                            _selectedValue = value;
+                                          });
+                                        },
+                                      ),
+                                      const SizedBox(height: 8),
                                     _buildTextField(
                                       label: 'Type',
                                       controller: _typeController,
@@ -176,8 +202,8 @@ class _CreatePetInfoPageState extends State<CreatePetInfoPage> {
                                                         name: _nameController
                                                             .text,
                                                         ownerEmail:
-                                                            _ownerController
-                                                                .text,
+                                                            Supabase.instance.client.auth.currentUser!.email!,
+                                                        sex: _selectedValue ?? 'female',
                                                         age: int.parse(
                                                             _ageController
                                                                 .text),

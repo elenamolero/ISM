@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:petuco/domain/usecases/impl/login_user_use_case.dart';
-import '../../../domain/entities/user.entity.dart';
+import 'package:petuco/domain/entities/user.entity.dart' as petuco;
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract class LoginUserEvent {}
 class UpdateEmailEvent extends LoginUserEvent {
@@ -23,7 +24,7 @@ class LoginUserError extends LoginUserState {
 }
 
 class LoginUserBloc extends Bloc<LoginUserEvent, LoginUserState> {
-  LoginUserUseCase loginUserUseCase;
+  final LoginUserUseCase loginUserUseCase;
   String email = '';
   String password = '';
 
@@ -34,10 +35,11 @@ class LoginUserBloc extends Bloc<LoginUserEvent, LoginUserState> {
     on<UpdatePasswordEvent>((event, emit) {
       password = event.password;
     });
+
     on<SubmitLoginEvent>((event, emit) async {
       emit(LoginUserLoading());
       try {
-        final user = User(
+        final user = petuco.User(
           name: '', 
           email: email,
           address: '',
@@ -45,10 +47,19 @@ class LoginUserBloc extends Bloc<LoginUserEvent, LoginUserState> {
           password: password,
           role: '',
         );
-        await loginUserUseCase.call(user);
-        emit(LoginUserSuccess());
+
+        await loginUserUseCase.call(user); // Llama al caso de uso
+
+        emit(LoginUserSuccess()); // Emite estado de éxito si no hay errores
+      } on AuthException catch (e) {
+        // Captura y maneja el error de autenticación
+        if (e.message.contains('Invalid login credentials')) {
+          emit(LoginUserError('Invalid Email or password'));
+        } else {
+          emit(LoginUserError('Error de autenticación: ${e.message}'));
+        }
       } catch (e) {
-        emit(LoginUserError('An error occurred during login.'));
+        emit(LoginUserError('Ocurrió un error inesperado.'));
       }
     });
   }
