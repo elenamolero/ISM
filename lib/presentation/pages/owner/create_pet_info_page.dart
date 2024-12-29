@@ -3,15 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:keyboard_avoider/keyboard_avoider.dart';
-import 'package:petuco/data/repository/impl/pet_repository_impl.dart';
-import 'package:petuco/data/services/pet/pets_service.dart';
+import 'package:petuco/di/dependency_injection.dart';
 import 'package:petuco/presentation/pages/common/pet_info_page.dart';
 import 'package:petuco/presentation/pages/common/register_user_page.dart';
 import 'package:petuco/presentation/widgets/background_widget.dart';
 import 'package:petuco/presentation/widgets/custom_text_widget.dart';
 import 'package:petuco/presentation/widgets/footer_widget.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../../../../domain/usecases/save_pet_info.dart';
+import '../../../domain/usecases/impl/save_pet_info_use_case.dart';
 import '../../blocs/pets/create_pet_info_bloc.dart';
 import '../../../domain/entities/pet.entity.dart';
 
@@ -59,13 +58,7 @@ class _CreatePetInfoPageState extends State<CreatePetInfoPage> {
     String role = Supabase.instance.client.auth.currentUser?.userMetadata!['role'] as String;
     
     return BlocProvider(
-      create: (_) => CreatePetInfoBloc(
-        SavePetInfo(
-          PetRepositoryImpl(
-            petsService: PetsService(),
-          ),
-        ),
-      ),
+      create: (_) => CreatePetInfoBloc(appInjector.get<SavePetInfoUseCase>()),
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         body: Stack(
@@ -181,7 +174,7 @@ class _CreatePetInfoPageState extends State<CreatePetInfoPage> {
                                             ),
                                           ElevatedButton(
                                             onPressed: _pickImage,
-                                            child: const Text('Pick Image'),
+                                            child: const Text('Pick Image', style: TextStyle(color: Color(0xFF1B96F4))),
                                           ),
                                         ],
                                       ),
@@ -243,7 +236,7 @@ class _CreatePetInfoPageState extends State<CreatePetInfoPage> {
                                               ? const CircularProgressIndicator(
                                                   color: Colors.white)
                                               : const Text(
-                                                  'Save Changes',
+                                                  'Save New Pet',
                                                   style: TextStyle(
                                                     fontSize: 18,
                                                     color: Colors.white,
