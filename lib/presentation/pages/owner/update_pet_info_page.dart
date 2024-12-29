@@ -15,7 +15,6 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../../domain/usecases/update_pet_info.dart';
 import '../../blocs/pets/update_pet_info_bloc.dart';
 import '../../../domain/entities/pet.entity.dart';
-import 'dart:ui';
 
 class UpdatePetInfoPage extends StatefulWidget {
   final int petId;

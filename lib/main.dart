@@ -6,7 +6,6 @@ import 'package:petuco/di/dependency_injection.dart';
 import 'package:petuco/presentation/pages/common/home_page.dart';
 import 'package:petuco/presentation/pages/common/login_page.dart';
 import 'package:petuco/presentation/pages/common/pet_info_page.dart';
-import 'package:petuco/presentation/pages/vet/create_health_view.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 //import 'package:flutter_web_plugins/flutter_web_plugins.dart';
@@ -70,7 +69,7 @@ class MyApp extends StatelessWidget {
         } else {
           // Handle for non-web platforms (default)
           return MaterialPageRoute(
-            builder: (context) =>  const CreateHealthView(petId: 1,petName: "falete",),
+            builder: (context) =>  const LoginPage(),
           );
         }
       },

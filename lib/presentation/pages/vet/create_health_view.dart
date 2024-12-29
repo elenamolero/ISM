@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:keyboard_avoider/keyboard_avoider.dart';
 import 'package:petuco/di/dependency_injection.dart';
-import 'package:petuco/domain/entities/healthTest.entity.dart' as healthTest;
+import 'package:petuco/domain/entities/healthTest.entity.dart' as HealthTest;
 import 'package:petuco/domain/usecases/impl/save_health_test_info_use_case.dart';
 import 'package:petuco/presentation/blocs/healthTests/create_health_test_bloc.dart';
 import 'package:petuco/presentation/pages/common/pet_medical_historial_page.dart';
@@ -205,7 +203,7 @@ class _CreateHealthViewState extends State<CreateHealthView> {
       final date = DateFormat('dd/MM/yyyy').parse(dateController.text);
       final vetId = Supabase.instance.client.auth.currentUser?.email;
       if (vetId != null) {
-        final newHealthTest = healthTest.HealthTest(
+        final newHealthTest = HealthTest.HealthTest(
           testName: typeController.text,
           description: descriptionController.text,
           place: placeController.text,
