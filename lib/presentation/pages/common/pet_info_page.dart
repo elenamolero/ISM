@@ -130,28 +130,28 @@ class _PetInfoPageState extends State<PetInfoPage> {
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                'Name: ${pet.name}',
-                                                style: const TextStyle(fontSize: 15),
+                                                '• Name: ${pet.name}',
+                                                style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Color(0xFF065591)),
                                               ),
                                               const SizedBox(height: 10),
                                               Text(
-                                                'Age: ${pet.age}',
-                                                style: const TextStyle(fontSize: 15),
+                                                '• Age: ${pet.age}',
+                                                style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Color(0xFF065591)),
                                               ),
                                               const SizedBox(height: 10),
                                               Text(
-                                                'Type: ${pet.type}',
-                                                style: const TextStyle(fontSize: 15),
+                                                '• Type: ${pet.type}',
+                                                style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Color(0xFF065591)),
                                               ),
                                               const SizedBox(height: 10),
                                               Text(
-                                                'Breed: ${pet.breed}',
-                                                style: const TextStyle(fontSize: 15),
+                                                '• Breed: ${pet.breed}',
+                                                style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Color(0xFF065591)),
                                               ),
                                               const SizedBox(height: 10),
                                               Text(
-                                                'Owner email: ${pet.ownerEmail}',
-                                                style: const TextStyle(fontSize: 15),
+                                                '• Owner email: ${pet.ownerEmail}',
+                                                style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Color(0xFF065591)),
                                               ),
                                             ],
                                           ),
