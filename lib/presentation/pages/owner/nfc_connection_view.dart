@@ -23,6 +23,7 @@ class NfcConnectionView extends StatefulWidget {
 class _NfcConnectionViewState extends State<NfcConnectionView> {
   final _nameController = TextEditingController();
   final _ownerController = TextEditingController();
+  final _sexController = TextEditingController();
   final _ageController = TextEditingController();
   final _typeController = TextEditingController();
   final _breedController = TextEditingController();
@@ -36,6 +37,7 @@ class _NfcConnectionViewState extends State<NfcConnectionView> {
   void dispose() {
     _nameController.dispose();
     _ownerController.dispose();
+    _sexController.dispose();
     _ageController.dispose();
     _typeController.dispose();
     _breedController.dispose();
@@ -45,6 +47,7 @@ class _NfcConnectionViewState extends State<NfcConnectionView> {
   void _populateFields(Pet pet) {
     _nameController.text = pet.name;
     _ownerController.text = pet.ownerEmail;
+    _sexController.text = pet.sex;
     _ageController.text = pet.age.toString();
     _typeController.text = pet.type;
     _breedController.text = pet.breed;
@@ -202,6 +205,7 @@ class _NfcConnectionViewState extends State<NfcConnectionView> {
                                                     id: widget.petId,
                                                     name: _nameController.text,
                                                     ownerEmail: _ownerController.text,
+                                                    sex: _sexController.text,
                                                     age: int.parse(_ageController.text),
                                                     type: _typeController.text,
                                                     breed: _breedController.text,
