@@ -12,7 +12,9 @@ import 'package:petuco/domain/usecases/impl/get_user_info_use_case.dart';
 import 'package:petuco/domain/usecases/impl/login_user_use_case.dart';
 import 'package:petuco/domain/usecases/impl/register_user_use_case.dart';
 import 'package:petuco/domain/usecases/impl/save_health_test_info_use_case.dart';
+import 'package:petuco/domain/usecases/impl/save_pet_info_use_case.dart';
 import 'package:petuco/domain/usecases/impl/save_user_info_use_case.dart';
+import 'package:petuco/domain/usecases/impl/update_pet_info_use_case.dart';
 
 final appInjector = Injector.appInstance;
 void initInjection() {
@@ -35,6 +37,13 @@ void initInjection() {
         petRepositoryInterface: appInjector.get<PetRepositoryImpl>(),
               ));
 
+  appInjector.registerSingleton<SavePetInfoUseCase>(() => SavePetInfoUseCase(
+        repository: appInjector.get<PetRepositoryImpl>(),
+      ));
+
+  appInjector.registerSingleton<UpdatePetInfoUseCase>(() => UpdatePetInfoUseCase(
+        repository: appInjector.get<PetRepositoryImpl>(),
+      ));
 
  // Data sources injection
   appInjector.registerSingleton<HealthTestsService>(() => HealthTestsService());
