@@ -131,4 +131,15 @@ class PetRepositoryImpl implements PetsRepositoryInterface {
       throw Exception('Pet not found for id $petId');
     }
   }
+
+  Future<bool> nfcInfo(Pet pet) async {
+    
+    try {
+      await petsService.nfcInfo(pet);
+      return true;
+    } catch (error) {
+      debugPrint('Error updating pet data: $error');
+      return false;
+    }
+  }
 }
