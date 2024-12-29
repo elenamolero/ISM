@@ -86,8 +86,6 @@ class LoginUserPageState extends State<LoginUserPage> {
                           // Background Card
                           ClipRRect(
                             borderRadius: BorderRadius.circular(12),
-                            child: BackdropFilter(
-                              filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
                               child: Container(
                                 decoration: BoxDecoration(
                                   color: Colors.white.withOpacity(0.53),
@@ -212,7 +210,6 @@ class LoginUserPageState extends State<LoginUserPage> {
                                   ),
                                 ),
                               ),
-                            ),
                           ),
                         ],
                       ),

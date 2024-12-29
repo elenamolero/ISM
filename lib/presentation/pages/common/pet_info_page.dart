@@ -78,8 +78,6 @@ class _PetInfoPageState extends State<PetInfoPage> {
                       padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.1),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(12),
-                        child: BackdropFilter(
-                          filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
                           child: Container(
                             decoration: BoxDecoration(
                               color: Colors.white.withOpacity(0.53),
@@ -220,7 +218,6 @@ class _PetInfoPageState extends State<PetInfoPage> {
                               ),
                             ),
                           ),
-                        ),
                       ),
                     ),
                     SizedBox(height: screenHeight * 0.03),

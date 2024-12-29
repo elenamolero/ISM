@@ -128,8 +128,6 @@ class _UpdatePetInfoPageState extends State<UpdatePetInfoPage> {
                           const SizedBox(height: 30),
                           ClipRRect(
                             borderRadius: BorderRadius.circular(12),
-                            child: BackdropFilter(
-                              filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
                               child: Container(
                                 decoration: BoxDecoration(
                                   color: Colors.white.withOpacity(0.53),
@@ -264,7 +262,6 @@ class _UpdatePetInfoPageState extends State<UpdatePetInfoPage> {
                                   ),
                                 ),
                               ),
-                            ),
                           ),
                           SizedBox(height: isKeyboardOpen ? 30 : 50)
                         ],
