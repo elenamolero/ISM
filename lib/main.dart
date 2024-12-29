@@ -67,10 +67,17 @@ class MyApp extends StatelessWidget {
             ),
           );
         } else {
-          // Handle for non-web platforms (default)
-          return MaterialPageRoute(
-            builder: (context) =>  const LoginPage(),
-          );
+          if (Supabase.instance.client.auth.currentUser != null) {
+            // Handle for logged in user
+            return MaterialPageRoute(
+              builder: (context) => const HomeUserPage(),
+            );
+          } else {
+            // Handle for not logged in user
+            return MaterialPageRoute(
+              builder: (context) => const LoginPage(),
+            );
+          }          
         }
       },
     );
