@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:petuco/data/services/model/pet_response.dart';
-import 'package:petuco/data/services/pet/pets_service.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:path/path.dart'
     as path; // Ensure 'path' is added to pubspec.yaml

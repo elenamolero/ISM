@@ -56,5 +56,4 @@ class UserService {
     await Supabase.instance.client.auth.signInWithPassword(password: user.password, email: user.email);
   }
 
-  
 }

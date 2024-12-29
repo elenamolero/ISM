@@ -7,6 +7,6 @@ abstract class UserRepositoryInterface {
 
   Future<void> registerUserInfo(user.User user);
 
-
   Future<void> loginUser(user.User user);
+
 }
