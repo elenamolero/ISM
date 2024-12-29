@@ -7,6 +7,7 @@ import 'package:petuco/data/services/pet/pets_service.dart';
 import 'package:petuco/presentation/pages/common/pet_info_page.dart';
 import 'package:petuco/presentation/widgets/background_widget.dart';
 import 'package:petuco/presentation/widgets/footer_widget.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../../domain/usecases/save_pet_info.dart';
 import '../../blocs/pets/create_pet_info_bloc.dart';
 import '../../../domain/entities/pet.entity.dart';
@@ -22,7 +23,6 @@ class CreatePetInfoPage extends StatefulWidget {
 class _CreatePetInfoPageState extends State<CreatePetInfoPage> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
-  final _ownerController = TextEditingController();
   final _ageController = TextEditingController();
   final _typeController = TextEditingController();
   final _breedController = TextEditingController();
@@ -32,7 +32,6 @@ class _CreatePetInfoPageState extends State<CreatePetInfoPage> {
   @override
   void dispose() {
     _nameController.dispose();
-    _ownerController.dispose();
     _ageController.dispose();
     _typeController.dispose();
     _breedController.dispose();
@@ -122,11 +121,6 @@ class _CreatePetInfoPageState extends State<CreatePetInfoPage> {
                                       icon: Icons.cruelty_free_outlined,
                                     ),
                                     _buildTextField(
-                                      label: 'Owner Email',
-                                      controller: _ownerController,
-                                      icon: Icons.person_outlined,
-                                    ),
-                                    _buildTextField(
                                       label: 'Age',
                                       controller: _ageController,
                                       icon: Icons.calendar_today,
@@ -174,8 +168,7 @@ class _CreatePetInfoPageState extends State<CreatePetInfoPage> {
                                                         name: _nameController
                                                             .text,
                                                         ownerEmail:
-                                                            _ownerController
-                                                                .text,
+                                                            Supabase.instance.client.auth.currentUser!.email!,
                                                         age: int.parse(
                                                             _ageController
                                                                 .text),
