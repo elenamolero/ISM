@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:petuco/data/repository/impl/pet_repository_impl.dart';
 import 'package:petuco/data/repository/pets_repository_interface.dart';
 import 'package:petuco/domain/entities/pet.entity.dart';
 import 'package:petuco/domain/usecases/get_pet_info_use_case_interface.dart';
