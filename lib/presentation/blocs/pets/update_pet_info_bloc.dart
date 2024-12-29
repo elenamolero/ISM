@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:petuco/data/repository/pets_repository_interface.dart';
 import 'package:petuco/domain/entities/pet.entity.dart';
-import '../../../domain/usecases/update_pet_info.dart';
+import 'package:petuco/domain/usecases/impl/get_pet_info_use_case.dart';
+import '../../../domain/usecases/impl/update_pet_info_use_case.dart';
 
 // Events
 abstract class UpdatePetInfoEvent {}
@@ -39,20 +39,16 @@ class UpdatePetError extends UpdatePetInfoState {
 
 // BLoC
 class UpdatePetInfoBloc extends Bloc<UpdatePetInfoEvent, UpdatePetInfoState> {
-  final UpdatePetInfo updatePetInfo;
-  final PetsRepositoryInterface repository;
+  final UpdatePetInfoUseCase updatePetInfo;
+  final GetPetInfoUseCase getPetInfoUseCase;
 
-  UpdatePetInfoBloc({required this.updatePetInfo, required this.repository})
+  UpdatePetInfoBloc({required this.updatePetInfo, required this.getPetInfoUseCase})
       : super(UpdatePetInitial()) {
     on<LoadPetEvent>((event, emit) async {
       emit(UpdatePetLoading());
       try {
-        final pet = await repository.getPetById(event.petId);
-        if (pet != null) {
-          emit(PetLoaded(pet));
-        } else {
-          emit(UpdatePetError('Pet not found'));
-        }
+        final pet = await getPetInfoUseCase.getPetById(event.petId);
+        emit(PetLoaded(pet));
       } catch (e) {
         emit(UpdatePetError(e.toString()));
       }
@@ -61,7 +57,7 @@ class UpdatePetInfoBloc extends Bloc<UpdatePetInfoEvent, UpdatePetInfoState> {
     on<UpdatePetEvent>((event, emit) async {
       emit(UpdatePetLoading());
       try {
-        await updatePetInfo(event.pet, event.imageFile);
+        await updatePetInfo.updatePetInfo(event.pet, event.imageFile);
         emit(UpdatePetSuccess());
       } catch (e) {
         print('Error in UpdatePetInfoBloc: $e');

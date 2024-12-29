@@ -24,7 +24,6 @@ class _HomeUserPageState extends State<HomeUserPage> {
 
   @override
   Widget build(BuildContext context) {
-    double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
     String email = Supabase.instance.client.auth.currentUser!.email!;
 
