@@ -17,8 +17,7 @@ class AsignPetPage extends StatefulWidget {
 
 class _AsignPetPageState extends State<AsignPetPage> {
   final TextEditingController _ownerEmailController = TextEditingController();
-  final String _vetEmail = Supabase.instance.client.auth.currentUser!
-      .email!; // Replace with actual authenticated vet email
+  final String _vetEmail = Supabase.instance.client.auth.currentUser!.email!;
   List<Pet> _selectedPets = [];
 
   @override
@@ -29,6 +28,8 @@ class _AsignPetPageState extends State<AsignPetPage> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+
     return BlocProvider(
       create: (context) => AssignVetBloc(
         getPetsByOwnerEmail: GetPetsByOwnerEmail(
@@ -142,38 +143,7 @@ class _AsignPetPageState extends State<AsignPetPage> {
                                     ),
                                     const SizedBox(height: 20),
                                     if (state is PetsFetched)
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          color: Colors.white.withOpacity(0.9),
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                        ),
-                                        child: ListView.builder(
-                                          shrinkWrap: true,
-                                          physics:
-                                              NeverScrollableScrollPhysics(),
-                                          itemCount: state.pets.length,
-                                          itemBuilder: (context, index) {
-                                            final pet = state.pets[index];
-                                            return CheckboxListTile(
-                                              title: Text(pet.name),
-                                              subtitle: Text(
-                                                  '${pet.breed}, ${pet.age} years old'),
-                                              value:
-                                                  _selectedPets.contains(pet),
-                                              onChanged: (bool? value) {
-                                                setState(() {
-                                                  if (value == true) {
-                                                    _selectedPets.add(pet);
-                                                  } else {
-                                                    _selectedPets.remove(pet);
-                                                  }
-                                                });
-                                              },
-                                            );
-                                          },
-                                        ),
-                                      ),
+                                      _buildPetList(state.pets, screenWidth),
                                     if (state is PetsFetched &&
                                         _selectedPets.isNotEmpty)
                                       Padding(
@@ -215,6 +185,107 @@ class _AsignPetPageState extends State<AsignPetPage> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildPetList(List<Pet> pets, double screenWidth) {
+    return Column(
+      children: pets.map((pet) {
+        bool isSelected = _selectedPets.contains(pet);
+        return GestureDetector(
+          onTap: () {
+            setState(() {
+              if (isSelected) {
+                _selectedPets.remove(pet);
+              } else {
+                _selectedPets.add(pet);
+              }
+            });
+          },
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeInOut,
+            margin: const EdgeInsets.symmetric(vertical: 8.0),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
+              color: isSelected
+                  ? Colors.blue.withOpacity(0.2)
+                  : Colors.white.withOpacity(0.53),
+              boxShadow: isSelected
+                  ? [
+                      BoxShadow(
+                        color: Colors.blue.withOpacity(0.5),
+                        blurRadius: 10,
+                        spreadRadius: 2,
+                      ),
+                    ]
+                  : [],
+            ),
+            padding: const EdgeInsets.all(16.0),
+            child: Row(
+              children: [
+                if (pet.photo != null)
+                  Container(
+                    width: screenWidth * 0.2,
+                    height: screenWidth * 0.2,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.white, width: 2),
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(15),
+                      child: Image.network(
+                        pet.photo!,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  )
+                else
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 18),
+                    child: Icon(Icons.pets, color: Color(0xFF065591), size: 40),
+                  ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        pet.name,
+                        style: TextStyle(
+                          color: const Color(0xFF065591),
+                          fontSize: screenWidth * 0.04,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        '• Age: ${pet.age}',
+                        style: TextStyle(
+                          color: const Color(0xFF065591),
+                          fontSize: screenWidth * 0.035,
+                        ),
+                      ),
+                      Text(
+                        '• Owner: ${pet.ownerEmail}',
+                        style: TextStyle(
+                          color: const Color(0xFF065591),
+                          fontSize: screenWidth * 0.035,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                if (isSelected)
+                  const Icon(
+                    Icons.check_circle,
+                    color: Colors.blue,
+                    size: 30,
+                  ),
+              ],
+            ),
+          ),
+        );
+      }).toList(),
     );
   }
 }
