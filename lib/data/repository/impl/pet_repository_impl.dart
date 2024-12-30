@@ -107,11 +107,9 @@ class PetRepositoryImpl implements PetsRepositoryInterface {
     // Fetch the pet data from the service
     final petResponse = await petsService.fetchPetDataById(petId);
 
-    
     if (petResponse != null) {
       debugPrint('Fetched pet data: $petResponse');
 
-      
       final pet = Pet(
         id: petResponse.id,
         name: petResponse.name,
@@ -129,6 +127,16 @@ class PetRepositoryImpl implements PetsRepositoryInterface {
       return pet;
     } else {
       throw Exception('Pet not found for id $petId');
+    }
+  }
+
+  @override
+  Future<void> assignVetToPet(int petId, String vetEmail) async {
+    try {
+      await petsService.assignVetToPet(petId, vetEmail);
+    } catch (e) {
+      print('Error in repository while assigning vet to pet: $e');
+      throw Exception('Failed to assign vet to pet: $e');
     }
   }
 }

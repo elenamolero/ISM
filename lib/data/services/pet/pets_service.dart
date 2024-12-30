@@ -10,9 +10,9 @@ class PetsService {
   Future<List<PetResponse>> fetchPetsData(String email, String role) async {
     try {
       final response = await Supabase.instance.client
-      .from('Pet')
-      .select('*')
-      .eq(role == 'vet' ? 'vetEmail' : 'ownerEmail', email);
+          .from('Pet')
+          .select('*')
+          .eq(role == 'vet' ? 'vetEmail' : 'ownerEmail', email);
       debugPrint('Response from Supabase: $response');
 
       if (response.isNotEmpty) {
@@ -87,6 +87,22 @@ class PetsService {
       return null;
     }
   }
+
+  Future<void> assignVetToPet(int petId, String vetEmail) async {
+    try {
+      final response = await Supabase.instance.client
+          .from('Pet')
+          .update({'vetEmail': vetEmail})
+          .eq('id', petId)
+          .select();
+      print('Supabase assign vet response: $response');
+      if (response == null || (response as List).isEmpty) {
+        throw Exception(
+            'Failed to assign vet to pet: No response from Supabase');
+      }
+    } catch (e) {
+      print('Error assigning vet to pet: $e');
+      throw Exception('Failed to assign vet to pet: $e');
+    }
+  }
 }
-
-

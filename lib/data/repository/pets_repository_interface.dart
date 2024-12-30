@@ -6,4 +6,5 @@ abstract class PetsRepositoryInterface {
   Future<List<Pet>> getPets(String ownerEmail, String role);
   Future<void> updatePetInfo(Pet pet, File? imageFile);
   Future<Pet> getPetById(int petId);
+  Future<void> assignVetToPet(int petId, String vetEmail);
 }
