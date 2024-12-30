@@ -7,6 +7,22 @@ import 'package:path/path.dart'
     as path; // Ensure 'path' is added to pubspec.yaml
 
 class PetsService {
+  Future<List<PetResponse>> fetchPetsByOwnerEmail(String ownerEmail) async {
+    try {
+      final response = await Supabase.instance.client
+          .from('Pet')
+          .select()
+          .eq('ownerEmail', ownerEmail);
+      print('Fetched pets data: $response');
+      return (response as List)
+          .map((pet) => PetResponse.toDomain(pet))
+          .toList();
+    } catch (e) {
+      print('Error fetching pets data: $e');
+      throw Exception('Failed to fetch pets data: $e');
+    }
+  }
+
   Future<List<PetResponse>> fetchPetsData(String email, String role) async {
     try {
       final response = await Supabase.instance.client

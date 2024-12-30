@@ -33,7 +33,7 @@ class PetRepositoryImpl implements PetsRepositoryInterface {
       );
       await petsService.savePetData(petResponse);
     } catch (e) {
-      print('Error in repository while saving pet info: $e');
+      debugPrint('Error in repository while saving pet info: $e');
       throw Exception('Failed to save pet info: $e');
     }
   }
@@ -131,6 +131,36 @@ class PetRepositoryImpl implements PetsRepositoryInterface {
   }
 
   @override
+  Future<List<Pet>> getPetsByOwnerEmail(String ownerEmail) async {
+    final petResponses = await petsService.fetchPetsByOwnerEmail(ownerEmail);
+    if (petResponses.isNotEmpty) {
+      debugPrint('Fetched pet data: $petResponses');
+
+      List<Pet> pets = petResponses.map((petResponse) {
+        return Pet(
+          id: petResponse.id,
+          name: petResponse.name,
+          ownerEmail: petResponse.ownerEmail,
+          sex: petResponse.sex,
+          age: petResponse.age,
+          type: petResponse.type,
+          breed: petResponse.breed,
+          photo: petResponse.photo,
+          nfcConnection: petResponse.nfcConnection,
+        );
+      }).toList();
+
+      for (var pet in pets) {
+        debugPrint(
+            'Pet: ${pet.name}, ${pet.ownerEmail}, ${pet.age}, ${pet.type}, ${pet.breed}, ${pet.photo}');
+      }
+
+      return pets;
+    } else {
+      throw Exception('Pets not found for owner email $ownerEmail');
+    }
+  }
+
   Future<void> assignVetToPet(int petId, String vetEmail) async {
     try {
       await petsService.assignVetToPet(petId, vetEmail);
