@@ -74,7 +74,7 @@ class PetResponse {
       'type': type,
       'breed': breed,
       'ownerEmail': ownerEmail,
-      'sex' : sex,
+      'sex': sex,
       'photo': photo,
       'nfcConnection': nfcConnection,
     };
