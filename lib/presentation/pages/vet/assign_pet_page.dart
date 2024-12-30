@@ -185,6 +185,7 @@ class _AsignPetPageState extends State<AsignPetPage> {
                   ),
                 ),
               ),
+            const SizedBox(height: 40),
           ],
         );
       },
