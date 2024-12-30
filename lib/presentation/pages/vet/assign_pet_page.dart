@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:petuco/data/repository/impl/pet_repository_impl.dart';
 import 'package:petuco/domain/entities/pet.entity.dart';
+import 'package:petuco/presentation/pages/common/home_page.dart';
 import 'package:petuco/presentation/widgets/background_widget.dart';
 import 'package:petuco/presentation/widgets/footer_widget.dart';
 import 'package:petuco/presentation/blocs/pets/assign_vet_bloc.dart';
@@ -47,9 +48,9 @@ class _AsignPetPageState extends State<AsignPetPage> {
         body: Stack(
           children: [
             const BackGround(
-              title: "Assign Pets",
-              isUserLoggedIn: true,
-            ),
+                title: 'Assign Pets',
+                isUserLoggedIn: true,
+                page: HomeUserPage()),
             SafeArea(
               child: Column(
                 children: [

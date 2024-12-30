@@ -12,7 +12,9 @@ class PetsService {
       final response = await Supabase.instance.client
           .from('Pet')
           .select()
-          .eq('ownerEmail', ownerEmail);
+          .eq('ownerEmail', ownerEmail)
+          .or('vetEmail.is.null,vetEmail.neq.${Supabase.instance.client.auth.currentUser!.email!}');
+
       print('Fetched pets data: $response');
       return (response as List)
           .map((pet) => PetResponse.toDomain(pet))
