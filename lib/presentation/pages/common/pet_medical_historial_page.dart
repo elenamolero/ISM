@@ -214,6 +214,7 @@ class _PetMedicalHistorialPageState extends State<PetMedicalHistorialPage> {
           _buildHealthTestDetail(
               'DATE', DateFormat.yMMMd().format(healthTest.date), screenWidth),
           _buildHealthTestDetail('PLACE', healthTest.place, screenWidth),
+          _buildHealthTestDetail('VET', healthTest.vetId, screenWidth)
         ],
       ),
     );

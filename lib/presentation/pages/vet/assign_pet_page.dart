@@ -127,6 +127,13 @@ class _AsignPetPageState extends State<AsignPetPage> {
             const SnackBar(content: Text('Successfully assigned to pet(s)!')),
           );
           _selectedPets.clear();
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>
+                  const HomeUserPage(), // Main page after login
+            ),
+          );
         } else if (state is AssignVetError) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('Error: ${state.message}')),
