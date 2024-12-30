@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:petuco/di/dependency_injection.dart';
 import 'package:petuco/domain/usecases/impl/login_user_use_case.dart';
 import 'package:petuco/presentation/pages/common/home_page.dart';
+import 'package:petuco/presentation/widgets/custom_text_widget.dart';
+import 'package:petuco/presentation/widgets/text_button_widget.dart';
 import '../../../../presentation/blocs/users/login_user_bloc.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:petuco/presentation/widgets/background_widget.dart';
@@ -81,7 +83,7 @@ class LoginUserPageState extends State<LoginUserPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const SizedBox(height: 150),
+                         const SizedBox(height: 150),
                           // Background Card
                           ClipRRect(
                             borderRadius: BorderRadius.circular(12),
@@ -96,58 +98,51 @@ class LoginUserPageState extends State<LoginUserPage> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       // Email Input
-                                      const Text(
-                                        'Email',
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          color: Colors.white,
-                                        ),
-                                      ),
+                                      const CustomText(text: 'Email'),
                                       TextField(
                                         decoration: InputDecoration(
                                           hintText: 'user@example.com',
-                                          hintStyle: TextStyle(
-                                            fontSize: 18,
-                                            color: Colors.grey[400],
-                                            fontWeight: FontWeight.bold,
+                                          hintStyle: const TextStyle(
+                                            fontSize: 14,
+                                            color: Color(0xFFA4A4A4),
+                                            fontWeight: FontWeight.w400,
                                           ),
                                           labelStyle: const TextStyle(
-                                            fontSize: 18,
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold,
+                                            fontSize: 14,
+                                            color: Color(0xFFA4A4A4),
+                                            fontWeight: FontWeight.w400,
                                           ),
                                           suffixIcon: const Icon(
                                             Icons.email,
                                             color: Colors.grey,
                                           ),
-                                          border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.circular(12),
+                                          floatingLabelBehavior: FloatingLabelBehavior.never,
+                                          border: const OutlineInputBorder(
+                                            borderRadius: BorderRadius.all(Radius.circular(20)),
+                                            borderSide: BorderSide.none,
                                           ),
+                                          fillColor: Colors.grey.shade100,
                                           filled: true,
-                                          fillColor: Colors.white,
                                         ),
                                         onChanged: (value) => context
                                             .read<LoginUserBloc>()
                                             .add(UpdateEmailEvent(value)),
                                       ),
                                       const SizedBox(height: 8),
-
-                                      // Password Input
-                                      const Text(
-                                        'Contraseña',
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          color: Colors.white,
-                                        ),
-                                      ),
+                                      const CustomText(text: 'Password'),
                                       TextField(
                                         obscureText: isObscure,
                                         decoration: InputDecoration(
                                           hintText: '••••••••',
-                                          hintStyle: TextStyle(
-                                            fontSize: 18,
-                                            color: Colors.grey[400],
-                                            fontWeight: FontWeight.bold,
+                                          hintStyle: const TextStyle(
+                                            fontSize: 14,
+                                            color: Color(0xFFA4A4A4),
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                          labelStyle: const TextStyle(
+                                            fontSize: 14,
+                                            color: Color(0xFFA4A4A4),
+                                            fontWeight: FontWeight.w400,
                                           ),
                                           suffixIcon: IconButton(
                                             icon: Icon(
@@ -161,48 +156,33 @@ class LoginUserPageState extends State<LoginUserPage> {
                                               });
                                             },
                                           ),
-                                          border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.circular(12),
+                                          contentPadding: const EdgeInsets.symmetric(
+                                            vertical: 16.0,
+                                            horizontal: 12.0,
                                           ),
+                                          border: const OutlineInputBorder(
+                                            borderRadius: BorderRadius.all(Radius.circular(20)),
+                                            borderSide: BorderSide.none,
+                                          ),
+                                          fillColor: Colors.grey.shade100,
                                           filled: true,
-                                          fillColor: Colors.white,
                                         ),
                                         onChanged: (value) => context
                                             .read<LoginUserBloc>()
                                             .add(UpdatePasswordEvent(value)),
                                       ),
                                       const SizedBox(height: 16),
-
-                                      // Login Button
                                       Center(
                                         child: SizedBox(
                                           width: 224,
-                                          child: ElevatedButton(
-                                            onPressed: () {
+                                          child: TextButtonWidget(
+                                            buttonText: 'Login',
+                                            function: () {
                                               context
                                                   .read<LoginUserBloc>()
                                                   .add(SubmitLoginEvent());
                                             },
-                                            style: ElevatedButton.styleFrom(
-                                              backgroundColor: const Color.fromRGBO(97, 187, 255, 1),
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.circular(50),
-                                                side: const BorderSide(
-                                                  color: Colors.white,
-                                                  width: 2.0,
-                                                ),
-                                              ),
-                                              padding: const EdgeInsets.symmetric(vertical: 16),
-                                            ),
-                                            child: const Text(
-                                              'Login',
-                                              style: TextStyle(
-                                                fontSize: 18,
-                                                color: Colors.white,
-                                                height: 2,
-                                              ),
-                                            ),
-                                          ),
+                                          )
                                         ),
                                       ),
                                     ],

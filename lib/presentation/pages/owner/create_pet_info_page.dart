@@ -7,8 +7,10 @@ import 'package:petuco/di/dependency_injection.dart';
 import 'package:petuco/presentation/pages/common/pet_info_page.dart';
 import 'package:petuco/presentation/pages/common/register_user_page.dart';
 import 'package:petuco/presentation/widgets/background_widget.dart';
+import 'package:petuco/presentation/widgets/custom_text_field_widget.dart';
 import 'package:petuco/presentation/widgets/custom_text_widget.dart';
 import 'package:petuco/presentation/widgets/footer_widget.dart';
+import 'package:petuco/presentation/widgets/text_button_widget.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../domain/usecases/impl/save_pet_info_use_case.dart';
 import '../../blocs/pets/create_pet_info_bloc.dart';
@@ -116,48 +118,69 @@ class _CreatePetInfoPageState extends State<CreatePetInfoPage> {
                                   crossAxisAlignment:
                                       CrossAxisAlignment.start,
                                   children: [
-                                    _buildTextField(
-                                      label: 'Name',
-                                      controller: _nameController,
-                                      icon: Icons.cruelty_free_outlined,
-                                    ),
-                                    _buildTextField(
-                                      label: 'Age',
-                                      controller: _ageController,
-                                      icon: Icons.cake,
-                                      keyboardType: TextInputType.number,
-                                    ),
+                                    const CustomText(
+                                        text: 'Name',
+                                        fontSize: 18,
+                                        color: Colors.white,
+                                      ),
+                                      CustomTextField(
+                                        labelText: 'Name',
+                                        controller: _nameController,
+                                        icon: Icons.cruelty_free_outlined,
+                                      ),
                                     const SizedBox(height: 8),
                                       const CustomText(
                                         text: 'Role',
                                         fontSize: 18,
                                         color: Colors.white,
                                       ),
-                                     DropdownButtonFormField<String>(
-                                        value: _selectedValue, 
-                                        decoration: InputDecoration(
-                                          filled: true,
-                                          fillColor: Colors.white,
-                                          enabledBorder: outlineInputBorder,
-                                          focusedBorder: outlineInputBorder,
-                                        ),
-                                        items: ["female", "male"].map((name) {
-                                          return DropdownMenuItem(value: name, child: Text(name));
-                                        }).toList(),
-                                        onChanged: (value) {
-                                          setState(() {
-                                            _selectedValue = value;
-                                          });
-                                        },
+                                    DropdownButtonFormField<String>(
+                                      value: _selectedValue, 
+                                      decoration: InputDecoration(
+                                        filled: true,
+                                        fillColor: Colors.white,
+                                        enabledBorder: outlineInputBorder,
+                                        focusedBorder: outlineInputBorder,
                                       ),
-                                      const SizedBox(height: 8),
-                                    _buildTextField(
-                                      label: 'Type',
+                                      items: ["female", "male"].map((name) {
+                                        return DropdownMenuItem(value: name, child: Text(name));
+                                      }).toList(),
+                                      onChanged: (value) {
+                                        setState(() {
+                                          _selectedValue = value;
+                                        });
+                                      },
+                                    ),
+                                    const SizedBox(height: 8),
+                                    const CustomText(
+                                      text: 'Age',
+                                      fontSize: 18,
+                                      color: Colors.white,
+                                    ),
+                                    CustomTextField(
+                                      labelText: 'Age',
+                                      controller: _ageController,
+                                      icon: Icons.cake,
+                                    ),
+                                    const SizedBox(height: 8),
+                                    const CustomText(
+                                      text: 'Type',
+                                      fontSize: 18,
+                                      color: Colors.white,
+                                    ),
+                                    CustomTextField(
+                                      labelText: 'Type',
                                       controller: _typeController,
                                       icon: Icons.pets,
                                     ),
-                                    _buildTextField(
-                                      label: 'Breed',
+                                    const SizedBox(height: 8),
+                                    const CustomText(
+                                      text: 'Breed',
+                                      fontSize: 18,
+                                      color: Colors.white,
+                                    ),
+                                    CustomTextField(
+                                      labelText: 'Breed',
                                       controller: _breedController,
                                       icon: Icons.star_border_outlined,
                                     ),
@@ -165,26 +188,31 @@ class _CreatePetInfoPageState extends State<CreatePetInfoPage> {
                                     Center(
                                       child: Column(
                                         children: [
-                                          if (_imageFile != null)
+                                          if (_imageFile != null) 
                                             Image.file(
                                               _imageFile!,
                                               height: 100,
                                               width: 100,
                                               fit: BoxFit.cover,
                                             ),
-                                          ElevatedButton(
-                                            onPressed: _pickImage,
-                                            child: const Text('Pick Image', style: TextStyle(color: Color(0xFF1B96F4))),
-                                          ),
                                         ],
+                                      ),
+                                    ),
+                                    Center(
+                                      child: SizedBox(
+                                        width: 224,
+                                        child: TextButtonWidget(
+                                          function: _pickImage,
+                                          buttonText: 'Pick Image',
+                                        ),
                                       ),
                                     ),
                                     const SizedBox(height: 20),
                                     Center(
                                       child: SizedBox(
                                         width: 224,
-                                        child: ElevatedButton(
-                                          onPressed: () {
+                                        child: TextButtonWidget(
+                                          function: () {
                                             if (_formKey.currentState
                                                     ?.validate() ??
                                                 false) {
@@ -216,33 +244,7 @@ class _CreatePetInfoPageState extends State<CreatePetInfoPage> {
                                                   );
                                             }
                                           },
-                                          style: ElevatedButton.styleFrom(
-                                            backgroundColor:
-                                                const Color.fromRGBO(
-                                                    97, 187, 255, 1),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(50),
-                                              side: const BorderSide(
-                                                color: Colors.white,
-                                                width: 2.0,
-                                              ),
-                                            ),
-                                            padding:
-                                                const EdgeInsets.symmetric(
-                                                    vertical: 16),
-                                          ),
-                                          child: state is CreatePetLoading
-                                              ? const CircularProgressIndicator(
-                                                  color: Colors.white)
-                                              : const Text(
-                                                  'Save New Pet',
-                                                  style: TextStyle(
-                                                    fontSize: 18,
-                                                    color: Colors.white,
-                                                    height: 2,
-                                                  ),
-                                                ),
+                                          buttonText: 'Save New Pet',
                                         ),
                                       ),
                                     ),
@@ -269,58 +271,6 @@ class _CreatePetInfoPageState extends State<CreatePetInfoPage> {
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildTextField({
-    required String label,
-    required TextEditingController controller,
-    required IconData icon,
-    TextInputType keyboardType = TextInputType.text,
-  }) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: const TextStyle(
-            fontSize: 18,
-            color: Colors.white,
-          ),
-        ),
-        const SizedBox(height: 8),
-        TextFormField(
-          controller: controller,
-          keyboardType: keyboardType,
-          decoration: InputDecoration(
-            hintText: label,
-            hintStyle: TextStyle(
-              fontSize: 18,
-              color: Colors.grey[400],
-              fontWeight: FontWeight.bold,
-            ),
-            suffixIcon: Icon(
-              icon,
-              color: Colors.grey,
-            ),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-            filled: true,
-            fillColor: Colors.white,
-          ),
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              return 'Please enter $label';
-            }
-            if (label == 'Age' && int.tryParse(value) == null) {
-              return 'Please enter a valid age';
-            }
-            return null;
-          },
-        ),
-        const SizedBox(height: 16),
-      ],
     );
   }
 }

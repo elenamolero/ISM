@@ -63,7 +63,7 @@ class _PetMedicalHistorialPageState extends State<PetMedicalHistorialPage> {
                   child: Opacity(
                     opacity: 0.69,
                     child: Text(
-                      "Informes médicos de $petname",
+                      "Medical history of $petname",
                       style: TextStyle(
                         fontSize: 22,
                         color: Colors.white.withOpacity(0.53),
