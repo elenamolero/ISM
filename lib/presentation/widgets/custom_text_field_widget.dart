@@ -10,6 +10,7 @@ class CustomTextField extends StatelessWidget {
   final Widget? suffixIcon;
   final VoidCallback? onTap;
   final bool enabled;
+  final Function(String)? onChanged;
 
   const CustomTextField({
     super.key,
@@ -21,7 +22,8 @@ class CustomTextField extends StatelessWidget {
     this.obscureText = false,
     this.suffixIcon,
     this.onTap,
-    this.enabled = true
+    this.enabled = true,
+    this.onChanged,
   });
 
   @override
