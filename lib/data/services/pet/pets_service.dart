@@ -7,12 +7,12 @@ import 'package:path/path.dart'
     as path; // Ensure 'path' is added to pubspec.yaml
 
 class PetsService {
-  Future<List<PetResponse>> fetchPetsData(String ownerEmail) async {
+  Future<List<PetResponse>> fetchPetsData(String email, String role) async {
     try {
       final response = await Supabase.instance.client
-          .from('Pet')
-          .select('*')
-          .eq('ownerEmail', ownerEmail);
+      .from('Pet')
+      .select('*')
+      .eq(role == 'vet' ? 'vetEmail' : 'ownerEmail', email);
       debugPrint('Response from Supabase: $response');
 
       if (response.isNotEmpty) {

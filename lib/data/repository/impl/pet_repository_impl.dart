@@ -69,11 +69,11 @@ class PetRepositoryImpl implements PetsRepositoryInterface {
   }
 
   @override
-  Future<List<Pet>> getPets(String ownerEmail) async {
+  Future<List<Pet>> getPets(String ownerEmail, String role) async {
     debugPrint('Fetching pets in repository for owner: $ownerEmail');
 
     // Fetch the pet data from the service
-    final petResponses = await petsService.fetchPetsData(ownerEmail);
+    final petResponses = await petsService.fetchPetsData(ownerEmail, role);
     debugPrint('Fetched pets:');
 
     // Convert the list of PetResponse to Pet domain entities
