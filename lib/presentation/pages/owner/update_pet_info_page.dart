@@ -239,9 +239,10 @@ class _UpdatePetInfoPageState extends State<UpdatePetInfoPage> {
                                       const SizedBox(height: 20),
                                       Center(
                                         child: SizedBox(
-                                          child: ElevatedButton(
-                                            onPressed: _pickImage,
-                                            child: const Text('Change Image', style: TextStyle(color: Color(0xFF1B96F4))),
+                                          width: 224,
+                                          child: TextButtonWidget(
+                                            function: _pickImage,
+                                            buttonText: 'Change Image',
                                           ),
                                         ),
                                       ),
