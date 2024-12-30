@@ -45,147 +45,149 @@ class _AsignPetPageState extends State<AsignPetPage> {
         ),
       ),
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         body: Stack(
           children: [
             const BackGround(
-                title: 'Assign Pets',
-                isUserLoggedIn: true,
-                page: HomeUserPage()),
-            SafeArea(
+              title: 'Assign Pets',
+              isUserLoggedIn: true,
+              page: HomeUserPage(),
+            ),
+            Padding(
+              padding: EdgeInsets.only(
+                left: 40,
+                right: 40,
+                top: kToolbarHeight + MediaQuery.of(context).padding.top,
+                bottom: 60,
+              ),
               child: Column(
                 children: [
                   Expanded(
                     child: SingleChildScrollView(
-                      child: Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const SizedBox(height: 60),
-                            Center(
-                              child: Text(
-                                "Find your new client",
-                                style: TextStyle(
-                                  fontSize: 25,
-                                  fontFamily: "Inter",
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white.withOpacity(0.8),
-                                ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(height: 50),
+                          Center(
+                            child: Text(
+                              "Find your new client",
+                              style: TextStyle(
+                                fontSize: 25,
+                                fontFamily: "Inter",
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white.withOpacity(0.8),
                               ),
                             ),
-                            const SizedBox(height: 20),
-                            TextField(
-                              controller: _ownerEmailController,
-                              decoration: InputDecoration(
-                                hintText: 'Enter the owner\'s email',
-                                suffixIcon: const Icon(Icons.email),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(50),
-                                  borderSide: BorderSide.none,
-                                ),
-                                filled: true,
-                                fillColor: Colors.white,
-                              ),
-                              keyboardType: TextInputType.emailAddress,
-                            ),
-                            const SizedBox(height: 20),
-                            BlocConsumer<AssignVetBloc, AssignVetState>(
-                              listener: (context, state) {
-                                if (state is AssignVetSuccess) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                        content: Text(
-                                            'Successfully assigned to pet(s)!')),
-                                  );
-                                  _selectedPets.clear();
-                                } else if (state is AssignVetError) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                        content:
-                                            Text('Error: ${state.message}')),
-                                  );
-                                }
-                              },
-                              builder: (context, state) {
-                                return Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.stretch,
-                                  children: [
-                                    ElevatedButton(
-                                      onPressed: state is AssignVetLoading
-                                          ? null
-                                          : () {
-                                              context.read<AssignVetBloc>().add(
-                                                    FetchPetsByOwnerEmailEvent(
-                                                        _ownerEmailController
-                                                            .text),
-                                                  );
-                                            },
-                                      child: state is AssignVetLoading
-                                          ? const SizedBox(
-                                              width: 20,
-                                              height: 20,
-                                              child: CircularProgressIndicator(
-                                                strokeWidth: 2,
-                                                valueColor:
-                                                    AlwaysStoppedAnimation<
-                                                        Color>(Colors.white),
-                                              ),
-                                            )
-                                          : const Text('Fetch Pets'),
-                                      style: ElevatedButton.styleFrom(
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(50),
-                                        ),
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 15),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 20),
-                                    if (state is PetsFetched)
-                                      _buildPetList(state.pets, screenWidth),
-                                    if (state is PetsFetched &&
-                                        _selectedPets.isNotEmpty)
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 20),
-                                        child: ElevatedButton(
-                                          onPressed: () {
-                                            for (var pet in _selectedPets) {
-                                              context.read<AssignVetBloc>().add(
-                                                    AssignVetToPetEvent(
-                                                        pet.id, _vetEmail),
-                                                  );
-                                            }
-                                          },
-                                          child: const Text(
-                                              'Assign Selected Pets'),
-                                          style: ElevatedButton.styleFrom(
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(50),
-                                            ),
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 15),
-                                          ),
-                                        ),
-                                      ),
-                                  ],
-                                );
-                              },
-                            ),
-                          ],
-                        ),
+                          ),
+                          const SizedBox(height: 20),
+                          _buildEmailInput(),
+                          const SizedBox(height: 20),
+                          _buildPetFetchingAndAssignment(screenWidth),
+                        ],
                       ),
                     ),
                   ),
-                  const FooterWidget(),
                 ],
               ),
+            ),
+            const Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: FooterWidget(),
             ),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildEmailInput() {
+    return TextField(
+      controller: _ownerEmailController,
+      decoration: InputDecoration(
+        hintText: 'Enter the owner\'s email',
+        suffixIcon: const Icon(Icons.email),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(50),
+          borderSide: BorderSide.none,
+        ),
+        filled: true,
+        fillColor: Colors.white,
+      ),
+      keyboardType: TextInputType.emailAddress,
+    );
+  }
+
+  Widget _buildPetFetchingAndAssignment(double screenWidth) {
+    return BlocConsumer<AssignVetBloc, AssignVetState>(
+      listener: (context, state) {
+        if (state is AssignVetSuccess) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Successfully assigned to pet(s)!')),
+          );
+          _selectedPets.clear();
+        } else if (state is AssignVetError) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Error: ${state.message}')),
+          );
+        }
+      },
+      builder: (context, state) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            ElevatedButton(
+              onPressed: state is AssignVetLoading
+                  ? null
+                  : () {
+                      context.read<AssignVetBloc>().add(
+                            FetchPetsByOwnerEmailEvent(
+                                _ownerEmailController.text),
+                          );
+                    },
+              child: state is AssignVetLoading
+                  ? const SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                      ),
+                    )
+                  : const Text('Fetch Pets'),
+              style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(50),
+                ),
+                padding: const EdgeInsets.symmetric(vertical: 15),
+              ),
+            ),
+            const SizedBox(height: 20),
+            if (state is PetsFetched) _buildPetList(state.pets, screenWidth),
+            if (state is PetsFetched && _selectedPets.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.only(top: 20),
+                child: ElevatedButton(
+                  onPressed: () {
+                    for (var pet in _selectedPets) {
+                      context.read<AssignVetBloc>().add(
+                            AssignVetToPetEvent(pet.id, _vetEmail),
+                          );
+                    }
+                  },
+                  child: const Text('Assign Selected Pets'),
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    padding: const EdgeInsets.symmetric(vertical: 15),
+                  ),
+                ),
+              ),
+          ],
+        );
+      },
     );
   }
 
