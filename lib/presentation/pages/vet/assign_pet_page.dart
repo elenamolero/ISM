@@ -177,11 +177,36 @@ class _AsignPetPageState extends State<AsignPetPage> {
                 padding: const EdgeInsets.only(top: 20),
                 child: ElevatedButton(
                   onPressed: () {
-                    for (var pet in _selectedPets) {
-                      context.read<AssignVetBloc>().add(
-                            AssignVetToPetEvent(pet.id, _vetEmail),
-                          );
-                    }
+                    final parentContext = context;
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text('Assign Confirmation'),
+                          content: const Text(
+                              'Are you sure you want to assign these pets?'),
+                          actions: <Widget>[
+                            TextButton(
+                              child: const Text('No'),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                            TextButton(
+                              child: const Text('Yes'),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                                for (var pet in _selectedPets) {
+                                  parentContext.read<AssignVetBloc>().add(
+                                        AssignVetToPetEvent(pet.id, _vetEmail),
+                                      );
+                                }
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
                   },
                   child: const Text('Assign Selected Pets'),
                   style: ElevatedButton.styleFrom(
