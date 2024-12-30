@@ -34,7 +34,7 @@ class _HomeUserPageState extends State<HomeUserPage> {
         BlocProvider(
           create: (context) => PetBloc(
             getPetsUseCase: appInjector.get<GetPetsHomeUseCase>(),
-          )..add(FetchPets(ownerEmail: email)),
+          )..add(FetchPets(ownerEmail: email,  role: role)),
         ),
         BlocProvider(
           create: (context) => GetUserInfoBloc(
@@ -319,7 +319,7 @@ Widget _buildNewPetContainer(double screenWidth, String? role) {
                   ),
                 ),
                 Text(
-                  '• Owner: $userName',
+                  '• Owner: ${pet.ownerEmail}',
                   style: TextStyle(
                     color: const Color(0xFF065591),
                     fontSize: screenWidth * 0.035,
