@@ -57,7 +57,7 @@ class CustomTextField extends StatelessWidget {
           vertical: 16.0,
           horizontal: 12.0,
         ),
-        fillColor: Colors.grey.shade100,
+        fillColor: const Color.fromARGB(255, 255, 255, 255),
         filled: true,
       ),
     );

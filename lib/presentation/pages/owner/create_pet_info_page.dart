@@ -130,7 +130,7 @@ class _CreatePetInfoPageState extends State<CreatePetInfoPage> {
                                       ),
                                     const SizedBox(height: 8),
                                       const CustomText(
-                                        text: 'Role',
+                                        text: 'Sex',
                                         fontSize: 18,
                                         color: Colors.white,
                                       ),

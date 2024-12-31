@@ -100,7 +100,7 @@ class _HomeUserPageState extends State<HomeUserPage> {
                               const SizedBox(height: 20),
                               _buildPetList(
                                   petState.pets, screenWidth, userName, role),
-                              const SizedBox(height: 40), // Espacio adicional
+                              const SizedBox(height: 40), 
                             ],
                           ),
                         ),
@@ -223,8 +223,8 @@ class _HomeUserPageState extends State<HomeUserPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            width: screenWidth * 0.2, // Aumenta el tamaño del contenedor
-            height: screenWidth * 0.2, // Aumenta el tamaño del contenedor
+            width: screenWidth * 0.2, 
+            height: screenWidth * 0.2, 
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
             ),
@@ -235,23 +235,23 @@ class _HomeUserPageState extends State<HomeUserPage> {
                 const Icon(
                   Icons.add,
                   color: Color(0xFF4B8DAF),
-                  size: 40.0, // Aumenta el tamaño del icono
+                  size: 40.0, 
                 ),
                 const SizedBox(
-                    height: 7), // Aumenta el espacio entre el icono y el texto
+                    height: 7), 
                 FittedBox(
                   fit: BoxFit.scaleDown,
                   child: Text(
-                    role == 'vet' ? 'Associate Pet' : 'New Pet',
+                    role == 'vet' ? 'ASOCCIATE PET' : 'New Pet',
                     style: TextStyle(
                       color: const Color(0xFF4B8DAF),
                       fontSize: role == 'vet'
                           ? screenWidth * 0.05
                           : screenWidth *
-                              0.04, // Ajusta el tamaño del texto según el rol
-                      fontWeight: FontWeight.bold,
+                              0.04, 
+                      fontWeight: FontWeight.w900,
                     ),
-                    textAlign: TextAlign.center, // Centra el texto
+                    textAlign: TextAlign.center, 
                   ),
                 ),
               ],
