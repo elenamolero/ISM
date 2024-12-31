@@ -100,28 +100,28 @@ class LoginUserPageState extends State<LoginUserPage> {
                                       // Email Input
                                       const CustomText(text: 'Email'),
                                       TextField(
-                                        decoration: InputDecoration(
+                                        decoration: const InputDecoration(
                                           hintText: 'user@example.com',
-                                          hintStyle: const TextStyle(
+                                          hintStyle: TextStyle(
                                             fontSize: 14,
                                             color: Color(0xFFA4A4A4),
                                             fontWeight: FontWeight.w400,
                                           ),
-                                          labelStyle: const TextStyle(
+                                          labelStyle: TextStyle(
                                             fontSize: 14,
                                             color: Color(0xFFA4A4A4),
                                             fontWeight: FontWeight.w400,
                                           ),
-                                          suffixIcon: const Icon(
+                                          suffixIcon: Icon(
                                             Icons.email,
                                             color: Colors.grey,
                                           ),
                                           floatingLabelBehavior: FloatingLabelBehavior.never,
-                                          border: const OutlineInputBorder(
+                                          border: OutlineInputBorder(
                                             borderRadius: BorderRadius.all(Radius.circular(20)),
                                             borderSide: BorderSide.none,
                                           ),
-                                          fillColor: Colors.grey.shade100,
+                                          fillColor: Color.fromARGB(255, 255, 255, 255),
                                           filled: true,
                                         ),
                                         onChanged: (value) => context
@@ -164,7 +164,7 @@ class LoginUserPageState extends State<LoginUserPage> {
                                             borderRadius: BorderRadius.all(Radius.circular(20)),
                                             borderSide: BorderSide.none,
                                           ),
-                                          fillColor: Colors.grey.shade100,
+                                          fillColor: const Color.fromARGB(255, 255, 255, 255),
                                           filled: true,
                                         ),
                                         onChanged: (value) => context

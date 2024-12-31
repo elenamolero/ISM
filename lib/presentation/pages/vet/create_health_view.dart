@@ -107,7 +107,7 @@ class _CreateHealthViewState extends State<CreateHealthView> {
                             padding: const EdgeInsets.all(20.0),
                             decoration: BoxDecoration(
                               color: Colors.white.withOpacity(0.53),
-                              borderRadius: BorderRadius.circular(15),
+                              borderRadius: BorderRadius.circular(40),
                               boxShadow: [
                                 BoxShadow(
                                   color: Colors.grey.withOpacity(0.3),
@@ -121,31 +121,31 @@ class _CreateHealthViewState extends State<CreateHealthView> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                const CustomText(text: "Type"),
+                                const CustomText(text: "Type", fontSize: 18,),
                                 const SizedBox(height: 10),
                                 CustomTextField(
-                                  labelText: "Type...",
+                                  labelText: "Type",
                                   icon: Icons.type_specimen_outlined,
                                   controller: typeController,
                                 ),
                                 const SizedBox(height: 20),
-                                const CustomText(text: "Description"),
+                                const CustomText(text: "Description", fontSize: 18,),
                                 const SizedBox(height: 10),
                                 CustomTextField(
-                                  labelText: "Description...",
+                                  labelText: "Description",
                                   icon: Icons.description_outlined,
                                   controller: descriptionController,
                                 ),
                                 const SizedBox(height: 20),
-                                const CustomText(text: "Place"),
+                                const CustomText(text: "Place", fontSize: 18,),
                                 const SizedBox(height: 10),
                                 CustomTextField(
-                                  labelText: "Place...",
+                                  labelText: "Place",
                                   icon: Icons.place_outlined,
                                   controller: placeController,
                                 ),
                                 const SizedBox(height: 20),
-                                const CustomText(text: "Date"),
+                                const CustomText(text: "Date", fontSize: 18,),
                                 const SizedBox(height: 10),
                                 CustomTextField(
                                   labelText: "Select Date",
