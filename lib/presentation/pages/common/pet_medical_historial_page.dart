@@ -174,34 +174,36 @@ class _PetMedicalHistorialPageState extends State<PetMedicalHistorialPage> {
     );
   }
 
-  Widget _buildNewHealthTestContainer(double screenWidth) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Container(
-          width: screenWidth * 0.1,
-          height: screenWidth * 0.1,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(40),
-          ),
-          child: const Icon(
+ Widget _buildNewHealthTestContainer(double screenWidth) {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      Container(
+        width: screenWidth * 0.1,
+        height: screenWidth * 0.1,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(40),
+        ),
+        child: const Center( // Usa Center para centrar el icono verticalmente
+          child: Icon(
             Icons.add,
             color: Color(0xFF4B8DAF),
-            size: 50.0,
+            size: 40.0, // Ajusta el tamaño del icono si es necesario
           ),
         ),
-        const SizedBox(width: 10),
-        Text(
-          'New Health Test',
-          style: TextStyle(
-            color: const Color(0xFF4B8DAF),
-            fontSize: screenWidth * 0.06,
-            fontWeight: FontWeight.bold,
-          ),
+      ),
+      const SizedBox(width: 10),
+      Text(
+        'New Health Test',
+        style: TextStyle(
+          color: const Color(0xFF4B8DAF),
+          fontSize: screenWidth * 0.06,
+          fontWeight: FontWeight.bold,
         ),
-      ],
-    );
-  }
+      ),
+    ],
+  );
+}
 
   Widget _buildHealthTestContainer(HealthTest healthTest, double screenWidth) {
     return ListTile(
