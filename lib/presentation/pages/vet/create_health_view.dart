@@ -119,6 +119,12 @@ class _CreateHealthViewState extends State<CreateHealthView> {
                                   labelText: "Type",
                                   icon: Icons.type_specimen_outlined,
                                   controller: typeController,
+                                  validator: (value) {
+                                                  if ((value == null || value.isEmpty)) {
+                                                    return 'enter the Type';
+                                                  }
+                                                  return null;
+                                                },
                                 ),
                                 const SizedBox(height: 8),
                                 const CustomText(text: "Description", fontSize: 18,),
@@ -126,6 +132,12 @@ class _CreateHealthViewState extends State<CreateHealthView> {
                                   labelText: "Description",
                                   icon: Icons.description_outlined,
                                   controller: descriptionController,
+                                  validator: (value) {
+                                                  if ((value == null || value.isEmpty)) {
+                                                    return 'enter the Description';
+                                                  }
+                                                  return null;
+                                                },
                                 ),
                                 const SizedBox(height: 8),
                                 const CustomText(text: "Place", fontSize: 18,),
@@ -133,6 +145,12 @@ class _CreateHealthViewState extends State<CreateHealthView> {
                                   labelText: "Place",
                                   icon: Icons.place_outlined,
                                   controller: placeController,
+                                  validator: (value) {
+                                                  if ((value == null || value.isEmpty)) {
+                                                    return 'enter the Place';
+                                                  }
+                                                  return null;
+                                                },
                                 ),
                                 const SizedBox(height: 8),
                                 const CustomText(text: "Date", fontSize: 18,),
@@ -142,6 +160,12 @@ class _CreateHealthViewState extends State<CreateHealthView> {
                                   controller: dateController,
                                   onTap: () => _selectDate(context),
                                   keyboardType: TextInputType.none,
+                                  validator: (value) {
+                                                  if ((value == null || value.isEmpty)) {
+                                                    return 'enter the Date';
+                                                  }
+                                                  return null;
+                                                },
                                 ),
                                 const SizedBox(height: 30),
                                 Center(
