@@ -10,6 +10,7 @@ import 'package:petuco/presentation/widgets/background_widget.dart';
 import 'package:petuco/presentation/widgets/custom_text_widget.dart';
 import 'package:petuco/presentation/widgets/custom_text_field_widget.dart';
 import 'package:petuco/presentation/widgets/footer_widget.dart';
+import 'package:petuco/presentation/widgets/text_button_widget.dart';
 import 'package:supabase_auth_ui/supabase_auth_ui.dart';
 
 class CreateHealthView extends StatefulWidget {
@@ -97,56 +98,44 @@ class _CreateHealthViewState extends State<CreateHealthView> {
                       padding: EdgeInsets.only(
                         left: 40,
                         right: 40,
-                        top: kToolbarHeight + MediaQuery.of(context).padding.top - 30, // Ajusta este valor
-                        bottom: isKeyboardOpen ? 0 : 50,
+                        top: kToolbarHeight + MediaQuery.of(context).padding.top,
+                        bottom: isKeyboardOpen ? 50 : 100,
                       ),
                       child: SingleChildScrollView(
                         child: Form(
                           key: _formKey,
                           child: Container(
-                            padding: const EdgeInsets.all(20.0),
+                            padding: const EdgeInsets.all(40.0),
                             decoration: BoxDecoration(
                               color: Colors.white.withOpacity(0.53),
-                              borderRadius: BorderRadius.circular(40),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.3),
-                                  blurRadius: 10,
-                                  spreadRadius: 2,
-                                  offset: const Offset(0, 5),
-                                ),
-                              ],
+                              borderRadius: BorderRadius.circular(40)
                             ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                const CustomText(text: "Type", fontSize: 18,),
-                                const SizedBox(height: 10),
+                                const CustomText(text: "Type", fontSize: 18),
                                 CustomTextField(
                                   labelText: "Type",
                                   icon: Icons.type_specimen_outlined,
                                   controller: typeController,
                                 ),
-                                const SizedBox(height: 20),
+                                const SizedBox(height: 8),
                                 const CustomText(text: "Description", fontSize: 18,),
-                                const SizedBox(height: 10),
                                 CustomTextField(
                                   labelText: "Description",
                                   icon: Icons.description_outlined,
                                   controller: descriptionController,
                                 ),
-                                const SizedBox(height: 20),
+                                const SizedBox(height: 8),
                                 const CustomText(text: "Place", fontSize: 18,),
-                                const SizedBox(height: 10),
                                 CustomTextField(
                                   labelText: "Place",
                                   icon: Icons.place_outlined,
                                   controller: placeController,
                                 ),
-                                const SizedBox(height: 20),
+                                const SizedBox(height: 8),
                                 const CustomText(text: "Date", fontSize: 18,),
-                                const SizedBox(height: 10),
                                 CustomTextField(
                                   labelText: "Select Date",
                                   icon: Icons.calendar_today,
@@ -156,20 +145,16 @@ class _CreateHealthViewState extends State<CreateHealthView> {
                                 ),
                                 const SizedBox(height: 30),
                                 Center(
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      if (_formKey.currentState?.validate() ?? false) {
-                                        _createHealthTest(context);
-                                      }
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: const Color.fromRGBO(97, 187, 255, 1),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(50),
-                                        side: const BorderSide(color: Colors.white, width: 2.0),
-                                      ),
+                                  child: SizedBox(
+                                    width: 224,
+                                    child: TextButtonWidget(
+                                      function: () {
+                                        if (_formKey.currentState?.validate() ?? false) {
+                                          _createHealthTest(context);
+                                        }
+                                      },
+                                      buttonText: "Save",
                                     ),
-                                    child: const CustomText(text: "Save"),
                                   ),
                                 ),
                               ],

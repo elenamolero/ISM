@@ -88,6 +88,7 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
                       top: kToolbarHeight + MediaQuery.of(context).padding.top,
                     ),
                     child: KeyboardAvoider(
+
                       autoScroll: true,
                       child: SingleChildScrollView(
                         child: Form(
