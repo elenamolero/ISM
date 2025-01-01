@@ -99,7 +99,7 @@ class BackGround extends StatelessWidget {
                   child: IconButton(
                     onPressed: () {
                       if (isUserLoggedIn) {
-                        Navigator.push(
+                        Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
                               builder: (context) => const HomeUserPage()),
