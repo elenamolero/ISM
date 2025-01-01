@@ -100,10 +100,10 @@ class BackGround extends StatelessWidget {
                   child: IconButton(
                     onPressed: () {
                       if (isUserLoggedIn) {
-                        Navigator.push(
-                          context,
+                        Navigator.of(context).pushAndRemoveUntil(
                           MaterialPageRoute(
                               builder: (context) => const HomeUserPage()),
+                          (route) => false,
                         );
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
