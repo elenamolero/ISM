@@ -37,7 +37,7 @@ class _UpdatePetInfoPageState extends State<UpdatePetInfoPage> {
   File? _imageFile;
   String? _currentImageUrl;
   bool _isFieldsPopulated = false;
-  String? _selectedValue = 'female'; 
+  String? _selectedValue = 'female';
 
   @override
   void dispose() {
@@ -76,7 +76,8 @@ class _UpdatePetInfoPageState extends State<UpdatePetInfoPage> {
   Widget build(BuildContext context) {
     final double keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
     final bool isKeyboardOpen = keyboardHeight > 0;
-    String role = Supabase.instance.client.auth.currentUser?.userMetadata!['role'] as String;
+    String role = Supabase
+        .instance.client.auth.currentUser?.userMetadata!['role'] as String;
 
     return BlocProvider(
       create: (_) => UpdatePetInfoBloc(
@@ -84,7 +85,7 @@ class _UpdatePetInfoPageState extends State<UpdatePetInfoPage> {
         getPetInfoUseCase: appInjector.get<GetPetInfoUseCase>(),
       )..add(LoadPetEvent(widget.petId)),
       child: Scaffold(
-      resizeToAvoidBottomInset: false,
+        resizeToAvoidBottomInset: false,
         body: Stack(
           children: [
             const BackGround(
@@ -99,10 +100,9 @@ class _UpdatePetInfoPageState extends State<UpdatePetInfoPage> {
                       content: Text('Pet info updated successfully!'),
                     ),
                   );
-                  Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => PetInfoPage(petId: widget.petId, userRole: role))
-                  );
-                  
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) =>
+                          PetInfoPage(petId: widget.petId, userRole: role)));
                 } else if (state is UpdatePetError) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
@@ -132,166 +132,192 @@ class _UpdatePetInfoPageState extends State<UpdatePetInfoPage> {
                           const SizedBox(height: 30),
                           ClipRRect(
                             borderRadius: BorderRadius.circular(12),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.white.withOpacity(0.53),
-                                  borderRadius: BorderRadius.circular(40),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(40.0),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      const CustomText(
-                                        text: 'Name',
-                                        fontSize: 18,
-                                        color: Colors.white,
-                                      ),
-                                      CustomTextField(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white.withOpacity(0.53),
+                                borderRadius: BorderRadius.circular(40),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(40.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const CustomText(
+                                      text: 'Name',
+                                      fontSize: 18,
+                                      color: Colors.white,
+                                    ),
+                                    CustomTextField(
                                         labelText: 'Name',
                                         controller: _nameController,
                                         icon: Icons.cruelty_free_outlined,
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'enter the name';
+                                          }
+                                          return null;
+                                        }),
+                                    const SizedBox(height: 8),
+                                    const CustomText(
+                                      text: 'Sex',
+                                      fontSize: 18,
+                                      color: Colors.white,
+                                    ),
+                                    DropdownButtonFormField<String>(
+                                      value: _selectedValue,
+                                      decoration: InputDecoration(
+                                        filled: true,
+                                        fillColor: Colors.white,
+                                        enabledBorder: outlineInputBorder,
+                                        focusedBorder: outlineInputBorder,
                                       ),
-                                      const SizedBox(height: 8),
-                                      const CustomText(
-                                        text: 'Sex',
-                                        fontSize: 18,
-                                        color: Colors.white,
-                                      ),
-                                      DropdownButtonFormField<String>(
-                                        value: _selectedValue, 
-                                        decoration: InputDecoration(
-                                          filled: true,
-                                          fillColor: Colors.white,
-                                          enabledBorder: outlineInputBorder,
-                                          focusedBorder: outlineInputBorder,
-                                        ),
-                                        items: ["female", "male"].map((name) {
-                                          return DropdownMenuItem(value: name, child: Text(name));
-                                        }).toList(),
-                                        onChanged: (value) {
-                                          setState(() {
-                                            _selectedValue = value;
-                                          });
-                                        },
-                                      ),
-                                      const SizedBox(height: 8),
-                                      const CustomText(
-                                        text: 'Age',
-                                        fontSize: 18,
-                                        color: Colors.white,
-                                      ),
-                                      CustomTextField(
-                                        labelText: 'Age',
-                                        controller: _ageController,
-                                        icon: Icons.cake,
-                                      ),
-                                      const SizedBox(height: 8),
-                                      const CustomText(
-                                        text: 'Type',
-                                        fontSize: 18,
-                                        color: Colors.white,
-                                      ),
-                                      CustomTextField(
-                                        labelText: 'Type',
-                                        controller: _typeController,
-                                        icon: Icons.pets,
-                                      ),
-                                      const SizedBox(height: 8),
-                                      const CustomText(
-                                        text: 'Breed',
-                                        fontSize: 18,
-                                        color: Colors.white,
-                                      ),
-                                      CustomTextField(
-                                        labelText: 'Breed',
-                                        controller: _breedController,
-                                        icon: Icons.star_border_outlined,
-                                      ),
-                                      const SizedBox(height: 8),
-                                      const CustomText(
-                                        text: 'Photo',
-                                        fontSize: 18,
-                                        color: Colors.white,
-                                      ),
-                                      const SizedBox(height: 20),
-                                      Center(
-                                        child: Column(
-                                          children: [
-                                            if (_imageFile != null)
-                                              Image.file(
-                                                _imageFile!,
-                                                height: 100,
-                                                width: 100,
-                                                fit: BoxFit.cover,
+                                      items: ["female", "male"].map((name) {
+                                        return DropdownMenuItem(
+                                            value: name, child: Text(name));
+                                      }).toList(),
+                                      onChanged: (value) {
+                                        setState(() {
+                                          _selectedValue = value;
+                                        });
+                                      },
+                                    ),
+                                    const SizedBox(height: 8),
+                                    const CustomText(
+                                      text: 'Age',
+                                      fontSize: 18,
+                                      color: Colors.white,
+                                      
+                                    ),
+                                    CustomTextField(
+                                      labelText: 'Age',
+                                      controller: _ageController,
+                                      icon: Icons.cake,
+                                       validator: (value) {
+                                                  if (value == null || value.isEmpty) {
+                                                    return 'enter the age';
+                                                  }
+                                                  return null;
+                                                }
+                                    ),
+                                    const SizedBox(height: 8),
+                                    const CustomText(
+                                      text: 'Type',
+                                      fontSize: 18,
+                                      color: Colors.white,
+                                      
+                                    ),
+                                    CustomTextField(
+                                      labelText: 'Type',
+                                      controller: _typeController,
+                                      icon: Icons.pets,
+                                        validator: (value) {
+                                                    if (value == null || value.isEmpty) {
+                                                      return 'enter the type';
+                                                    }
+                                                    return null;
+                                                  }
+                                    ),
+                                    const SizedBox(height: 8),
+                                    const CustomText(
+                                      text: 'Breed',
+                                      fontSize: 18,
+                                      color: Colors.white,
+                                    ),
+                                    CustomTextField(
+                                      labelText: 'Breed',
+                                      controller: _breedController,
+                                      icon: Icons.star_border_outlined,
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return 'enter the breed';
+                                        }
+                                        return null;
+                                      },
+                                    ),
+                                    const SizedBox(height: 8),
+                                    const CustomText(
+                                      text: 'Photo',
+                                      fontSize: 18,
+                                      color: Colors.white,
+                                    ),
+                                    const SizedBox(height: 20),
+                                    Center(
+                                      child: Column(
+                                        children: [
+                                          if (_imageFile != null)
+                                            Image.file(
+                                              _imageFile!,
+                                              height: 100,
+                                              width: 100,
+                                              fit: BoxFit.cover,
                                             )
-                                            else if (_currentImageUrl != null)
-                                              Image.network(
-                                                _currentImageUrl!,
-                                                height: 100,
-                                                width: 100,
-                                                fit: BoxFit.cover,
+                                          else if (_currentImageUrl != null)
+                                            Image.network(
+                                              _currentImageUrl!,
+                                              height: 100,
+                                              width: 100,
+                                              fit: BoxFit.cover,
                                             ),
-                                          ],
+                                        ],
+                                      ),
+                                    ),
+                                    const SizedBox(height: 20),
+                                    Center(
+                                      child: SizedBox(
+                                        width: 224,
+                                        child: TextButtonWidget(
+                                          function: _pickImage,
+                                          buttonText: 'Change Image',
                                         ),
                                       ),
-                                      const SizedBox(height: 20),
-                                      Center(
-                                        child: SizedBox(
-                                          width: 224,
-                                          child: TextButtonWidget(
-                                            function: _pickImage,
-                                            buttonText: 'Change Image',
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(height: 20),
-                                      Center(
-                                        child: SizedBox(
-                                          width: 224,
-                                          child: TextButtonWidget(
+                                    ),
+                                    const SizedBox(height: 20),
+                                    Center(
+                                      child: SizedBox(
+                                        width: 224,
+                                        child: TextButtonWidget(
                                             function: () {
-                                              if (_formKey.currentState ?.validate() ?? false) {
+                                              if (_formKey.currentState
+                                                      ?.validate() ??
+                                                  false) {
                                                 context
-                                                .read<UpdatePetInfoBloc>()
-                                                .add(
-                                                  UpdatePetEvent(
-                                                    Pet(
-                                                      id: widget.petId,
-                                                      name: _nameController
-                                                          .text,
-                                                      ownerEmail:
-                                                          _ownerController
+                                                    .read<UpdatePetInfoBloc>()
+                                                    .add(
+                                                      UpdatePetEvent(
+                                                        Pet(
+                                                          id: widget.petId,
+                                                          name: _nameController
                                                               .text,
-                                                      sex: _sexController
-                                                          .text,
-                                                      age: int.parse(
-                                                          _ageController
-                                                              .text),
-                                                      type: _typeController
-                                                          .text,
-                                                      breed:
-                                                          _breedController
+                                                          ownerEmail:
+                                                              _ownerController
+                                                                  .text,
+                                                          sex: _sexController
                                                               .text,
-                                                      photo:
-                                                          _currentImageUrl,
-                                                      nfcConnection:
-                                                          _nfcController,
-                                                    ),
-                                                    _imageFile,
-                                                  ),
-                                                );
+                                                          age: int.parse(
+                                                              _ageController
+                                                                  .text),
+                                                          type: _typeController
+                                                              .text,
+                                                          breed:
+                                                              _breedController
+                                                                  .text,
+                                                          photo:
+                                                              _currentImageUrl,
+                                                          nfcConnection:
+                                                              _nfcController,
+                                                        ),
+                                                        _imageFile,
+                                                      ),
+                                                    );
                                               }
                                             },
-                                            buttonText: 'Update Pet'
-                                          ),
-                                        ),
+                                            buttonText: 'Update Pet'),
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
                               ),
+                            ),
                           ),
                           SizedBox(height: isKeyboardOpen ? 30 : 50)
                         ],

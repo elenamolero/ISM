@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       routes: {
-            '/homeUser': (context) => const HomeUserPage(),
+        '/homeUser': (context) => const HomeUserPage(),
       },
       onGenerateRoute: (settings) {
         final uri = Uri.parse(settings.name ?? '');
@@ -54,7 +54,10 @@ class MyApp extends StatelessWidget {
             final id = int.tryParse(uri.pathSegments[1]);
             if (id != null) {
               return MaterialPageRoute(
-                builder: (context) => PetInfoPage(petId: id, userRole: '',),
+                builder: (context) => PetInfoPage(
+                  petId: id,
+                  userRole: '',
+                ),
               );
             }
           }
@@ -77,10 +80,9 @@ class MyApp extends StatelessWidget {
             return MaterialPageRoute(
               builder: (context) => const LoginPage(),
             );
-          }          
+          }
         }
       },
     );
   }
 }
-
