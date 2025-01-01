@@ -6,7 +6,6 @@ import 'package:petuco/di/dependency_injection.dart';
 import 'package:petuco/presentation/pages/common/home_page.dart';
 import 'package:petuco/presentation/pages/common/login_page.dart';
 import 'package:petuco/presentation/pages/common/pet_info_page.dart';
-import 'package:petuco/presentation/pages/vet/create_health_view.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 //import 'package:flutter_web_plugins/flutter_web_plugins.dart';
@@ -41,7 +40,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       routes: {
-            '/homeUser': (context) => const HomeUserPage(),
+        '/homeUser': (context) => const HomeUserPage(),
       },
       onGenerateRoute: (settings) {
         final uri = Uri.parse(settings.name ?? '');
@@ -55,7 +54,10 @@ class MyApp extends StatelessWidget {
             final id = int.tryParse(uri.pathSegments[1]);
             if (id != null) {
               return MaterialPageRoute(
-                builder: (context) => PetInfoPage(petId: id, userRole: '',),
+                builder: (context) => PetInfoPage(
+                  petId: id,
+                  userRole: '',
+                ),
               );
             }
           }
@@ -71,17 +73,16 @@ class MyApp extends StatelessWidget {
           if (Supabase.instance.client.auth.currentUser != null) {
             // Handle for logged in user
             return MaterialPageRoute(
-              builder: (context) => const CreateHealthView(petId: 1,petName: "FD",),
+              builder: (context) => const HomeUserPage(),
             );
           } else {
             // Handle for not logged in user
             return MaterialPageRoute(
               builder: (context) => const LoginPage(),
             );
-          }          
+          }
         }
       },
     );
   }
 }
-

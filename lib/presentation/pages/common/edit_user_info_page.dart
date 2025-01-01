@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:keyboard_avoider/keyboard_avoider.dart';
 import 'package:petuco/di/dependency_injection.dart';
@@ -23,6 +24,7 @@ class EditUserInfoPage extends StatefulWidget {
 }
 
 class _EditUserInfoPageState extends State<EditUserInfoPage> {
+  final _formKey = GlobalKey<FormState>();
   late TextEditingController nameController;
   late TextEditingController emailController;
   late TextEditingController addressController;
@@ -164,226 +166,263 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
                                       ),
                                       child: Padding(
                                           padding: const EdgeInsets.all(40.0),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              const CustomText(text: 'Name'),
-                                              CustomTextField(
-                                                  labelText: 'Name',
-                                                  controller: nameController,
-                                                  icon: Icons.person),
-                                              const SizedBox(height: 8),
-                                              const CustomText(text: 'Email'),
-                                              CustomTextField(
-                                                enabled: false,
-                                                labelText: 'Email',
-                                                controller: emailController,
-                                                icon: Icons.email,
-                                              ),
-                                              const SizedBox(height: 8),
-                                              const CustomText(text: 'Address'),
-                                              CustomTextField(
-                                                controller: addressController,
-                                                labelText: 'Address',
-                                                icon: Icons.home,
-                                                validator: (value) {
-                                                  if (value == null ||
-                                                      value.isEmpty) {
-                                                    return ' enter your address';
-                                                  }
-                                                  return null;
-                                                },
-                                              ),
-                                              const SizedBox(height: 8),
-                                              const CustomText(
-                                                  text: 'Phone Number'),
-                                              CustomTextField(
-                                                labelText: 'Phone Number',
-                                                controller:
-                                                    phoneNumberController,
-                                                icon: Icons.email,
-                                                validator: (value) {
-                                                  if (value == null ||
-                                                      value.isEmpty) {
-                                                    return ' enter your phone number';
-                                                  }
-                                                  else if (value.length != 9) {
-                                                    return ' must be 9 digits long';
-                                                  }
-                                                  return null;
-                                                },
-                                              ),
-                                              const SizedBox(height: 8),
-                                              const CustomText(
-                                                  text: 'Password'),
-                                              CustomTextField(
-                                                obscureText: _isObscure,
-                                                controller: passwordController,
-                                                labelText: 'Password',
-                                                icon: Icons.email,
-                                                validator: (value) {
-                                                  if (value == null ||
-                                                      value.isEmpty) {
-                                                    return ' enter a password';
-                                                  } else if (value.length < 8) {
-                                                    return ' must be at least 8 characters long';
-                                                  }
-                                                  return null;
-                                                },
-                                                suffixIcon: IconButton(
-                                                  icon: Icon(
-                                                    _isObscure
-                                                        ? Icons.visibility_off
-                                                        : Icons.visibility,
+                                          child: Form(
+                                              key: _formKey,
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  const CustomText(
+                                                      text: 'Name'),
+                                                  CustomTextField(
+                                                      labelText: 'Name',
+                                                      controller:
+                                                          nameController,
+                                                      icon: Icons.person),
+                                                  const SizedBox(height: 8),
+                                                  const CustomText(
+                                                      text: 'Email'),
+                                                  CustomTextField(
+                                                    enabled: false,
+                                                    labelText: 'Email',
+                                                    controller: emailController,
+                                                    icon: Icons.email,
+                                                    validator: (value) {
+                                                      if (value == null ||
+                                                          value.isEmpty) {
+                                                        return ' enter your address';
+                                                      }
+                                                      return null;
+                                                    },
                                                   ),
-                                                  onPressed: () {
-                                                    setState(() {
-                                                      _isObscure =
-                                                          !_isObscure; // Alterna el estado
-                                                    });
-                                                  },
-                                                ),
-                                              ),
-                                              const SizedBox(height: 8),
-                                              const CustomText(
-                                                  text: 'Confirm Password'),
-                                              CustomTextField(
-                                                obscureText: _isObscureConfirm,
-                                                controller:
-                                                    confirmPasswordController,
-                                                labelText: 'Password',
-                                                 validator: (value) {
-                                            if (value == null || value.isEmpty) {
-                                              return 'confirm your password';
-                                            } else if (value != passwordController.text) {
-                                              return 'Passwords do not match';
-                                            }
-                                            return null;
-                                          },
-                                                icon: Icons.email,
-                                                suffixIcon: IconButton(
-                                                  icon: Icon(
-                                                    _isObscureConfirm
-                                                        ? Icons.visibility_off
-                                                        : Icons.visibility,
+                                                  const SizedBox(height: 8),
+                                                  const CustomText(
+                                                      text: 'Address'),
+                                                  CustomTextField(
+                                                    controller:
+                                                        addressController,
+                                                    labelText: 'Address',
+                                                    icon: Icons.home,
+                                                    validator: (value) {
+                                                      if (value == null ||
+                                                          value.isEmpty) {
+                                                        return ' enter your address';
+                                                      }
+                                                      return null;
+                                                    },
                                                   ),
-                                                  onPressed: () {
-                                                    setState(() {
-                                                      _isObscureConfirm =
-                                                          !_isObscureConfirm; // Alterna el estado
-                                                    });
-                                                  },
-                                                ),
-                                              ),
-                                              if (role == 'vet') ...[
-                                                const SizedBox(height: 8),
-                                                const CustomText(
-                                                    text: 'Company'),
-                                                CustomTextField(
-                                                  controller: companyController,
-                                                  labelText: 'Company',
-                                                  icon: Icons.business,
-                                                   validator: (value) {
-                                                  if ((value == null || value.isEmpty)) {
-                                                    return 'enter your company';
-                                                  }
-                                                  return null;
-                                                },
-                                                ),
-                                                const SizedBox(height: 8),
-                                                const CustomText(text: 'CIF'),
-                                                CustomTextField(
-                                                  controller: cifController,
-                                                  labelText: 'CIF',
-                                                  icon: Icons.badge,
-                                                  validator: (value) {
-                                                  if ((value == null || value.isEmpty)) {
-                                                    return 'enter your CIF';
-                                                  }
-                                                  return null;
-                                                },
-                                                ),
-                                              ],
-                                            ],
-                                          )))),
+                                                  const SizedBox(height: 8),
+                                                  const CustomText(
+                                                      text: 'Phone Number'),
+                                                  CustomTextField(
+                                                    labelText: 'Phone Number',
+                                                    controller:
+                                                        phoneNumberController,
+                                                    keyboardType:
+                                                        TextInputType.phone,
+                                                    icon: Icons.email,
+                                                    validator: (value) {
+                                                      if (value == null ||
+                                                          value.isEmpty) {
+                                                        return ' enter your phone number';
+                                                      } else if (value.length !=
+                                                          9) {
+                                                        return ' must be 9 digits long';
+                                                      }
+                                                      return null;
+                                                    },
+                                                  ),
+                                                  const SizedBox(height: 8),
+                                                  const CustomText(
+                                                      text: 'Password'),
+                                                  CustomTextField(
+                                                    obscureText: _isObscure,
+                                                    controller:
+                                                        passwordController,
+                                                    labelText: 'Password',
+                                                    icon: Icons.email,
+                                                    validator: (value) {
+                                                      if (value == null ||
+                                                          value.isEmpty) {
+                                                        return ' enter a password';
+                                                      } else if (value.length <
+                                                          8) {
+                                                        return ' must be at least 8 characters long';
+                                                      }
+                                                      return null;
+                                                    },
+                                                    suffixIcon: IconButton(
+                                                      icon: Icon(
+                                                        _isObscure
+                                                            ? Icons
+                                                                .visibility_off
+                                                            : Icons.visibility,
+                                                      ),
+                                                      onPressed: () {
+                                                        setState(() {
+                                                          _isObscure =
+                                                              !_isObscure; // Alterna el estado
+                                                        });
+                                                      },
+                                                    ),
+                                                  ),
+                                                  const SizedBox(height: 8),
+                                                  const CustomText(
+                                                      text: 'Confirm Password'),
+                                                  CustomTextField(
+                                                    obscureText:
+                                                        _isObscureConfirm,
+                                                    controller:
+                                                        confirmPasswordController,
+                                                    labelText: 'Password',
+                                                    validator: (value) {
+                                                      if (value == null ||
+                                                          value.isEmpty) {
+                                                        return 'confirm your password';
+                                                      } else if (value !=
+                                                          passwordController
+                                                              .text) {
+                                                        return 'Passwords do not match';
+                                                      }
+                                                      return null;
+                                                    },
+                                                    icon: Icons.email,
+                                                    suffixIcon: IconButton(
+                                                      icon: Icon(
+                                                        _isObscureConfirm
+                                                            ? Icons
+                                                                .visibility_off
+                                                            : Icons.visibility,
+                                                      ),
+                                                      onPressed: () {
+                                                        setState(() {
+                                                          _isObscureConfirm =
+                                                              !_isObscureConfirm; // Alterna el estado
+                                                        });
+                                                      },
+                                                    ),
+                                                  ),
+                                                  if (role == 'vet') ...[
+                                                    const SizedBox(height: 8),
+                                                    const CustomText(
+                                                        text: 'Company'),
+                                                    CustomTextField(
+                                                      controller:
+                                                          companyController,
+                                                      labelText: 'Company',
+                                                      icon: Icons.business,
+                                                      validator: (value) {
+                                                        if ((value == null ||
+                                                            value.isEmpty)) {
+                                                          return 'enter your company';
+                                                        }
+                                                        return null;
+                                                      },
+                                                    ),
+                                                    const SizedBox(height: 8),
+                                                    const CustomText(
+                                                        text: 'CIF'),
+                                                    CustomTextField(
+                                                      controller: cifController,
+                                                      labelText: 'CIF',
+                                                      icon: Icons.badge,
+                                                      validator: (value) {
+                                                        if ((value == null ||
+                                                            value.isEmpty)) {
+                                                          return 'enter your CIF';
+                                                        }
+                                                        return null;
+                                                      },
+                                                    ),
+                                                  ],
+                                                ],
+                                              ))))),
                               const SizedBox(height: 20),
                               Center(
                                   child: SizedBox(
                                       width: 224,
                                       child: TextButtonWidget(
-                                        buttonText: 'Save changes',
-                                        function: () {
-                                          if (passwordController.text !=
-                                              confirmPasswordController.text) {
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(
-                                              const SnackBar(
-                                                  content: Text(
-                                                      'Passwords do not match')),
-                                            );
-                                            return;
-                                          }
-                                          if (passwordController.text.isEmpty &&
-                                              confirmPasswordController
-                                                  .text.isEmpty) {
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(
-                                              const SnackBar(
-                                                  content: Text(
-                                                      'Password cannot be empty')),
-                                            );
-                                            return;
-                                          }
-                                          if (nameController.text.isEmpty ||
-                                              emailController.text.isEmpty ||
-                                              addressController.text.isEmpty ||
-                                              phoneNumberController
-                                                  .text.isEmpty ||
-                                              roleController.text.isEmpty) {
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(
-                                              const SnackBar(
-                                                  content: Text(
-                                                      'All fields are required')),
-                                            );
-                                            return;
-                                          }
-                                          if (passwordController.text.length <
-                                                  8 &&
-                                              confirmPasswordController
-                                                      .text.length <
-                                                  8) {
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(
-                                              const SnackBar(
-                                                  content: Text(
-                                                      'Password must be at least 8 characters')),
-                                            );
-                                            return;
-                                          }
-                                          final updatedUser = user.User(
-                                            name: nameController.text,
-                                            email: emailController.text,
-                                            address: addressController.text,
-                                            phoneNumber: int.tryParse(
-                                                    phoneNumberController
-                                                        .text) ??
-                                                0,
-                                            password: passwordController.text,
-                                            role: roleController.text,
-                                            company: role == 'vet'
-                                                ? companyController?.text
-                                                : null,
-                                            cif: role == 'vet'
-                                                ? cifController?.text
-                                                : null,
-                                          );
-                                          context.read<SaveUserInfoBloc>().add(
-                                                SaveUserEvent(updatedUser),
+                                          buttonText: 'Save changes',
+                                          function: () {
+                                            if (passwordController.text !=
+                                                confirmPasswordController
+                                                    .text) {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                const SnackBar(
+                                                    content: Text(
+                                                        'Passwords do not match')),
                                               );
-                                        },
-                                      ))),
+                                              return;
+                                            }
+                                            if (passwordController
+                                                    .text.isEmpty &&
+                                                confirmPasswordController
+                                                    .text.isEmpty) {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                const SnackBar(
+                                                    content: Text(
+                                                        'Password cannot be empty')),
+                                              );
+                                              return;
+                                            }
+                                            if (nameController.text.isEmpty ||
+                                                emailController.text.isEmpty ||
+                                                addressController
+                                                    .text.isEmpty ||
+                                                phoneNumberController
+                                                    .text.isEmpty ||
+                                                roleController.text.isEmpty) {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                const SnackBar(
+                                                    content: Text(
+                                                        'All fields are required')),
+                                              );
+                                              return;
+                                            }
+                                            if (passwordController.text.length <
+                                                    8 &&
+                                                confirmPasswordController
+                                                        .text.length <
+                                                    8) {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                const SnackBar(
+                                                    content: Text(
+                                                        'Password must be at least 8 characters')),
+                                              );
+                                              return;
+                                            }
+                                            if (_formKey.currentState
+                                                    ?.validate() ??
+                                                false) {
+                                              final updatedUser = user.User(
+                                                name: nameController.text,
+                                                email: emailController.text,
+                                                address: addressController.text,
+                                                phoneNumber: int.tryParse(
+                                                        phoneNumberController
+                                                            .text) ??
+                                                    0,
+                                                password:
+                                                    passwordController.text,
+                                                role: roleController.text,
+                                                company: role == 'vet'
+                                                    ? companyController?.text
+                                                    : null,
+                                                cif: role == 'vet'
+                                                    ? cifController?.text
+                                                    : null,
+                                              );
+                                              context
+                                                  .read<SaveUserInfoBloc>()
+                                                  .add(
+                                                    SaveUserEvent(updatedUser),
+                                                  );
+                                            }
+                                          }))),
                               SizedBox(height: isKeyboardOpen ? 20 : 50),
                             ],
                           ),
