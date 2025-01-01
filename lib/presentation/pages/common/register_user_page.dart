@@ -98,7 +98,7 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
                     ),
                     child: KeyboardAvoider(
                       autoScroll:
-                          true, // Permite que el contenido haga scroll automáticamente
+                          true,
                       child: SingleChildScrollView(
                         child: Form(
                           key: _formKey,
