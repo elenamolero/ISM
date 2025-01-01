@@ -8,8 +8,8 @@ import 'package:petuco/presentation/blocs/users/register_user_bloc.dart';
 import 'package:petuco/presentation/pages/common/login_page.dart';
 import 'package:petuco/presentation/widgets/background_widget.dart';
 import 'package:petuco/presentation/widgets/custom_text_field_widget.dart';
-
 import 'package:petuco/presentation/widgets/custom_text_widget.dart';
+import 'package:petuco/presentation/widgets/text_button_widget.dart';
 
 final outlineInputBorder = OutlineInputBorder(
   borderRadius: BorderRadius.circular(15.0),
@@ -67,19 +67,10 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
             BlocListener<RegisterUserInfoBloc, RegisterUserInfoState>(
               listener: (context, state) {
                 if (state is RegisterUserSuccess) {
-                  // Show a success message
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                        content: Text('You were successfully registered')),
-                  );
-
-                  // Navigate to the login page
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => const LoginPage()),
+                    const SnackBar(content: Text('You were successfully registered')),
                   );
                 } else if (state is RegisterUserError) {
-                  // Show the error message
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text(state.message)),
                   );
@@ -97,8 +88,8 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
                       top: kToolbarHeight + MediaQuery.of(context).padding.top,
                     ),
                     child: KeyboardAvoider(
-                      autoScroll:
-                          true,
+
+                      autoScroll: true,
                       child: SingleChildScrollView(
                         child: Form(
                           key: _formKey,
@@ -116,8 +107,7 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
                                   child: Padding(
                                     padding: const EdgeInsets.all(50.0),
                                     child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         const CustomText(
                                           text: 'Name',
@@ -128,6 +118,12 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
                                           labelText: 'Name',
                                           controller: _nameController,
                                           icon: Icons.person,
+                                          validator: (value) {
+                                            if (value == null || value.isEmpty) {
+                                              return 'enter your name';
+                                            }
+                                            return null;
+                                          },
                                         ),
                                         const SizedBox(height: 8),
                                         const CustomText(
@@ -139,6 +135,14 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
                                           labelText: 'Email',
                                           controller: _emailController,
                                           icon: Icons.email,
+                                          validator: (value) {
+                                            if (value == null || value.isEmpty) {
+                                              return ' enter your email';
+                                            } else if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
+                                              return ' enter a valid email';
+                                            }
+                                            return null;
+                                          },
                                         ),
                                         const SizedBox(height: 8),
                                         const CustomText(
@@ -150,14 +154,11 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
                                           labelText: 'Password',
                                           controller: _passwordController,
                                           icon: Icons.lock,
-                                          keyboardType:
-                                              TextInputType.visiblePassword,
+                                          keyboardType: TextInputType.visiblePassword,
                                           obscureText: _isObscure,
                                           suffixIcon: IconButton(
                                             icon: Icon(
-                                              _isObscure
-                                                  ? Icons.visibility_off
-                                                  : Icons.visibility,
+                                              _isObscure ? Icons.visibility_off : Icons.visibility,
                                             ),
                                             onPressed: () {
                                               setState(() {
@@ -166,11 +167,10 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
                                             },
                                           ),
                                           validator: (value) {
-                                            if (value == null ||
-                                                value.isEmpty) {
-                                              return 'Please enter a password';
+                                            if (value == null || value.isEmpty) {
+                                              return ' enter a password';
                                             } else if (value.length < 8) {
-                                              return 'Password must be at least 8 characters long';
+                                              return ' must be at least 8 characters long';
                                             }
                                             return null;
                                           },
@@ -183,31 +183,24 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
                                         ),
                                         CustomTextField(
                                           labelText: 'Confirm Password',
-                                          controller:
-                                              _confirmPasswordController,
+                                          controller: _confirmPasswordController,
                                           icon: Icons.lock,
-                                          keyboardType:
-                                              TextInputType.visiblePassword,
+                                          keyboardType: TextInputType.visiblePassword,
                                           obscureText: _isConfirmObscure,
                                           suffixIcon: IconButton(
                                             icon: Icon(
-                                              _isConfirmObscure
-                                                  ? Icons.visibility_off
-                                                  : Icons.visibility,
+                                              _isConfirmObscure ? Icons.visibility_off : Icons.visibility,
                                             ),
                                             onPressed: () {
                                               setState(() {
-                                                _isConfirmObscure =
-                                                    !_isConfirmObscure;
+                                                _isConfirmObscure = !_isConfirmObscure;
                                               });
                                             },
                                           ),
                                           validator: (value) {
-                                            if (value == null ||
-                                                value.isEmpty) {
-                                              return 'Please confirm your password';
-                                            } else if (value !=
-                                                _passwordController.text) {
+                                            if (value == null || value.isEmpty) {
+                                              return 'confirm your password';
+                                            } else if (value != _passwordController.text) {
                                               return 'Passwords do not match';
                                             }
                                             return null;
@@ -224,6 +217,12 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
                                           controller: _phoneController,
                                           icon: Icons.phone,
                                           keyboardType: TextInputType.phone,
+                                          validator: (value) {
+                                            if (value == null || value.isEmpty) {
+                                              return 'enter your phone number';
+                                            }
+                                            return null;
+                                          },
                                         ),
                                         const SizedBox(height: 8),
                                         const CustomText(
@@ -235,6 +234,12 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
                                           labelText: 'Address',
                                           controller: _addressController,
                                           icon: Icons.home,
+                                          validator: (value) {
+                                            if (value == null || value.isEmpty) {
+                                              return 'enter your address';
+                                            }
+                                            return null;
+                                          },
                                         ),
                                         const SizedBox(height: 8),
                                         const CustomText(
@@ -251,14 +256,12 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
                                             focusedBorder: outlineInputBorder,
                                           ),
                                           items: ["vet", "owner"].map((name) {
-                                            return DropdownMenuItem(
-                                                value: name, child: Text(name));
+                                            return DropdownMenuItem(value: name, child: Text(name));
                                           }).toList(),
                                           onChanged: (value) {
                                             setState(() {
                                               _selectedValue = value;
-                                              _showVet =
-                                                  _selectedValue == 'vet';
+                                              _showVet = _selectedValue == 'vet';
                                             });
                                           },
                                         ),
@@ -266,8 +269,7 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
                                         Visibility(
                                           visible: _showVet,
                                           child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
                                               const CustomText(
                                                 text: 'Company',
@@ -278,6 +280,12 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
                                                 labelText: 'Company',
                                                 controller: _companyController,
                                                 icon: Icons.business,
+                                                validator: (value) {
+                                                  if (_showVet && (value == null || value.isEmpty)) {
+                                                    return 'enter your company';
+                                                  }
+                                                  return null;
+                                                },
                                               ),
                                               const SizedBox(height: 8),
                                               const CustomText(
@@ -288,8 +296,13 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
                                               CustomTextField(
                                                 labelText: 'CIF',
                                                 controller: _cifController,
-                                                icon: Icons
-                                                    .document_scanner_outlined,
+                                                icon: Icons.document_scanner_outlined,
+                                                validator: (value) {
+                                                  if (_showVet && (value == null || value.isEmpty)) {
+                                                    return 'enter your CIF';
+                                                  }
+                                                  return null;
+                                                },
                                               ),
                                             ],
                                           ),
@@ -298,39 +311,7 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
                                         Center(
                                           child: SizedBox(
                                             width: 224,
-                                            child: ElevatedButton(
-                                              onPressed: () {
-                                                if (_formKey.currentState
-                                                        ?.validate() ??
-                                                    false) {
-                                                  _registerUser(context);
-                                                }
-                                              },
-                                              style: ElevatedButton.styleFrom(
-                                                backgroundColor:
-                                                    const Color.fromRGBO(
-                                                        97, 187, 255, 1),
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(50),
-                                                  side: const BorderSide(
-                                                    color: Colors.white,
-                                                    width: 2.0,
-                                                  ),
-                                                ),
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        vertical: 16),
-                                              ),
-                                              child: const Text(
-                                                'Register',
-                                                style: TextStyle(
-                                                  fontSize: 18,
-                                                  color: Colors.white,
-                                                  height: 2,
-                                                ),
-                                              ),
-                                            ),
+                                            child: TextButtonWidget(buttonText: "Register", function: () => _registerUser(context)),
                                           ),
                                         ),
                                       ],
@@ -355,18 +336,23 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
   }
 
   void _registerUser(BuildContext context) {
-    final newUser = user.User(
-      name: _nameController.text,
-      email: _emailController.text,
-      address: _addressController.text,
-      phoneNumber: int.tryParse(_phoneController.text) ?? 0,
-      password: _passwordController.text,
-      role: _selectedValue ?? 'owner',
-      company: _showVet ? _companyController.text : null,
-      cif: _showVet ? _cifController.text : null,
-    );
+    if (_formKey.currentState?.validate() ?? false) {
+      final newUser = user.User(
+        name: _nameController.text,
+        email: _emailController.text,
+        address: _addressController.text,
+        phoneNumber: int.tryParse(_phoneController.text) ?? 0,
+        password: _passwordController.text,
+        role: _selectedValue ?? 'owner',
+        company: _showVet ? _companyController.text : null,
+        cif: _showVet ? _cifController.text : null,
+      );
 
-    // Trigger the Bloc event to register the user
-    context.read<RegisterUserInfoBloc>().add(RegisterUserEvent(newUser));
+      context.read<RegisterUserInfoBloc>().add(RegisterUserEvent(newUser));
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const LoginPage()),
+      );
+    }
   }
 }
