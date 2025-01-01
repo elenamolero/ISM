@@ -12,7 +12,6 @@ import 'package:petuco/presentation/widgets/background_widget.dart';
 import 'package:petuco/presentation/widgets/text_button_widget.dart';
 import 'package:petuco/presentation/widgets/custom_text_field_widget.dart';
 import 'package:petuco/presentation/widgets/custom_text_widget.dart';
-import 'package:petuco/presentation/widgets/footer_widget.dart';
 import 'package:supabase_auth_ui/supabase_auth_ui.dart';
 import '../../../domain/entities/user.entity.dart' as user;
 
@@ -117,28 +116,37 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
                   if (state is GetUserLoading) {
                     return const Center(child: CircularProgressIndicator());
                   } else if (state is GetUserSuccess) {
-                    if (nameController.text.isEmpty)
+                    if (nameController.text.isEmpty) {
                       nameController.text = state.userInfo.name;
-                    if (emailController.text.isEmpty)
+                    }
+                    if (emailController.text.isEmpty) {
                       emailController.text = state.userInfo.email;
-                    if (addressController.text.isEmpty)
+                    }
+                    if (addressController.text.isEmpty) {
                       addressController.text = state.userInfo.address;
-                    if (phoneNumberController.text.isEmpty)
+                    }
+                    if (phoneNumberController.text.isEmpty) {
                       phoneNumberController.text =
                           state.userInfo.phoneNumber.toString();
-                    if (passwordController.text.isEmpty)
+                    }
+                    if (passwordController.text.isEmpty) {
                       passwordController.text = state.userInfo.password;
-                    if (confirmPasswordController.text.isEmpty)
+                    }
+                    if (confirmPasswordController.text.isEmpty) {
                       confirmPasswordController.text = state.userInfo.password;
-                    if (roleController.text.isEmpty)
+                    }
+                    if (roleController.text.isEmpty) {
                       roleController.text = state.userInfo.role;
+                    }
                     if (role == 'vet') {
                       companyController ??= TextEditingController();
                       cifController ??= TextEditingController();
-                      if (companyController!.text.isEmpty)
+                      if (companyController!.text.isEmpty) {
                         companyController!.text = state.userInfo.company ?? '';
-                      if (cifController!.text.isEmpty)
+                      }
+                      if (cifController!.text.isEmpty) {
                         cifController!.text = state.userInfo.cif ?? '';
+                      }
                     }
                   } else if (state is GetUserError) {
                     return Center(child: Text('Error: ${state.message}'));
@@ -430,12 +438,6 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
                       ));
                 },
               ),
-            ),
-            Positioned(
-              top: MediaQuery.of(context).size.height - 60,
-              left: 0,
-              right: 0,
-              child: const FooterWidget(),
             ),
           ],
         ),
