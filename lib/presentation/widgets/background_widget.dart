@@ -85,8 +85,7 @@ class BackGround extends StatelessWidget {
                 style: const TextStyle(
                   fontSize: 25,
                   fontWeight: FontWeight.bold,
-                  color: Color(0xFFE1E1E1),
-                ),
+                  color: Color.fromARGB(255, 255, 255, 255)  ),
               ),
               backgroundColor: const Color(0xFF1B96F4),
               centerTitle: true,

@@ -7,9 +7,9 @@ class GetPetsHomeUseCase implements GetPetsHomeUseCaseInterface {
   PetsRepositoryInterface petsRepositoryInterface;
   GetPetsHomeUseCase({required this.petsRepositoryInterface});
   @override
-  Future<List<Pet>> getPets(String ownerEmail) async {
+  Future<List<Pet>> getPets(String ownerEmail, String role) async {
     debugPrint('Fetching pets in use case for owner: $ownerEmail');
-    final pets = await petsRepositoryInterface.getPets(ownerEmail);
+    final pets = await petsRepositoryInterface.getPets(ownerEmail, role);
     debugPrint('Fetched pets:');
     for (var pet in pets) {
       debugPrint(

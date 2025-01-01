@@ -60,17 +60,21 @@ class _NfcConnectionViewState extends State<NfcConnectionView> {
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
-    String role = Supabase.instance.client.auth.currentUser?.userMetadata!['role'] as String;
+    String role = Supabase
+        .instance.client.auth.currentUser?.userMetadata!['role'] as String;
 
     return BlocProvider(
       create: (_) => UpdatePetInfoBloc(
-          updatePetInfo: appInjector.get<UpdatePetInfoUseCase>(),
-          getPetInfoUseCase: appInjector.get<GetPetInfoUseCase>(),
+        updatePetInfo: appInjector.get<UpdatePetInfoUseCase>(),
+        getPetInfoUseCase: appInjector.get<GetPetInfoUseCase>(),
       )..add(LoadPetEvent(widget.petId)),
       child: Scaffold(
         body: Stack(
           children: [
-            const BackGround(title: "NFC connection",isUserLoggedIn: true,),
+            const BackGround(
+              title: "NFC connection",
+              isUserLoggedIn: true,
+            ),
             BlocConsumer<UpdatePetInfoBloc, UpdatePetInfoState>(
               listener: (context, state) {
                 if (state is UpdatePetSuccess) {
@@ -115,7 +119,9 @@ class _NfcConnectionViewState extends State<NfcConnectionView> {
                       bottom: screenHeight * 0.45,
                       left: (screenWidth - screenWidth * 0.8) / 2,
                       child: Image.asset(
-                        'assets/images/nfcConection.png',
+                        isNfcConnected
+                            ? 'assets/images/nfcConnected.png' // Imagen cuando NFC está conectado
+                            : 'assets/images/nfcConection.png', // Imagen cuando NFC no está conectado
                         width: screenWidth * 0.8,
                         height: screenHeight * 0.3,
                         fit: BoxFit.contain,
@@ -155,11 +161,15 @@ class _NfcConnectionViewState extends State<NfcConnectionView> {
                               : null,
                         ),
                         child: Text(
-                          isNfcConnected ? "NFC Connected" : "No NFC connection",
+                          isNfcConnected
+                              ? "NFC Connected"
+                              : "No NFC connection",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: screenWidth * 0.06,
-                            color: isNfcConnected ? Colors.white : const Color(0xFF4B8CAF),
+                            color: isNfcConnected
+                                ? Colors.white
+                                : const Color(0xFF4B8CAF),
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -182,42 +192,60 @@ class _NfcConnectionViewState extends State<NfcConnectionView> {
                                     onDiscovered: (NfcTag tag) async {
                                       final ndef = Ndef.from(tag);
                                       String petId = widget.petId.toString();
-                                      final url = 'https://bucolic-fox-5c474a.netlify.app/infopet/$petId';
+                                      final url =
+                                          'https://visionary-pony-34b509.netlify.app/infopet/$petId';
                                       if (ndef != null) {
                                         try {
                                           if (isWritingInProgress) {
-                                            
-
                                             // Write in the NFC tag
                                             NdefMessage message = NdefMessage([
-                                              NdefRecord.createUri(Uri.parse(url)),
+                                              NdefRecord.createUri(
+                                                  Uri.parse(url)),
                                             ]);
                                             await ndef.write(message);
-                                            debugPrint("URL escrita en NFC: $url");
+                                            debugPrint(
+                                                "URL escrita en NFC: $url");
                                             if (mounted) {
-                                              context.read<UpdatePetInfoBloc>().add(
-                                                UpdatePetEvent(
-                                                  Pet(
-                                                    id: widget.petId,
-                                                    name: _nameController.text,
-                                                    ownerEmail: _ownerController.text,
-                                                    sex: _sexController.text,
-                                                    age: int.parse(_ageController.text),
-                                                    type: _typeController.text,
-                                                    breed: _breedController.text,
-                                                    photo: _currentImageUrl,
-                                                    nfcConnection: true,
-                                                  ),
-                                                  _imageFile,
-                                                ),
-                                              );
-                                              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Data written to NFC')));
-                                              Navigator.pop(context); // Volver a la pantalla anterior
+                                              context
+                                                  .read<UpdatePetInfoBloc>()
+                                                  .add(
+                                                    UpdatePetEvent(
+                                                      Pet(
+                                                        id: widget.petId,
+                                                        name: _nameController
+                                                            .text,
+                                                        ownerEmail:
+                                                            _ownerController
+                                                                .text,
+                                                        sex:
+                                                            _sexController.text,
+                                                        age: int.parse(
+                                                            _ageController
+                                                                .text),
+                                                        type: _typeController
+                                                            .text,
+                                                        breed: _breedController
+                                                            .text,
+                                                        photo: _currentImageUrl,
+                                                        nfcConnection: true,
+                                                      ),
+                                                      _imageFile,
+                                                    ),
+                                                  );
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(const SnackBar(
+                                                      content: Text(
+                                                          'Data written to NFC')));
+                                              Navigator.pop(
+                                                  context); // Volver a la pantalla anterior
                                             }
                                           } else {
                                             // Read from the NFC tag
-                                            NdefMessage message = await ndef.read();
-                                            String nfcData = message.records.first.payload.toString();
+                                            NdefMessage message =
+                                                await ndef.read();
+                                            String nfcData = message
+                                                .records.first.payload
+                                                .toString();
 
                                             // get id from payload
                                             String petIdString = nfcData.trim();
@@ -229,13 +257,17 @@ class _NfcConnectionViewState extends State<NfcConnectionView> {
                                             if (mounted) {
                                               Navigator.of(context).push(
                                                 MaterialPageRoute(
-                                                  builder: (context) => PetInfoPage(petId: petId, userRole: role),
+                                                  builder: (context) =>
+                                                      PetInfoPage(
+                                                          petId: petId,
+                                                          userRole: role),
                                                 ),
                                               );
                                             }
                                           }
                                         } catch (e) {
-                                          debugPrint("Error reading or writing NFC data: $e");
+                                          debugPrint(
+                                              "Error reading or writing NFC data: $e");
                                           setState(() {
                                             isWritingInProgress = false;
                                           });
@@ -256,10 +288,13 @@ class _NfcConnectionViewState extends State<NfcConnectionView> {
                               width: 2,
                             ),
                             padding: EdgeInsets.symmetric(
-                                horizontal: screenWidth * 0.12, vertical: screenHeight * 0.03),
+                                horizontal: screenWidth * 0.12,
+                                vertical: screenHeight * 0.03),
                           ),
                           child: Text(
-                            isWritingInProgress ? 'Writing...' : 'Look for a NFC',
+                            isWritingInProgress
+                                ? 'Writing...'
+                                : 'Look for a NFC',
                             style: TextStyle(
                               fontSize: screenWidth * 0.06,
                               color: Colors.white,

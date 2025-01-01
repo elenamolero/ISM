@@ -7,12 +7,30 @@ import 'package:path/path.dart'
     as path; // Ensure 'path' is added to pubspec.yaml
 
 class PetsService {
-  Future<List<PetResponse>> fetchPetsData(String ownerEmail) async {
+  Future<List<PetResponse>> fetchPetsByOwnerEmail(String ownerEmail) async {
+    try {
+      final response = await Supabase.instance.client
+          .from('Pet')
+          .select()
+          .eq('ownerEmail', ownerEmail)
+          .or('vetEmail.is.null,vetEmail.neq.${Supabase.instance.client.auth.currentUser!.email!}');
+
+      print('Fetched pets data: $response');
+      return (response as List)
+          .map((pet) => PetResponse.toDomain(pet))
+          .toList();
+    } catch (e) {
+      print('Error fetching pets data: $e');
+      throw Exception('Failed to fetch pets data: $e');
+    }
+  }
+
+  Future<List<PetResponse>> fetchPetsData(String email, String role) async {
     try {
       final response = await Supabase.instance.client
           .from('Pet')
           .select('*')
-          .eq('ownerEmail', ownerEmail);
+          .eq(role == 'vet' ? 'vetEmail' : 'ownerEmail', email);
       debugPrint('Response from Supabase: $response');
 
       if (response.isNotEmpty) {
@@ -87,6 +105,22 @@ class PetsService {
       return null;
     }
   }
+
+  Future<void> assignVetToPet(int petId, String vetEmail) async {
+    try {
+      final response = await Supabase.instance.client
+          .from('Pet')
+          .update({'vetEmail': vetEmail})
+          .eq('id', petId)
+          .select();
+      print('Supabase assign vet response: $response');
+      if (response == null || (response as List).isEmpty) {
+        throw Exception(
+            'Failed to assign vet to pet: No response from Supabase');
+      }
+    } catch (e) {
+      print('Error assigning vet to pet: $e');
+      throw Exception('Failed to assign vet to pet: $e');
+    }
+  }
 }
-
-

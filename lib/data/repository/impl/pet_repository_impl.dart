@@ -33,7 +33,7 @@ class PetRepositoryImpl implements PetsRepositoryInterface {
       );
       await petsService.savePetData(petResponse);
     } catch (e) {
-      print('Error in repository while saving pet info: $e');
+      debugPrint('Error in repository while saving pet info: $e');
       throw Exception('Failed to save pet info: $e');
     }
   }
@@ -69,11 +69,11 @@ class PetRepositoryImpl implements PetsRepositoryInterface {
   }
 
   @override
-  Future<List<Pet>> getPets(String ownerEmail) async {
+  Future<List<Pet>> getPets(String ownerEmail, String role) async {
     debugPrint('Fetching pets in repository for owner: $ownerEmail');
 
     // Fetch the pet data from the service
-    final petResponses = await petsService.fetchPetsData(ownerEmail);
+    final petResponses = await petsService.fetchPetsData(ownerEmail, role);
     debugPrint('Fetched pets:');
 
     // Convert the list of PetResponse to Pet domain entities
@@ -107,11 +107,9 @@ class PetRepositoryImpl implements PetsRepositoryInterface {
     // Fetch the pet data from the service
     final petResponse = await petsService.fetchPetDataById(petId);
 
-    
     if (petResponse != null) {
       debugPrint('Fetched pet data: $petResponse');
 
-      
       final pet = Pet(
         id: petResponse.id,
         name: petResponse.name,
@@ -129,6 +127,46 @@ class PetRepositoryImpl implements PetsRepositoryInterface {
       return pet;
     } else {
       throw Exception('Pet not found for id $petId');
+    }
+  }
+
+  @override
+  Future<List<Pet>> getPetsByOwnerEmail(String ownerEmail) async {
+    final petResponses = await petsService.fetchPetsByOwnerEmail(ownerEmail);
+    if (petResponses.isNotEmpty) {
+      debugPrint('Fetched pet data: $petResponses');
+
+      List<Pet> pets = petResponses.map((petResponse) {
+        return Pet(
+          id: petResponse.id,
+          name: petResponse.name,
+          ownerEmail: petResponse.ownerEmail,
+          sex: petResponse.sex,
+          age: petResponse.age,
+          type: petResponse.type,
+          breed: petResponse.breed,
+          photo: petResponse.photo,
+          nfcConnection: petResponse.nfcConnection,
+        );
+      }).toList();
+
+      for (var pet in pets) {
+        debugPrint(
+            'Pet: ${pet.name}, ${pet.ownerEmail}, ${pet.age}, ${pet.type}, ${pet.breed}, ${pet.photo}');
+      }
+
+      return pets;
+    } else {
+      throw Exception('Pets not found for owner email $ownerEmail');
+    }
+  }
+
+  Future<void> assignVetToPet(int petId, String vetEmail) async {
+    try {
+      await petsService.assignVetToPet(petId, vetEmail);
+    } catch (e) {
+      print('Error in repository while assigning vet to pet: $e');
+      throw Exception('Failed to assign vet to pet: $e');
     }
   }
 }

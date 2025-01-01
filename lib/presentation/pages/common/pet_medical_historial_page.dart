@@ -13,16 +13,17 @@ import 'package:petuco/presentation/widgets/custom_text_widget.dart';
 import 'package:petuco/presentation/widgets/footer_widget.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-
 class PetMedicalHistorialPage extends StatefulWidget {
   static const String route = 'petHistory';
   final int petId;
   final String petName;
 
-  const PetMedicalHistorialPage({super.key, required this.petId, required this.petName});
+  const PetMedicalHistorialPage(
+      {super.key, required this.petId, required this.petName});
 
   @override
-  State<PetMedicalHistorialPage> createState() => _PetMedicalHistorialPageState();
+  State<PetMedicalHistorialPage> createState() =>
+      _PetMedicalHistorialPageState();
 }
 
 class _PetMedicalHistorialPageState extends State<PetMedicalHistorialPage> {
@@ -38,7 +39,8 @@ class _PetMedicalHistorialPageState extends State<PetMedicalHistorialPage> {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
     String petname = widget.petName;
-    String role = Supabase.instance.client.auth.currentUser?.userMetadata!['role'] as String;
+    String role = Supabase
+        .instance.client.auth.currentUser?.userMetadata!['role'] as String;
 
     return BlocProvider(
       create: (context) => HealthTestBloc(
@@ -47,7 +49,10 @@ class _PetMedicalHistorialPageState extends State<PetMedicalHistorialPage> {
       child: Scaffold(
         body: Stack(
           children: [
-            BackGround(title: 'History', isUserLoggedIn: true, page: PetInfoPage(petId: widget.petId, userRole: role)),
+            BackGround(
+                title: 'History',
+                isUserLoggedIn: true,
+                page: PetInfoPage(petId: widget.petId, userRole: role)),
             Column(
               children: [
                 Container(
@@ -58,7 +63,7 @@ class _PetMedicalHistorialPageState extends State<PetMedicalHistorialPage> {
                   child: Opacity(
                     opacity: 0.69,
                     child: Text(
-                      "Informes médicos de $petname",
+                      "Medical history of $petname",
                       style: TextStyle(
                         fontSize: 22,
                         color: Colors.white.withOpacity(0.53),
@@ -80,8 +85,21 @@ class _PetMedicalHistorialPageState extends State<PetMedicalHistorialPage> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              const SizedBox(height: 40),
-                              _buildHealthTestsList(healthTestState.healthTests, screenWidth, role),
+                              _buildHealthTestsList(healthTestState.healthTests,
+                                  screenWidth, role),
+                              if (healthTestState.healthTests.isEmpty)
+                                const Column(
+                                  children: [
+                                    SizedBox(height: 20),
+                                    Center(
+                                      child: Text(
+                                        'No health tests found',
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 16),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                             ],
                           ),
                         );
@@ -89,7 +107,8 @@ class _PetMedicalHistorialPageState extends State<PetMedicalHistorialPage> {
                         return Center(
                           child: Text(
                             healthTestState.message,
-                            style: const TextStyle(color: Colors.red, fontSize: 16),
+                            style: const TextStyle(
+                                color: Colors.red, fontSize: 16),
                           ),
                         );
                       } else {
@@ -114,7 +133,8 @@ class _PetMedicalHistorialPageState extends State<PetMedicalHistorialPage> {
     );
   }
 
-  Widget _buildHealthTestsList(List<HealthTest> healthTests, double screenWidth, String? role) {
+  Widget _buildHealthTestsList(
+      List<HealthTest> healthTests, double screenWidth, String? role) {
     return Column(
       children: List.generate(healthTests.length + 1, (index) {
         bool isSelected = _selectedIndex == index;
@@ -130,7 +150,8 @@ class _PetMedicalHistorialPageState extends State<PetMedicalHistorialPage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => CreateHealthView(petId: widget.petId, petName: widget.petName),
+                  builder: (context) => CreateHealthView(
+                      petId: widget.petId, petName: widget.petName),
                 ),
               );
             },
@@ -153,34 +174,36 @@ class _PetMedicalHistorialPageState extends State<PetMedicalHistorialPage> {
     );
   }
 
-  Widget _buildNewHealthTestContainer(double screenWidth) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Container(
-          width: screenWidth * 0.1,
-          height: screenWidth * 0.1,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(40),
-          ),
-          child: const Icon(
+ Widget _buildNewHealthTestContainer(double screenWidth) {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      Container(
+        width: screenWidth * 0.1,
+        height: screenWidth * 0.1,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(40),
+        ),
+        child: const Center( // Usa Center para centrar el icono verticalmente
+          child: Icon(
             Icons.add,
             color: Color(0xFF4B8DAF),
-            size: 50.0,
+            size: 40.0, // Ajusta el tamaño del icono si es necesario
           ),
         ),
-        const SizedBox(width: 10),
-        Text(
-          'New Health Test',
-          style: TextStyle(
-            color: const Color(0xFF4B8DAF),
-            fontSize: screenWidth * 0.06,
-            fontWeight: FontWeight.bold,
-          ),
+      ),
+      const SizedBox(width: 10),
+      Text(
+        'New Health Test',
+        style: TextStyle(
+          color: const Color(0xFF4B8DAF),
+          fontSize: screenWidth * 0.06,
+          fontWeight: FontWeight.bold,
         ),
-      ],
-    );
-  }
+      ),
+    ],
+  );
+}
 
   Widget _buildHealthTestContainer(HealthTest healthTest, double screenWidth) {
     return ListTile(
@@ -188,15 +211,19 @@ class _PetMedicalHistorialPageState extends State<PetMedicalHistorialPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildHealthTestDetail('TYPE', healthTest.testName, screenWidth),
-          _buildHealthTestDetail('DESCRIPTION', healthTest.description, screenWidth),
-          _buildHealthTestDetail('DATE', DateFormat.yMMMd().format(healthTest.date), screenWidth),
+          _buildHealthTestDetail(
+              'DESCRIPTION', healthTest.description, screenWidth),
+          _buildHealthTestDetail(
+              'DATE', DateFormat.yMMMd().format(healthTest.date), screenWidth),
           _buildHealthTestDetail('PLACE', healthTest.place, screenWidth),
+          _buildHealthTestDetail('VET', healthTest.vetId, screenWidth)
         ],
       ),
     );
   }
 
-  Widget _buildHealthTestDetail(String label, String value, double screenWidth) {
+  Widget _buildHealthTestDetail(
+      String label, String value, double screenWidth) {
     return CustomText(
       text: '• $label: $value',
       fontSize: screenWidth * 0.035,
