@@ -24,7 +24,7 @@ void main() {
     address: '123 Test St',
     phoneNumber: 1234567890,
     password: 'password',
-    role: 'owner',
+    role: 'vet',
     company: 'Test Company',
     cif: '12345678',
   );
