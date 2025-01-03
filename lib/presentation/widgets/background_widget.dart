@@ -63,7 +63,8 @@ class BackGround extends StatelessWidget {
                                   child: const Text('Yes'),
                                   onPressed: () {
                                     Supabase.instance.client.auth.signOut();
-                                    print(Supabase.instance.client.auth.currentUser ??
+                                    print(Supabase
+                                            .instance.client.auth.currentUser ??
                                         'User logged out');
                                     Navigator.pushAndRemoveUntil(
                                       context,
@@ -83,9 +84,9 @@ class BackGround extends StatelessWidget {
               title: Text(
                 title,
                 style: const TextStyle(
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold,
-                  color: Color.fromARGB(255, 255, 255, 255)  ),
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                    color: Color.fromARGB(255, 255, 255, 255)),
               ),
               backgroundColor: const Color(0xFF1B96F4),
               centerTitle: true,
@@ -99,10 +100,10 @@ class BackGround extends StatelessWidget {
                   child: IconButton(
                     onPressed: () {
                       if (isUserLoggedIn) {
-                        Navigator.push(
-                          context,
+                        Navigator.of(context).pushAndRemoveUntil(
                           MaterialPageRoute(
                               builder: (context) => const HomeUserPage()),
+                          (route) => false,
                         );
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
